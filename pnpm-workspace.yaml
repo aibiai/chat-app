@@ -1,3 +1,13 @@
 packages:
   - apps/*
   - packages/*
+
+onlyBuiltDependencies:
+  - '@fortawesome/fontawesome-common-types'
+  - '@fortawesome/fontawesome-svg-core'
+  - '@fortawesome/free-regular-svg-icons'
+  - '@fortawesome/free-solid-svg-icons'
+  - chinese-conv
+  - esbuild
+  - sharp
+  - vue-demi
