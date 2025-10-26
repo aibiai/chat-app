@@ -1,13 +1,20 @@
-import axios from 'axios';
-const isDev = import.meta.env?.DEV;
-const baseURL = isDev ? '/' : ((import.meta.env?.VITE_API_URL) || '/');
-const api = axios.create({ baseURL });
+﻿import axios from "axios";
+
+const env = (import.meta.env ?? {});
+const isDev = Boolean(env?.DEV);
+const baseURL = isDev
+  ? "/"
+  : env?.VITE_API_URL || env?.VITE_API_BASE || "https://chat-app-mwu5.onrender.com";
+
+const api = axios.create({ baseURL, timeout: 8000 });
+
 api.interceptors.request.use(config => {
-    const token = localStorage.getItem('token');
-    if (token) {
-        config.headers = config.headers || {};
-        config.headers.Authorization = `Bearer ${token}`;
-    }
-    return config;
+  const token = localStorage.getItem("token");
+  if (token) {
+    config.headers = config.headers || {};
+    config.headers.Authorization = `Bearer ${token}`;
+  }
+  return config;
 });
+
 export default api;

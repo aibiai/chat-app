@@ -1,9 +1,9 @@
-<!DOCTYPE html>
+﻿<!DOCTYPE html>
 <html lang="zh-CN">
   <head>
     <meta charset="UTF-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-    <title>�����̨��¼</title>
+    <title>心语管理后台登录</title>
     <link rel="stylesheet" href="/admin/static/styles.css" />
   </head>
   <body class="admin-bg">
@@ -12,28 +12,30 @@
         <header class="login-head">
           <div class="brand">
             <span class="brand-dot"></span>
-            <h1>ϵͳ����Ա��¼</h1>
+            <h1>系统管理员登录</h1>
           </div>
-          <p class="login-tip">��ʹ�����˺ŵ�¼��̨���������ں�̨����¹���Ա��</p>
+          <p class="login-tip">
+            使用预置的管理员账号登录，如需添加更多账号，请登录后台后在“管理员”页面创建。
+          </p>
         </header>
         <form id="admin-login-form" class="login-form">
           <label class="field">
-            <span class="field-label">�û���</span>
+            <span class="field-label">用户名</span>
             <input name="username" placeholder="admin" required />
           </label>
           <label class="field">
-            <span class="field-label">����</span>
+            <span class="field-label">邮箱</span>
             <input name="email" type="email" placeholder="admin@gmail.com" required />
           </label>
           <label class="field">
-            <span class="field-label">�ǳ�</span>
-            <input name="nickname" placeholder="����Ա�ǳ�" required />
+            <span class="field-label">昵称</span>
+            <input name="nickname" placeholder="管理员昵称" required />
           </label>
           <label class="field">
-            <span class="field-label">����</span>
-            <input name="password" type="password" placeholder="����������" required />
+            <span class="field-label">密码</span>
+            <input name="password" type="password" placeholder="请输入密码" required />
           </label>
-          <button type="submit" class="primary-btn">��¼��̨</button>
+          <button type="submit" class="primary-btn">登录后台</button>
         </form>
         <div id="login-message" role="alert" class="login-message" hidden></div>
       </section>
@@ -41,6 +43,3 @@
     <script type="module" src="/admin/static/login.js"></script>
   </body>
 </html>
-
-
-
