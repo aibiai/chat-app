@@ -1,4 +1,4 @@
-const nameEl = document.querySelector('#admin-name');
+﻿const nameEl = document.querySelector('#admin-name');
 const avatarEl = document.querySelector('#sidebar-avatar');
 const logoutBtn = document.querySelector('#logout-btn');
 const formEl = document.querySelector('#profile-form');
@@ -9,21 +9,28 @@ const logPager = document.querySelector('#log-pager');
 const logPageSizeSelect = document.querySelector('#log-page-size');
 const logRefreshBtn = document.querySelector('#log-refresh');
 
-const profileDisplayName = document.querySelector('#profile-display-name');
-const profileDisplayEmail = document.querySelector('#profile-display-email');
+const profileTitle = document.querySelector('#profile-title');
+const profileEmail = document.querySelector('#profile-email');
+const profileRoles = document.querySelector('#profile-roles');
+const profileLastIp = document.querySelector('#profile-last-ip');
+const profileUpdatedAt = document.querySelector('#profile-updated-at');
 
-const profileData = {
+const DEFAULT_PROFILE = {
   username: 'admin',
   email: 'admin@gmail.com',
   nickname: 'admin',
   roles: ['root'],
-  lastLoginIp: '61.182.186.26'
+  lastLoginIp: '61.182.186.26',
+  updatedAt: new Date().toISOString()
 };
 
 const logs = Array.from({ length: 42 }).map((_, index) => ({
-    id: 34856 - index,
+  id: 34856 - index,
   title: index % 2 === 0 ? '登录' : '会员管理 / 会员管理 / 编辑',
-  link: index % 2 === 0 ? '/admin/index/login?url=%2Fadmin%2F' : `/admin/users/user/edit/${11000 + index}?dialog=1`,
+  link:
+    index % 2 === 0
+      ? '/admin/index/login?url=%2Fadmin%2F'
+      : `/admin/users/user/edit/${11000 + index}?dialog=1`,
   ip: ['61.182.186.26', '38.142.63.56', '210.145.79.56', '18.183.198.124', '54.189.21.243'][index % 5],
   time: new Date(Date.now() - index * 3600 * 1000).toISOString().replace('T', ' ').slice(0, 19)
 }));
@@ -42,6 +49,17 @@ function readProfile() {
   }
 }
 
+function formatDate(value) {
+  if (!value) return '暂未更新';
+  try {
+    const date = new Date(value);
+    if (Number.isNaN(date.getTime())) return value;
+    return date.toLocaleString();
+  } catch {
+    return value;
+  }
+}
+
 function ensureToken() {
   const token = localStorage.getItem('admin_token');
   if (!token) {
@@ -52,13 +70,24 @@ function ensureToken() {
 }
 
 function renderProfile() {
-  const profile = readProfile() || profileData;
-  nameEl.textContent = profile.nickname || profile.username || '管理员';
-  profileDisplayName.textContent = profile.nickname || profile.username || '管理员';
-  profileDisplayEmail.textContent = profile.email || 'admin@domain.com';
-  if (avatarEl) {
-    avatarEl.textContent = (profile.nickname || profile.username || 'A').slice(0, 1).toUpperCase();
+  const profile = readProfile() || DEFAULT_PROFILE;
+  const displayName = profile.nickname || profile.username || '管理员';
+
+  nameEl.textContent = displayName;
+  profileTitle.textContent = displayName;
+  profileEmail.textContent = profile.email || 'admin@domain.com';
+  profileLastIp.textContent = profile.lastLoginIp || '-';
+  profileUpdatedAt.textContent = formatDate(profile.updatedAt);
+
+  if (profileRoles) {
+    const roles = Array.isArray(profile.roles) && profile.roles.length > 0 ? profile.roles : ['未设置角色'];
+    profileRoles.innerHTML = roles.map((role) => `<span class="tag">${role}</span>`).join('');
   }
+
+  if (avatarEl) {
+    avatarEl.textContent = (displayName || 'A').slice(0, 1).toUpperCase();
+  }
+
   const username = formEl.elements.namedItem('username');
   const email = formEl.elements.namedItem('email');
   const nickname = formEl.elements.namedItem('nickname');
@@ -78,6 +107,7 @@ function showMessage(text, type = 'success') {
 function renderLogs() {
   const start = (state.logPage - 1) * state.logPageSize;
   const paged = logs.slice(start, start + state.logPageSize);
+
   if (paged.length === 0) {
     logTableBody.innerHTML = '<tr><td colspan="5" class="empty">暂无日志记录</td></tr>';
   } else {
@@ -127,7 +157,10 @@ function bindEvents() {
       nickname: formData.get('nickname')
     };
     const profile = readProfile() || {};
-    localStorage.setItem('admin_profile', JSON.stringify({ ...profile, ...data }));
+    localStorage.setItem(
+      'admin_profile',
+      JSON.stringify({ ...DEFAULT_PROFILE, ...profile, ...data, updatedAt: new Date().toISOString() })
+    );
     renderProfile();
     showMessage('资料已更新', 'success');
   });

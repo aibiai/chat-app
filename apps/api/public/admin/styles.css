@@ -760,6 +760,53 @@ html {
   transition: all 0.2s ease;
 }
 
+.panel-subtitle {
+  margin: 6px 0 0;
+  color: #64748b;
+  font-size: 11.2px;
+}
+
+.panel-body {
+  padding: 22px 24px 26px;
+  display: grid;
+  gap: 20px;
+}
+
+.form-row {
+  display: grid;
+  gap: 16px;
+  grid-template-columns: repeat(auto-fit, minmax(220px, 1fr));
+}
+
+.profile-form label {
+  display: grid;
+  gap: 8px;
+  font-size: 11.2px;
+  color: #1f2937;
+  font-weight: 600;
+}
+
+.profile-form input {
+  padding: 11px 14px;
+  border-radius: 12px;
+  border: 1px solid rgba(148, 163, 184, 0.35);
+  background: rgba(255, 255, 255, 0.95);
+  font-size: 12px;
+  color: #0f172a;
+  transition: border-color 0.2s ease, box-shadow 0.2s ease;
+}
+
+.profile-form input:focus {
+  border-color: #2563eb;
+  box-shadow: 0 0 0 4px rgba(37, 99, 235, 0.14);
+  outline: none;
+}
+
+.form-actions {
+  display: flex;
+  justify-content: flex-end;
+}
+
 .panel-btn.primary {
   background: linear-gradient(135deg, #22d3ee, #6366f1);
   color: #fff;
@@ -1448,12 +1495,18 @@ html {
 .profile-layout {
   display: grid;
   gap: 28px;
+  grid-template-columns: minmax(260px, 320px) minmax(0, 1fr);
+  align-items: start;
 }
 
-.profile-panel {
+.profile-summary {
+  display: grid;
+  gap: 18px;
+}
+
+.profile-content {
   display: grid;
   gap: 24px;
-  grid-template-columns: minmax(340px, 420px) minmax(0, 1fr);
 }
 
 .profile-card {
@@ -1494,6 +1547,69 @@ html {
   margin: 6px 0 10px;
   color: #475569;
   font-weight: 600;
+}
+
+.profile-email {
+  font-weight: 500;
+  color: #2563eb;
+  font-size: 12.8px;
+}
+
+.profile-roles {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 8px;
+}
+
+.profile-roles .tag {
+  background: rgba(59, 130, 246, 0.15);
+  color: #1d4ed8;
+}
+
+.profile-highlights {
+  margin: 0;
+  padding: 0;
+  list-style: none;
+  display: grid;
+  gap: 12px;
+}
+
+.profile-highlights li {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  padding: 10px 12px;
+  border-radius: 14px;
+  background: rgba(241, 245, 249, 0.75);
+  color: #0f172a;
+  font-weight: 600;
+  font-size: 12px;
+}
+
+.profile-highlights .label {
+  color: #64748b;
+  font-weight: 500;
+}
+
+.profile-note {
+  background: rgba(59, 130, 246, 0.08);
+  border-radius: 20px;
+  padding: 16px 20px;
+  box-shadow: inset 0 1px 0 rgba(255, 255, 255, 0.35);
+  border: 1px solid rgba(148, 163, 184, 0.35);
+}
+
+.profile-note h3 {
+  margin: 0 0 8px;
+  font-size: 14px;
+  color: #1d4ed8;
+}
+
+.profile-note p {
+  margin: 0;
+  font-size: 12px;
+  color: #475569;
+  line-height: 1.6;
 }
 
 .profile-role {
