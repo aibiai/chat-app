@@ -1,0 +1,161 @@
+﻿<!DOCTYPE html>
+<html lang="zh-CN">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>&#33756;&#21333;&#35268;&#21017; - &#26435;&#38480;&#31649;&#29702;</title>
+    <link rel="stylesheet" href="/admin/static/styles.css" />
+  </head>
+  <body class="admin-layout">
+    <aside class="admin-sidebar">
+      <div class="sidebar-top">
+        <div class="sidebar-logo">
+          <span class="logo-dot"></span>
+          <strong>&#25511;&#21046;&#21488;</strong>
+        </div>
+        <div class="sidebar-profile">
+          <div class="sidebar-avatar" id="sidebar-avatar">A</div>
+          <div>
+            <p id="admin-name" class="sidebar-name">&#31649;&#29702;&#21592;</p>
+            <span class="sidebar-status">&#22312;&#32447;</span>
+          </div>
+        </div>
+      </div>
+      <nav class="admin-nav">
+        <a class="nav-item" href="/admin/dashboard">
+          <span>&#25511;&#21046;&#21488;</span>
+          <small class="nav-tag hot">HOT</small>
+        </a>
+        <details class="nav-group">
+          <summary class="nav-item">
+            <span>&#24120;&#35268;&#31649;&#29702;</span>
+          </summary>
+          <div class="nav-sub">
+            <a class="nav-sub-item" href="/admin/profile">&#20010;&#20154;&#36164;&#26009;</a>
+            <a class="nav-sub-item" href="/admin/attachments">&#38468;&#20214;&#31649;&#29702;</a>
+            <a class="nav-sub-item" href="#">&#26639;&#30446;&#37197;&#32622;</a>
+            <a class="nav-sub-item" href="#">&#32531;&#23384;&#28165;&#29702;</a>
+          </div>
+        </details>
+        <details class="nav-group" open>
+          <summary class="nav-item">
+            <span>&#26435;&#38480;&#31649;&#29702;</span>
+            <small class="nav-tag new">NEW</small>
+          </summary>
+          <div class="nav-sub">
+            <a class="nav-sub-item" href="/admin/admins">&#31649;&#29702;&#21592;&#31649;&#29702;</a>
+            <a class="nav-sub-item" href="/admin/admin-logs">&#31649;&#29702;&#21592;&#26085;&#24535;</a>
+            <a class="nav-sub-item" href="/admin/roles">&#35282;&#33394;&#32452;</a>
+            <a class="nav-sub-item active" href="/admin/rules">&#33756;&#21333;&#35268;&#21017;</a>
+          </div>
+        </details>
+        <details class="nav-group">
+          <summary class="nav-item">
+            <span>&#21363;&#26102;&#36890;&#20449;&#31649;&#29702;</span>
+          </summary>
+          <div class="nav-sub">
+            <a class="nav-sub-item" href="/admin/push">&#25512;&#36865;&#28040;&#24687;</a>
+            <a class="nav-sub-item" href="/admin/service-accounts">&#26381;&#21153;&#36134;&#21495;&#31649;&#29702;</a>
+          </div>
+        </details>
+        <details class="nav-group">
+          <summary class="nav-item">
+            <span>&#20250;&#21592;&#31649;&#29702;</span>
+          </summary>
+          <div class="nav-sub">
+            <a class="nav-sub-item" href="/admin/members">&#20250;&#21592;&#31649;&#29702;</a>
+            <a class="nav-sub-item" href="/admin/avatar-review">&#22836;&#20687;&#23457;&#26680;</a>
+            <a class="nav-sub-item" href="/admin/customer-service">&#23458;&#26381;&#31649;&#29702;</a>
+          </div>
+        </details>
+                <details class="nav-group">
+          <summary class="nav-item">
+            <span>&#31036;&#29289;&#31649;&#29702;</span>
+          </summary>
+          <div class="nav-sub">
+            <a class="nav-sub-item" href="/admin/gift-categories">&#31036;&#29289;&#20998;&#31867;</a>
+            <a class="nav-sub-item" href="/admin/gifts">&#31036;&#29289;&#31649;&#29702;</a>
+          </div>
+        </details>
+        <a class="nav-item" href="/admin/stickers"><span>&#34920;&#24773;&#36148;&#31649;&#29702;</span></a>
+        <details class="nav-group">
+          <summary class="nav-item">
+            <span>&#35746;&#21333;&#31649;&#29702;</span>
+          </summary>
+          <div class="nav-sub">
+            <a class="nav-sub-item" href="/admin/order-overview">&#24635;&#33829;&#19994;&#39069;</a>
+            <a class="nav-sub-item" href="/admin/recharge-records">&#20805;&#20540;&#35760;&#24405;</a>
+            <a class="nav-sub-item" href="/admin/coin-consumption">&#37329;&#24065;&#28040;&#36153;&#35760;&#24405;</a>
+          </div>
+        </details>
+      </nav>
+      <button type="button" class="logout-btn" id="logout-btn">&#36864;&#20986;&#30331;&#24405;</button>
+    </aside>
+
+    <main class="admin-main members-compact">
+      <header class="admin-topbar">
+        <div>
+          <h1>&#33756;&#21333;&#35268;&#21017;</h1>
+          <p class="topbar-subtitle">
+            &#20445;&#30041;&#26131;&#32780;&#35762;&#20107;&#20250;&#21592;&#21333;&#20803;&#30340;&#35774;&#32622;&#65292;&#31649;&#29702; API &#36335;&#24452;&#21644;&#33756;&#21333;&#26174;&#31034;&#65306;&#20943;&#23567;&#39035;&#25968;&#25506;&#32034;&#25163;&#24037;&#21464;&#26356;&#12290;
+          </p>
+        </div>
+        <div class="topbar-actions">
+          <label class="search-box">
+            <svg viewBox="0 0 24 24" width="18" height="18" aria-hidden="true">
+              <path fill="currentColor" d="M15.5 14h-.79l-.28-.27A6.5 6.5 0 1 0 9.5 16a6.48 6.48 0 0 0 4.23-1.57l.27.28v.79l5 5L20.5 19l-5-5Zm-6 0A4.5 4.5 0 1 1 14 9.5 4.5 4.5 0 0 1 9.5 14Z"/>
+            </svg>
+            <input type="search" id="rules-search" placeholder="&#25628;&#32034;&#33756;&#21333;&#21517; / &#25351;&#20196;" />
+          </label>
+          <button class="topbar-icon" id="rules-refresh" aria-label="&#21047;&#26032;">
+            <svg viewBox="0 0 24 24" width="18" height="18" fill="currentColor">
+              <path d="M17.65 6.35A7.95 7.95 0 0 0 12 4V1L7 6l5 5V7a5 5 0 1 1-5 5H5a7 7 0 1 0 12.65-5.65Z" />
+            </svg>
+          </button>
+        </div>
+      </header>
+
+      <section class="panel members-compact">
+        <header class="panel-head">
+          <div class="panel-actions">
+            <button class="panel-btn primary" id="rules-add">+ &#26032;&#22686;</button>
+            <button class="panel-btn" id="rules-edit">&#32534;&#36753;</button>
+            <button class="panel-btn danger" id="rules-delete">&#21024;&#38500;</button>
+            <button class="panel-btn" id="rules-toggle-all">&#20840;&#37096;&#26597;&#30475;</button>
+            <button class="panel-btn" id="rules-export">&#23548;&#20986;</button>
+            <button class="panel-btn" id="rules-expand">&#26597;&#30475;&#26681;&#32452;</button>
+          </div>
+        </header>
+
+        <div class="table-wrapper">
+          <table class="data-table" id="rules-table">
+            <thead>
+              <tr>
+                <th><input type="checkbox" id="rules-check-all" /></th>
+                <th>ID</th>
+                <th>&#33756;&#21333;&#21517;&#31216;</th>
+                <th>Icon</th>
+                <th>Rule</th>
+                <th>&#25968;&#25454;&#35831;&#27714;</th>
+                <th>&#26159;&#21542;&#26174;&#31034;</th>
+                <th>&#29366;&#24577;</th>
+                <th>&#25805;&#20316;</th>
+              </tr>
+            </thead>
+            <tbody>
+              <tr><td colspan="9" class="empty">&#21152;&#36733;&#20013;...</td></tr>
+            </tbody>
+          </table>
+        </div>
+      </section>
+    </main>
+
+    <script type="module" src="/admin/static/admin-rules.js"></script>
+  </body>
+</html>
+
+
+
+
+
+

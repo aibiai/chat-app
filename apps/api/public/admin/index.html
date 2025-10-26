@@ -1,0 +1,46 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>�����̨��¼</title>
+    <link rel="stylesheet" href="/admin/static/styles.css" />
+  </head>
+  <body class="admin-bg">
+    <main class="login-shell">
+      <section class="login-card">
+        <header class="login-head">
+          <div class="brand">
+            <span class="brand-dot"></span>
+            <h1>ϵͳ����Ա��¼</h1>
+          </div>
+          <p class="login-tip">��ʹ�����˺ŵ�¼��̨���������ں�̨����¹���Ա��</p>
+        </header>
+        <form id="admin-login-form" class="login-form">
+          <label class="field">
+            <span class="field-label">�û���</span>
+            <input name="username" placeholder="admin" required />
+          </label>
+          <label class="field">
+            <span class="field-label">����</span>
+            <input name="email" type="email" placeholder="admin@gmail.com" required />
+          </label>
+          <label class="field">
+            <span class="field-label">�ǳ�</span>
+            <input name="nickname" placeholder="����Ա�ǳ�" required />
+          </label>
+          <label class="field">
+            <span class="field-label">����</span>
+            <input name="password" type="password" placeholder="����������" required />
+          </label>
+          <button type="submit" class="primary-btn">��¼��̨</button>
+        </form>
+        <div id="login-message" role="alert" class="login-message" hidden></div>
+      </section>
+    </main>
+    <script type="module" src="/admin/static/login.js"></script>
+  </body>
+</html>
+
+
+

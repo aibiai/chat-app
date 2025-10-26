@@ -1,0 +1,148 @@
+﻿<!DOCTYPE html>
+<html lang="zh-CN">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>&#35282;&#33394;&#32452; - &#26435;&#38480;&#31649;&#29702;</title>
+    <link rel="stylesheet" href="/admin/static/styles.css" />
+  </head>
+  <body class="admin-layout">
+    <aside class="admin-sidebar">
+      <div class="sidebar-top">
+        <div class="sidebar-logo">
+          <span class="logo-dot"></span>
+          <strong>&#25511;&#21046;&#21488;</strong>
+        </div>
+        <div class="sidebar-profile">
+          <div class="sidebar-avatar" id="sidebar-avatar">A</div>
+          <div>
+            <p id="admin-name" class="sidebar-name">&#31649;&#29702;&#21592;</p>
+            <span class="sidebar-status">&#22312;&#32447;</span>
+          </div>
+        </div>
+      </div>
+      <nav class="admin-nav">
+        <a class="nav-item" href="/admin/dashboard">
+          <span>&#25511;&#21046;&#21488;</span>
+          <small class="nav-tag hot">HOT</small>
+        </a>
+        <details class="nav-group">
+          <summary class="nav-item">
+            <span>&#24120;&#35268;&#31649;&#29702;</span>
+          </summary>
+          <div class="nav-sub">
+            <a class="nav-sub-item" href="/admin/profile">&#20010;&#20154;&#36164;&#26009;</a>
+            <a class="nav-sub-item" href="/admin/attachments">&#38468;&#20214;&#31649;&#29702;</a>
+            <a class="nav-sub-item" href="#">&#26639;&#30446;&#37197;&#32622;</a>
+            <a class="nav-sub-item" href="#">&#32531;&#23384;&#28165;&#29702;</a>
+          </div>
+        </details>
+        <details class="nav-group" open>
+          <summary class="nav-item">
+            <span>&#26435;&#38480;&#31649;&#29702;</span>
+            <small class="nav-tag new">NEW</small>
+          </summary>
+          <div class="nav-sub">
+            <a class="nav-sub-item" href="/admin/admins">&#31649;&#29702;&#21592;&#31649;&#29702;</a>
+            <a class="nav-sub-item" href="/admin/admin-logs">&#31649;&#29702;&#21592;&#26085;&#24535;</a>
+            <a class="nav-sub-item active" href="/admin/roles">&#35282;&#33394;&#32452;</a>
+            <a class="nav-sub-item" href="/admin/rules">&#33756;&#21333;&#35268;&#21017;</a>
+          </div>
+        </details>
+        <details class="nav-group">
+          <summary class="nav-item">
+            <span>&#21363;&#26102;&#36890;&#20449;&#31649;&#29702;</span>
+          </summary>
+          <div class="nav-sub">
+            <a class="nav-sub-item" href="/admin/push">&#25512;&#36865;&#28040;&#24687;</a>
+            <a class="nav-sub-item" href="/admin/service-accounts">&#26381;&#21153;&#36134;&#21495;&#31649;&#29702;</a>
+          </div>
+        </details>
+        <details class="nav-group">
+          <summary class="nav-item">
+            <span>&#20250;&#21592;&#31649;&#29702;</span>
+          </summary>
+          <div class="nav-sub">
+            <a class="nav-sub-item" href="/admin/members">&#20250;&#21592;&#31649;&#29702;</a>
+            <a class="nav-sub-item" href="/admin/avatar-review">&#22836;&#20687;&#23457;&#26680;</a>
+            <a class="nav-sub-item" href="/admin/customer-service">&#23458;&#26381;&#31649;&#29702;</a>
+          </div>
+        </details>
+                <details class="nav-group">
+          <summary class="nav-item">
+            <span>&#31036;&#29289;&#31649;&#29702;</span>
+          </summary>
+          <div class="nav-sub">
+            <a class="nav-sub-item" href="/admin/gift-categories">&#31036;&#29289;&#20998;&#31867;</a>
+            <a class="nav-sub-item" href="/admin/gifts">&#31036;&#29289;&#31649;&#29702;</a>
+          </div>
+        </details>
+        <a class="nav-item" href="/admin/stickers"><span>&#34920;&#24773;&#36148;&#31649;&#29702;</span></a>
+        <details class="nav-group">
+          <summary class="nav-item">
+            <span>&#35746;&#21333;&#31649;&#29702;</span>
+          </summary>
+          <div class="nav-sub">
+            <a class="nav-sub-item" href="/admin/order-overview">&#24635;&#33829;&#19994;&#39069;</a>
+            <a class="nav-sub-item" href="/admin/recharge-records">&#20805;&#20540;&#35760;&#24405;</a>
+            <a class="nav-sub-item" href="/admin/coin-consumption">&#37329;&#24065;&#28040;&#36153;&#35760;&#24405;</a>
+          </div>
+        </details>
+      </nav>
+      <button type="button" class="logout-btn" id="logout-btn">&#36864;&#20986;&#30331;&#24405;</button>
+    </aside>
+
+    <main class="admin-main">
+      <header class="admin-topbar">
+        <div>
+          <h1>&#35282;&#33394;&#32452;</h1>
+          <p class="topbar-subtitle">
+            &#32479;&#31649;&#30693;&#24072;&nbsp;/&nbsp;&#31649;&#29702;&#21592;&#30340;&#26435;&#38480;&#25351;&#23450;&#65292;&#25317;&#26377;&#20840;&#23616;&#32467;&#26500;&#65292;&#26041;&#20415;&#26631;&#20934;&#37197;&#32622;&#12290;
+          </p>
+        </div>
+        <div class="topbar-actions">
+          <button class="topbar-icon" id="roles-refresh" aria-label="&#21047;&#26032;">
+            <svg viewBox="0 0 24 24" width="18" height="18" fill="currentColor">
+              <path d="M17.65 6.35A7.95 7.95 0 0 0 12 4V1L7 6l5 5V7a5 5 0 1 1-5 5H5a7 7 0 1 0 12.65-5.65Z" />
+            </svg>
+          </button>
+        </div>
+      </header>
+
+      <section class="panel">
+        <header class="panel-head">
+          <div class="panel-actions">
+            <button class="panel-btn primary" id="roles-add">+ &#26032;&#22686;</button>
+            <button class="panel-btn danger" id="roles-delete">&#21024;&#38500;</button>
+          </div>
+        </header>
+
+        <div class="table-wrapper">
+          <table class="data-table" id="roles-table">
+            <thead>
+              <tr>
+                <th><input type="checkbox" id="roles-check-all" /></th>
+                <th>ID</th>
+                <th>&#29238;&#32452;ID</th>
+                <th>&#35282;&#33394;&#32452;&#21517;&#31216;</th>
+                <th>&#29366;&#24577;</th>
+                <th>&#25805;&#20316;</th>
+              </tr>
+            </thead>
+            <tbody>
+              <tr><td colspan="6" class="empty">&#21152;&#36733;&#20013;...</td></tr>
+            </tbody>
+          </table>
+        </div>
+      </section>
+    </main>
+
+    <script type="module" src="/admin/static/admin-roles.js"></script>
+  </body>
+</html>
+
+
+
+
+
+

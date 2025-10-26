@@ -1,0 +1,15 @@
+{
+  "admins": [
+    {
+      "username": "admin",
+      "email": "admin@gmail.com",
+      "nickname": "admin",
+      "passwordHash": "$2a$10$UmIRPQ4BBMiVtIGWC1Aj2.URXUHSxBuzKwzTEf9Bc0E4hqaGVJ0ze",
+      "roles": [
+        "root"
+      ],
+      "createdAt": "2025-10-24T14:34:18.501Z",
+      "updatedAt": "2025-10-24T14:34:18.501Z"
+    }
+  ]
+}

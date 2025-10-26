@@ -1,0 +1,100 @@
+{
+  "sections": {
+    "about": {
+      "title": "About",
+      "content": [
+        "Company Profile",
+        "We are committed to developing online dating services across 230+ countries and regions, operating multiple multilingual sites. Here you can enjoy sharing and connecting with friends — a highly efficient and engaging platform with hundreds of new members joining every day.",
+        "Our Mission",
+        "Our mission is simple: help you make friends around the world. We receive messages from users worldwide every month, sharing their MeetLove stories and experiences.",
+        "How It Works",
+        "We provide opportunities for people around the globe to get to know each other. Users can freely write their profile pages to describe themselves in detail, upload multiple photos, and share their interests. We value privacy: all communications between members are routed through an anonymous email network. Names and contact details remain confidential unless members choose to share them. Once registered, you can immediately view photos, bookmark potential friends, and get in touch."
+      ]
+    },
+    "terms": {
+      "title": "Terms",
+      "content": [
+        "Lookinglove (hereinafter, the ‘Platform’) provides the following agreement (the ‘Terms of Use’) for the related online services (the ‘Services’). Anyone using our Services is deemed to have agreed to these Terms.",
+        "Governing Law — These Terms of Use and any separate agreement under which we provide Services shall be governed by and construed in accordance with the laws of Hong Kong.",
+        "Welcome to our platform. You can top up your account via the Recharge button on the left side of the home page (e.g., USD 100, USD 200). Upon successful top-up, click ‘Upgrade’ to become a member. Members can use translation features, share photos, chat without limits, and meet more friends. To make conversations more fun, members can also send virtual gifts to each other to enhance mutual understanding.",
+        "1. Acceptance of Terms",
+        "These Terms apply to all users. By using the Services, whether or not you register as a member, you are deemed to accept the Terms. If you disagree, please stop using the Services.",
+        "2. Eligibility",
+        "The Services are not available to individuals under 18. By using the Services, you represent and warrant that you have the right and capacity to comply with all provisions herein.",
+        "3. Changes to the Terms",
+        "We reserve the right to change these Terms without prior notice. Please review periodically for updates. Continued use after changes constitutes acceptance.",
+        "4. Privacy",
+        "Use of the Services is subject to our Privacy Policy. Our partners also agree to comply with it.",
+        "5. Service Changes",
+        "We may add, remove, or modify parts of the Services without prior notice.",
+        "6. Fees and Payment",
+        "a) Payment — Depends on your chosen method and agreements with institutions or providers. You agree to pay all amounts due. Paid status can be canceled, ending from your last payment date. Non-transferable. Disputes must be reported within 60 days.",
+        "b) Service Contract — Orders do not auto-renew. Contact support to change or reorder. Without auto-renewal, subscriptions expire at term end. Mid-term cancellation is non-refundable.",
+        "c) Free Trials and Promotions — Available during specified periods under applicable terms. Cancel before trial ends to avoid charges.",
+        "7. Joining via Partners",
+        "Partner registration may grant member rights; we may migrate memberships to similar services.",
+        "8. Community Content",
+        "Follow Community Content Guidelines; do not post unlawful/harassing/defamatory/threatening/harmful/obscene/inciting or privacy-invading content; no hate/discriminatory content. Respect IP rights. We are not responsible for third-party content or services. Submitted information grants us perpetual, irrevocable, royalty-free rights to use and publish.",
+        "9. Member Accounts",
+        "Keep your account and password confidential; you’re responsible for activities under your account. No pornographic/obscene content. We may email service info, updates, and tips.",
+        "10. Copyright and Trademarks",
+        "Content on the Platform is protected by copyright.",
+        "11. Disclaimer",
+        "Information is provided ‘as is’ and ‘as available,’ without warranties. We do not control third-party information, products, or services. Use is at your own risk."
+      ]
+    },
+    "privacy": {
+      "title": "Privacy",
+      "content": [
+        "Lookinglove (the ‘Platform’) respects user privacy and sets out this Privacy Policy to protect it. The Policy explains what we collect, how we use it, and with whom it may be shared. By using our site or Services, you agree to this Policy.",
+        "Minors",
+        "We do not knowingly collect or maintain information from individuals under 18. If we learn we have collected personal information from someone under 18, we will delete it within reasonable scope.",
+        "Information We Collect",
+        "Profile details, survey responses, feedback, communications, transaction data, and visit logs/technical data for security and compliance.",
+        "Information Collected by Others",
+        "Third parties (authorized providers, ad companies, networks) may display ads; if you leave our site via a link and provide information elsewhere, we cannot control its use.",
+        "How We Use Information",
+        "Account management, personalization, providing/recommending products/services, market analysis, improving structure/usability, and security/compliance.",
+        "With Whom We Share",
+        "We share necessary information with third parties as needed (e.g., payment processors or infrastructure providers). We limit their use of your information.",
+        "Cookies",
+        "We use cookies to store and remember preference-related information.",
+        "Changes",
+        "We update this Policy on this page."
+      ]
+    },
+    "security": {
+      "title": "Dating Safety",
+      "content": [
+        "We take member privacy seriously. We manage your profile, photos, and language settings and work hard to keep your privacy and security protected. Online safety is also your responsibility — stay cautious and protect yourself.",
+        "Never share your password. Don’t share personal details with someone you just met; avoid providing financial information. Beware of impersonation scams and money requests. Report inappropriate behavior; block if uncomfortable. Plan offline meetings carefully: meet in public, tell a friend, bring a charged phone, arrange your own transport, avoid oversharing your address, and watch your drinks and belongings."
+      ]
+    },
+    "help": {
+      "title": "Help Center",
+      "content": [
+        "1. I can’t log in",
+        "Confirm registration and credentials; click ‘Forgot Password’ if needed; contact admin if unresolved.",
+        "2. Forgot password",
+        "Use ‘Forgot Password’ to recover or reset.",
+        "3. Upgrade membership",
+        "Click ‘Upgrade’ and choose a level.",
+        "4. Report illegal accounts",
+        "Go to the profile and click ‘Report,’ or contact us; we’ll investigate.",
+        "5. Payment",
+        "Top up within the platform. We support PayPal/Visa/MasterCard and do not run automatic/recurring charges.",
+        "6. Top-up failed",
+        "Check your card; try another browser; contact PayPal if needed; share details and a screenshot for troubleshooting."
+      ]
+    },
+    "contact": {
+      "title": "Contact Us",
+      "content": [
+        "Company: Lookinglove",
+        "Address: Lookinglove",
+        "E-mail: Lookinglove@outlook.com",
+        "Find answers to common questions here. For ideas, issues, or support, email us; replies may be delayed during busy periods. Working hours: Mon–Sun 09:00–18:00."
+      ]
+    }
+  }
+}

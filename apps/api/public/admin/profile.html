@@ -1,0 +1,203 @@
+﻿<!DOCTYPE html>
+<html lang="zh-CN">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>&#20010;&#20154;&#36164;&#26009; - &#24120;&#35268;&#31649;&#29702;</title>
+    <link rel="stylesheet" href="/admin/static/styles.css" />
+  </head>
+  <body class="admin-layout">
+    <aside class="admin-sidebar">
+      <div class="sidebar-top">
+        <div class="sidebar-logo">
+          <span class="logo-dot"></span>
+          <strong>&#25511;&#21046;&#21488;</strong>
+        </div>
+        <div class="sidebar-profile">
+          <div class="sidebar-avatar" id="sidebar-avatar">A</div>
+          <div>
+            <p id="admin-name" class="sidebar-name">&#31649;&#29702;&#21592;</p>
+            <span class="sidebar-status">&#22312;&#32447;</span>
+          </div>
+        </div>
+      </div>
+      <nav class="admin-nav">
+        <a class="nav-item" href="/admin/dashboard">
+          <span>&#25511;&#21046;&#21488;</span>
+          <small class="nav-tag hot">HOT</small>
+        </a>
+        <details class="nav-group" open>
+          <summary class="nav-item">
+            <span>&#24120;&#35268;&#31649;&#29702;</span>
+          </summary>
+          <div class="nav-sub">
+            <a class="nav-sub-item active" href="/admin/profile">&#20010;&#20154;&#36164;&#26009;</a>
+            <a class="nav-sub-item" href="/admin/attachments">&#38468;&#20214;&#31649;&#29702;</a>
+            <a class="nav-sub-item" href="#">&#26639;&#30446;&#37197;&#32622;</a>
+            <a class="nav-sub-item" href="#">&#32531;&#23384;&#28165;&#29702;</a>
+          </div>
+        </details>
+        <details class="nav-group">
+          <summary class="nav-item">
+            <span>&#26435;&#38480;&#31649;&#29702;</span>
+            <small class="nav-tag new">NEW</small>
+          </summary>
+          <div class="nav-sub">
+            <a class="nav-sub-item" href="/admin/admins">&#31649;&#29702;&#21592;&#31649;&#29702;</a>
+            <a class="nav-sub-item" href="/admin/admin-logs">&#31649;&#29702;&#21592;&#26085;&#24535;</a>
+            <a class="nav-sub-item" href="/admin/roles">&#35282;&#33394;&#32452;</a>
+            <a class="nav-sub-item" href="/admin/rules">&#33756;&#21333;&#35268;&#21017;</a>
+          </div>
+        </details>
+        <details class="nav-group">
+          <summary class="nav-item">
+            <span>&#21363;&#26102;&#36890;&#20449;&#31649;&#29702;</span>
+          </summary>
+          <div class="nav-sub">
+            <a class="nav-sub-item" href="/admin/push">&#25512;&#36865;&#28040;&#24687;</a>
+            <a class="nav-sub-item" href="/admin/service-accounts">&#26381;&#21153;&#36134;&#21495;&#31649;&#29702;</a>
+          </div>
+        </details>
+        <details class="nav-group">
+          <summary class="nav-item">
+            <span>&#20250;&#21592;&#31649;&#29702;</span>
+          </summary>
+          <div class="nav-sub">
+            <a class="nav-sub-item" href="/admin/members">&#20250;&#21592;&#31649;&#29702;</a>
+            <a class="nav-sub-item" href="/admin/avatar-review">&#22836;&#20687;&#23457;&#26680;</a>
+            <a class="nav-sub-item" href="/admin/customer-service">&#23458;&#26381;&#31649;&#29702;</a>
+          </div>
+        </details>
+                <details class="nav-group">
+          <summary class="nav-item">
+            <span>&#31036;&#29289;&#31649;&#29702;</span>
+          </summary>
+          <div class="nav-sub">
+            <a class="nav-sub-item" href="/admin/gift-categories">&#31036;&#29289;&#20998;&#31867;</a>
+            <a class="nav-sub-item" href="/admin/gifts">&#31036;&#29289;&#31649;&#29702;</a>
+          </div>
+        </details>
+        <a class="nav-item" href="/admin/stickers"><span>&#34920;&#24773;&#36148;&#31649;&#29702;</span></a>
+        <details class="nav-group">
+          <summary class="nav-item">
+            <span>&#35746;&#21333;&#31649;&#29702;</span>
+          </summary>
+          <div class="nav-sub">
+            <a class="nav-sub-item" href="/admin/order-overview">&#24635;&#33829;&#19994;&#39069;</a>
+            <a class="nav-sub-item" href="/admin/recharge-records">&#20805;&#20540;&#35760;&#24405;</a>
+            <a class="nav-sub-item" href="/admin/coin-consumption">&#37329;&#24065;&#28040;&#36153;&#35760;&#24405;</a>
+          </div>
+        </details>
+      </nav>
+      <button type="button" class="logout-btn" id="logout-btn">&#36864;&#20986;&#30331;&#24405;</button>
+    </aside>
+
+    <main class="admin-main">
+      <header class="admin-topbar">
+        <div>
+          <h1>&#20010;&#20154;&#36164;&#26009;</h1>
+          <p class="topbar-subtitle">
+            &#26597;&#38405;&#21644;&#20462;&#25913;&#31649;&#29702;&#21592;&#22522;&#26412;&#20449;&#24687;&#65292;&#24110;&#21161;&#24555;&#36895;&#26631;&#23450;&#36164;&#28304;&#31649;&#29702;&#30340;&#26426;&#26500;&#12290;
+          </p>
+        </div>
+      </header>
+
+      <section class="profile-layout">
+        <aside class="profile-summary">
+          <h2>&#26657;&#39564;&#32422;&#25103;</h2>
+          <div class="profile-card">
+            <div class="profile-avatar" id="profile-avatar">A</div>
+            <dl class="profile-meta">
+              <div>
+                <dt>&#31867;&#21517;</dt>
+                <dd id="profile-display-name">admin</dd>
+              </div>
+              <div>
+                <dt>Email</dt>
+                <dd id="profile-display-email">admin@example.com</dd>
+              </div>
+            </dl>
+          </div>
+        </aside>
+
+        <section class="profile-panel">
+          <form id="profile-form" class="profile-form">
+            <div class="form-row">
+              <label>
+                <span>&#30331;&#24405;&#21517;</span>
+                <input type="text" name="username" required />
+              </label>
+              <label>
+                <span>Email</span>
+                <input type="email" name="email" required />
+              </label>
+            </div>
+            <div class="form-row">
+              <label>
+                <span>&#26165;&#31216;</span>
+                <input type="text" name="nickname" />
+              </label>
+              <label>
+                <span>&#26041;&#26696;&#35774;&#32622;</span>
+                <input type="password" name="password" placeholder="&#20445;&#30041;&#20026;&#31354;&#21017;&#20445;&#25345;&#19981;&#21464;" />
+              </label>
+            </div>
+            <div class="form-actions">
+              <button type="submit" class="panel-btn primary">&#20445;&#23384;&#20462;&#25913;</button>
+            </div>
+            <p id="profile-message" class="profile-message" hidden></p>
+          </form>
+
+          <section class="profile-logs">
+            <header class="panel-head">
+              <h3>&#26368;&#36817;&#25805;&#20316;&#26085;&#24535;</h3>
+              <button class="panel-btn" id="log-refresh">&#21047;&#26032;</button>
+            </header>
+            <div class="table-wrapper">
+              <table class="data-table" id="log-table">
+                <thead>
+                  <tr>
+                    <th>ID</th>
+                    <th>&#26631;&#39064;</th>
+                    <th>URL</th>
+                    <th>IP</th>
+                    <th>&#26102;&#38388;</th>
+                  </tr>
+                </thead>
+                <tbody>
+                  <tr><td colspan="5" class="empty">&#21152;&#36733;&#20013;...</td></tr>
+                </tbody>
+              </table>
+            </div>
+            <footer class="table-foot">
+              <div class="table-info" id="log-info">
+                &#26174;&#31034;&#31532;&nbsp;1&nbsp;&#39029;&nbsp;/&nbsp;&#20849;&nbsp;1&nbsp;&#39029;
+              </div>
+              <div class="table-pager">
+                <button class="pager-btn" data-page="prev">&#19978;&#19968;&#39029;</button>
+                <div id="log-pager"></div>
+                <button class="pager-btn" data-page="next">&#19979;&#19968;&#39029;</button>
+                <label class="pager-size">
+                  &#27599;&#39029;&#23637;&#31034
+                  <select id="log-page-size">
+                    <option value="10">10 &#26465;</option>
+                    <option value="20">20 &#26465;</option>
+                    <option value="50">50 &#26465;</option>
+                  </select>
+                </label>
+              </div>
+            </footer>
+          </section>
+        </section>
+      </section>
+    </main>
+
+    <script type="module" src="/admin/static/profile.js"></script>
+  </body>
+</html>
+
+
+
+
+
+

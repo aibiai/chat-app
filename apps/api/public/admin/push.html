@@ -1,0 +1,180 @@
+﻿<!DOCTYPE html>
+<html lang="zh-CN">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>&#25512;&#36865;&#28040;&#24687; - &#21363;&#26102;&#36890;&#20449;&#31649;&#29702;</title>
+    <link rel="stylesheet" href="/admin/static/styles.css" />
+  </head>
+  <body class="admin-layout">
+    <aside class="admin-sidebar">
+      <div class="sidebar-top">
+        <div class="sidebar-logo">
+          <span class="logo-dot"></span>
+          <strong>&#25511;&#21046;&#21488;</strong>
+        </div>
+        <div class="sidebar-profile">
+          <div class="sidebar-avatar" id="sidebar-avatar">A</div>
+          <div>
+            <p id="admin-name" class="sidebar-name">&#31649;&#29702;&#21592;</p>
+            <span class="sidebar-status">&#22312;&#32447;</span>
+          </div>
+        </div>
+      </div>
+      <nav class="admin-nav">
+        <a class="nav-item" href="/admin/dashboard">
+          <span>&#25511;&#21046;&#21488;</span>
+          <small class="nav-tag hot">HOT</small>
+        </a>
+        <details class="nav-group">
+          <summary class="nav-item">
+            <span>&#24120;&#35268;&#31649;&#29702;</span>
+          </summary>
+          <div class="nav-sub">
+            <a class="nav-sub-item" href="/admin/profile">&#20010;&#20154;&#36164;&#26009;</a>
+            <a class="nav-sub-item" href="/admin/attachments">&#38468;&#20214;&#31649;&#29702;</a>
+            <a class="nav-sub-item" href="#">&#26639;&#30446;&#37197;&#32622;</a>
+            <a class="nav-sub-item" href="#">&#32531;&#23384;&#28165;&#29702;</a>
+          </div>
+        </details>
+        <details class="nav-group" open>
+          <summary class="nav-item">
+            <span>&#26435;&#38480;&#31649;&#29702;</span>
+            <small class="nav-tag new">NEW</small>
+          </summary>
+          <div class="nav-sub">
+            <a class="nav-sub-item" href="/admin/admins">&#31649;&#29702;&#21592;&#31649;&#29702;</a>
+            <a class="nav-sub-item" href="/admin/admin-logs">&#31649;&#29702;&#21592;&#26085;&#24535;</a>
+            <a class="nav-sub-item" href="/admin/roles">&#35282;&#33394;&#32452;</a>
+            <a class="nav-sub-item" href="/admin/rules">&#33756;&#21333;&#35268;&#21017;</a>
+          </div>
+        </details>
+        <details class="nav-group" open>
+          <summary class="nav-item">
+            <span>&#21363;&#26102;&#36890;&#20449;&#31649;&#29702;</span>
+          </summary>
+          <div class="nav-sub">
+            <a class="nav-sub-item active" href="/admin/push">&#25512;&#36865;&#28040;&#24687;</a>
+            <a class="nav-sub-item" href="/admin/service-accounts">&#26381;&#21153;&#36134;&#21495;&#31649;&#29702;</a>
+          </div>
+        </details>
+        <details class="nav-group">
+          <summary class="nav-item">
+            <span>&#20250;&#21592;&#31649;&#29702;</span>
+          </summary>
+          <div class="nav-sub">
+            <a class="nav-sub-item" href="/admin/members">&#20250;&#21592;&#31649;&#29702;</a>
+            <a class="nav-sub-item" href="/admin/avatar-review">&#22836;&#20687;&#23457;&#26680;</a>
+            <a class="nav-sub-item" href="/admin/customer-service">&#23458;&#26381;&#31649;&#29702;</a>
+          </div>
+        </details>
+                <details class="nav-group">
+          <summary class="nav-item">
+            <span>&#31036;&#29289;&#31649;&#29702;</span>
+          </summary>
+          <div class="nav-sub">
+            <a class="nav-sub-item" href="/admin/gift-categories">&#31036;&#29289;&#20998;&#31867;</a>
+            <a class="nav-sub-item" href="/admin/gifts">&#31036;&#29289;&#31649;&#29702;</a>
+          </div>
+        </details>
+        <a class="nav-item" href="/admin/stickers"><span>&#34920;&#24773;&#36148;&#31649;&#29702;</span></a>
+        <details class="nav-group">
+          <summary class="nav-item">
+            <span>&#35746;&#21333;&#31649;&#29702;</span>
+          </summary>
+          <div class="nav-sub">
+            <a class="nav-sub-item" href="/admin/order-overview">&#24635;&#33829;&#19994;&#39069;</a>
+            <a class="nav-sub-item" href="/admin/recharge-records">&#20805;&#20540;&#35760;&#24405;</a>
+            <a class="nav-sub-item" href="/admin/coin-consumption">&#37329;&#24065;&#28040;&#36153;&#35760;&#24405;</a>
+          </div>
+        </details>
+      </nav>
+      <button type="button" class="logout-btn" id="logout-btn">&#36864;&#20986;&#30331;&#24405;</button>
+    </aside>
+
+    <main class="admin-main">
+      <header class="admin-topbar">
+        <div>
+          <h1>&#25512;&#36865;&#28040;&#24687;</h1>
+          <p class="topbar-subtitle">&#36890;&#36807;&#26381;&#21153;&#31471;&#25512;&#36865;&#24037;&#20855;&#21521;&#25351;&#23450;&#30340;&#29992;&#25143;&#20998;&#32452;&#25110;&#31649;&#29702;&#21592;&#21457;&#36865;&#36890;&#30693;&#20449;&#24687;&#12290;</p>
+        </div>
+      </header>
+
+      <section class="panel push-panel">
+        <header class="panel-head">
+          <h2>&#25512;&#36865;&#37197;&#32622;</h2>
+        </header>
+        <form id="push-form" class="push-form">
+          <label class="field">
+            <div class="field-head">
+              <span class="field-label-icon">1</span>
+              <div class="field-copy">
+                <span class="field-label">&#26381;&#21153;&#36134;&#21495;</span>
+                <p class="field-desc">&#36873;&#25321;&#26381;&#21153;&#36134;&#21495;&#21457;&#36865;&#31995;&#32479;&#28040;&#24687;&#65292;&#36866;&#21512;&#19981;&#21516;&#20027;&#39064;&#30340;&#25512;&#36865;&#31574;&#30053;&#12290;</p>
+              </div>
+            </div>
+            <div class="field-control">
+              <select name="service" required>
+                <option value="" disabled selected>&#36873;&#25321;&#26381;&#21153;&#36134;&#21495;&#21457;&#36865;&#31995;&#32479;&#28040;&#24687;</option>
+              </select>
+            </div>
+          </label>
+          <label class="field">
+            <div class="field-head">
+              <span class="field-label-icon">2</span>
+              <div class="field-copy">
+                <span class="field-label">&#29992;&#25143;&#20998;&#32452;</span>
+                <p class="field-desc">&#38145;&#23450;&#35201;&#35302;&#36798;&#30340;&#29992;&#25143;&#20998;&#32452;&#65292;&#21487;&#25353;&#27963;&#36291;&#24230;&#12289;&#31561;&#32423;&#31561;&#32500;&#24230;&#36873;&#25321;&#12290;</p>
+              </div>
+            </div>
+            <div class="field-control">
+              <select name="segment" required>
+                <option value="" disabled selected>&#36873;&#25321;&#25512;&#36865;&#30446;&#26631;&#29992;&#25143;&#20998;&#32452;</option>
+              </select>
+            </div>
+          </label>
+          <label class="field">
+            <div class="field-head">
+              <span class="field-label-icon">3</span>
+              <div class="field-copy">
+                <span class="field-label">&#31649;&#29702;&#21592;&#32452;</span>
+                <p class="field-desc">&#21521;&#35813;&#31649;&#29702;&#21592;&#32452;&#25104;&#5458;&#540c;&#6b65;&#25512;&#36865;&#32467;&#26524;&#65292;&#20415;&#4e8e\u540e\u7eed\u8ddf\u8fdb\u5904\u7406\u3002</p>
+              </div>
+            </div>
+            <div class="field-control">
+              <select name="adminGroup" required>
+                <option value="" disabled selected>&#36873;&#25321;&#25509;&#25910;&#25512;&#36865;&#30340;&#31649;&#29702;&#21592;&#32452;</option>
+              </select>
+            </div>
+          </label>
+          <label class="field">
+            <div class="field-head">
+              <span class="field-label-icon">4</span>
+              <div class="field-copy">
+                <span class="field-label">&#28040;&#24687;&#20869;&#23481;</span>
+                <p class="field-desc">&#25903;&#25345;&#23500;&#25991;&#26412;&#26684;&#24335\uff0c\u53d1\u9001\u524d\u8bf7\u786e\u8ba4\u5185\u5bb9\u4e0e\u94fe\u63a5\u5747\u6b63\u786e\u3002</p>
+              </div>
+            </div>
+            <div class="field-control">
+              <textarea name="message" rows="6" placeholder="&#35831;&#36755;&#20837;&#25512;&#36865;&#30340;&#28040;&#24687;&#20869;&#23481;&#65292;&#21487;&#20351;&#29992;&#32;HTML&#32;&#26631;&#31614;"></textarea>
+            </div>
+            <small class="field-hint">&#21487;&#20351;&#29992;&#32;HTML&#32;&#26631;&#31614;&#65306;a&#12289;img&#12289;div&#12289;br</small>
+          </label>
+          <div class="push-actions">
+            <button type="submit" class="panel-btn primary">&#25552;&#20132;</button>
+            <button type="reset" class="panel-btn">&#37325;&#32622;</button>
+          </div>
+          <div class="push-message" id="push-message" hidden></div>
+        </form>
+      </section>
+    </main>
+
+    <script type="module" src="/admin/static/push.js"></script>
+  </body>
+</html>
+
+
+
+
+
+

@@ -1,0 +1,30 @@
+﻿/* postcss-tw:start */
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
+/* postcss-tw:end */
+
+html, body, #app { height: 100%; }
+
+/* Global typography tweaks */
+body { letter-spacing: -0.02em; }
+
+/* Divider (hr) subtle opacity */
+hr { border: 0; border-top: 1px solid var(--border-muted, rgba(17,24,39,0.08)); }
+
+/* Brand color variables */
+:root{
+	--brand-pink: #f28190;    /* 涓荤矇锛屼笌鎸夐挳鍦嗗簳涓€鑷?*/
+	--brand-pink-deep: #ec7d8e; /* 娣辩矇锛岀敤浣?ring-offset */
+	--brand-pink-hover: #f28c98; /* hover 鎬?*/
+	--brand-ring: #bdff52;    /* 鑽у厜缁挎弿杈?*/
+	--brand-text-on-pink: #ffffff; /* 绮夊簳涓婄殑鏂囧瓧/鍥炬爣 */
+	--brand-navbar-bg: #ec7987; /* 瀵艰埅鏉＄矇鑹诧紙鍙傝€冩埅鍥撅級 */
+}
+@media (prefers-color-scheme: dark){
+	:root{ --brand-navbar-bg:#e56e7e; }
+}
+
+
+
+

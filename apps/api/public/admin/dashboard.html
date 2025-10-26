@@ -1,0 +1,215 @@
+﻿<!DOCTYPE html>
+<html lang="zh-CN">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>&#25511;&#21046;&#21488;&#19968;&#35270;&#21270;</title>
+    <link rel="stylesheet" href="/admin/static/styles.css" />
+  </head>
+  <body class="admin-layout">
+    <aside class="admin-sidebar">
+      <div class="sidebar-top">
+        <div class="sidebar-logo">
+          <span class="logo-dot"></span>
+          <strong>&#25511;&#21046;&#21488;</strong>
+        </div>
+        <div class="sidebar-profile">
+          <div class="sidebar-avatar" id="sidebar-avatar">A</div>
+          <div>
+            <p id="admin-name" class="sidebar-name">&#31649;&#29702;&#21592;</p>
+            <span class="sidebar-status">&#22312;&#32447;</span>
+          </div>
+        </div>
+      </div>
+      <nav class="admin-nav">
+        <a class="nav-item active" href="/admin/dashboard">
+          <span>&#25511;&#21046;&#21488;</span>
+          <small class="nav-tag hot">HOT</small>
+        </a>
+        <details class="nav-group">
+          <summary class="nav-item">
+            <span>&#24120;&#35268;&#31649;&#29702;</span>
+          </summary>
+          <div class="nav-sub">
+            <a class="nav-sub-item" href="/admin/profile">&#20010;&#20154;&#36164;&#26009;</a>
+            <a class="nav-sub-item" href="/admin/attachments">&#38468;&#20214;&#31649;&#29702;</a>
+            <a class="nav-sub-item" href="#">&#26639;&#30446;&#37197;&#32622;</a>
+            <a class="nav-sub-item" href="#">&#32531;&#23384;&#28165;&#29702;</a>
+          </div>
+        </details>
+        <details class="nav-group">
+          <summary class="nav-item">
+            <span>&#26435;&#38480;&#31649;&#29702;</span>
+            <small class="nav-tag new">NEW</small>
+          </summary>
+          <div class="nav-sub">
+            <a class="nav-sub-item" href="/admin/admins">&#31649;&#29702;&#21592;&#31649;&#29702;</a>
+            <a class="nav-sub-item" href="/admin/admin-logs">&#31649;&#29702;&#21592;&#26085;&#24535;</a>
+            <a class="nav-sub-item" href="/admin/roles">&#35282;&#33394;&#32452;</a>
+            <a class="nav-sub-item" href="/admin/rules">&#33756;&#21333;&#35268;&#21017;</a>
+          </div>
+        </details>
+        <details class="nav-group">
+          <summary class="nav-item">
+            <span>&#21363;&#26102;&#36890;&#20449;&#31649;&#29702;</span>
+          </summary>
+          <div class="nav-sub">
+            <a class="nav-sub-item" href="/admin/push">&#25512;&#36865;&#28040;&#24687;</a>
+            <a class="nav-sub-item" href="/admin/service-accounts">&#26381;&#21153;&#36134;&#21495;&#31649;&#29702;</a>
+          </div>
+        </details>
+        <details class="nav-group">
+          <summary class="nav-item">
+            <span>&#20250;&#21592;&#31649;&#29702;</span>
+          </summary>
+          <div class="nav-sub">
+            <a class="nav-sub-item" href="/admin/members">&#20250;&#21592;&#31649;&#29702;</a>
+            <a class="nav-sub-item" href="/admin/avatar-review">&#22836;&#20687;&#23457;&#26680;</a>
+            <a class="nav-sub-item" href="/admin/customer-service">&#23458;&#26381;&#31649;&#29702;</a>
+          </div>
+        </details>
+        <details class="nav-group">
+          <summary class="nav-item">
+            <span>&#31036;&#29289;&#31649;&#29702;</span>
+          </summary>
+          <div class="nav-sub">
+            <a class="nav-sub-item" href="/admin/gift-categories">&#31036;&#29289;&#20998;&#31867;</a>
+            <a class="nav-sub-item" href="/admin/gifts">&#31036;&#29289;&#31649;&#29702;</a>
+          </div>
+        </details>
+        <a class="nav-item" href="/admin/stickers"><span>&#34920;&#24773;&#36148;&#31649;&#29702;</span></a>
+        <details class="nav-group">
+          <summary class="nav-item">
+            <span>&#35746;&#21333;&#31649;&#29702;</span>
+          </summary>
+          <div class="nav-sub">
+            <a class="nav-sub-item" href="/admin/order-overview">&#24635;&#33829;&#19994;&#39069;</a>
+            <a class="nav-sub-item" href="/admin/recharge-records">&#20805;&#20540;&#35760;&#24405;</a>
+            <a class="nav-sub-item" href="/admin/coin-consumption">&#37329;&#24065;&#28040;&#36153;&#35760;&#24405;</a>
+          </div>
+        </details>
+      </nav>
+      <button type="button" class="logout-btn" id="logout-btn">&#36864;&#20986;&#30331;&#24405;</button>
+    </aside>
+
+    <main class="admin-main">
+      <header class="admin-topbar">
+        <div>
+          <h1>&#25511;&#21046;&#21488;&#19968;&#35270;&#21270;</h1>
+          <p class="topbar-subtitle">
+            &#24555;&#36895;&#26597;&#38405;&#24179;&#21488;&#27969;&#37327;&#21644;&#20851;&#38190;&#25351;&#26631;&#65292;&#30452;&#35266;&#20102;&#35299;&#20250;&#21592;&#8226;&#28040;&#24687;&#21644;&#29575;&#32479;&#24687;&#24773;&#12290;
+          </p>
+        </div>
+        <div class="topbar-actions">
+          <button class="topbar-icon" id="roles-refresh" aria-label="&#21047;&#26032;">
+            <svg viewBox="0 0 24 24" width="18" height="18" fill="currentColor">
+              <path d="M17.65 6.35A7.95 7.95 0 0 0 12 4V1L7 6l5 5V7a5 5 0 1 1-5 5H5a7 7 0 1 0 12.65-5.65Z" />
+            </svg>
+          </button>
+        </div>
+      </header>
+
+      <section class="metric-grid">
+        <article class="metric-card accent-blue">
+          <div class="metric-icon">
+            <svg viewBox="0 0 24 24" fill="currentColor"><path d="M12 12a5 5 0 1 0-5-5 5 5 0 0 0 5 5Zm0 2c-3.33 0-10 1.67-10 5v2h20v-2c0-3.33-6.67-5-10-5Z"/></svg>
+          </div>
+          <div class="metric-info">
+            <p class="metric-label">&#24635;&#20250;&#21592;&#25968;</p>
+            <strong id="metric-members" class="metric-value">--</strong>
+          </div>
+        </article>
+        <article class="metric-card accent-violet">
+          <div class="metric-icon">
+            <svg viewBox="0 0 24 24" fill="currentColor"><path d="M4 4h16v2H4Zm0 7h16v2H4Zm0 7h16v2H4Z"/></svg>
+          </div>
+          <div class="metric-info">
+            <p class="metric-label">&#27963;&#36291;&#28040;&#24687;</p>
+            <strong id="metric-messages" class="metric-value">--</strong>
+          </div>
+        </article>
+        <article class="metric-card accent-rose">
+          <div class="metric-icon">
+            <svg viewBox="0 0 24 24" fill="currentColor"><path d="M12 21.35 10.55 20C5.4 15.36 2 12.28 2 8.5A4.5 4.5 0 0 1 6.5 4 5 5 0 0 1 12 6.09 5 5 0 0 1 17.5 4 4.5 4.5 0 0 1 22 8.5c0 3.78-3.4 6.86-8.55 11.54Z"/></svg>
+          </div>
+          <div class="metric-info">
+            <p class="metric-label">&#31036;&#29289;&#35843;&#29983;</p>
+            <strong id="metric-gifts" class="metric-value">--</strong>
+          </div>
+        </article>
+        <article class="metric-card accent-amber">
+          <div class="metric-icon">
+            <svg viewBox="0 0 24 24" fill="currentColor"><path d="m17 10-5-7-5 7a6 6 0 1 0 10 4.58A6 6 0 0 0 17 10Z"/></svg>
+          </div>
+          <div class="metric-info">
+            <p class="metric-label">VIP &#20250;&#21592;</p>
+            <strong id="metric-vip" class="metric-value">--</strong>
+          </div>
+        </article>
+      </section>
+
+      <section class="quick-stats">
+        <article>
+          <h3>&#19968;&#33267;&#19977;&#22825;&#25805;&#20316;</h3>
+          <ul class="stat-list">
+            <li><span>&#20170;&#26085;&#28155;&#38271;</span><strong id="stat-today">--</strong></li>
+            <li><span>3 &#22825;&#27963;&#36291;</span><strong id="stat-three">--</strong></li>
+            <li><span>7 &#22825;&#27963;&#36291;</span><strong id="stat-seven">--</strong></li>
+            <li><span>&#24403;&#22825;&#30331;&#24405;</span><strong id="stat-login">--</strong></li>
+          </ul>
+        </article>
+        <article>
+          <h3>&#20250;&#21592;&#27969;&#37327;</h3>
+          <ul class="stat-list">
+            <li><span>&#26032;&#22686;&#20250;&#21592;</span><strong id="stat-new-members">--</strong></li>
+            <li><span>&#25968;&#25454;&#35745;&#25968;</span><strong id="stat-active-conv">--</strong></li>
+          </ul>
+        </article>
+      </section>
+
+      <section class="summary-grid">
+        <article class="summary-card">
+          <h3>&#25968;&#25454;&#27010;&#35272;</h3>
+          <div class="summary-list">
+            <p><span>&#31867;&#21035;</span><strong id="summary-categories">--</strong></p>
+            <p><span>&#25968;&#25454;&#38598;</span><strong id="summary-datasets">--</strong></p>
+            <p><span>&#25968;&#25454;&#37327;</span><strong id="summary-dataset-size">--</strong></p>
+          </div>
+        </article>
+        <article class="summary-card">
+          <h3>&#38468;&#20214;&#20869;&#23481;</h3>
+          <div class="summary-list">
+            <p><span>&#38468;&#20214;&#25968;</span><strong id="summary-attachments">--</strong></p>
+            <p><span>&#38468;&#20214;&#23481;&#37327;</span><strong id="summary-attachments-size">--</strong></p>
+          </div>
+        </article>
+        <article class="summary-card">
+          <h3>&#22270;&#29255;&#27969;&#37327;</h3>
+          <div class="summary-list">
+            <p><span>&#20849;&#26377;&#25968;</span><strong id="summary-images">--</strong></p>
+            <p><span>&#21512;&#35745;</span><strong id="summary-images-size">--</strong></p>
+          </div>
+        </article>
+      </section>
+
+      <section class="chart-card">
+        <header class="chart-head">
+          <h3>&#21608;&#21021;&#27969;&#37327;&#36235;&#21183;</h3>
+        </header>
+        <div class="chart-body">
+          <svg id="trend-area" viewBox="0 0 600 240" preserveAspectRatio="none"></svg>
+          <svg id="trend-line" viewBox="0 0 600 240" preserveAspectRatio="none"></svg>
+          <div id="chart-axis" class="chart-axis"></div>
+        </div>
+      </section>
+    </main>
+
+    <script type="module" src="/admin/static/dashboard.js"></script>
+  </body>
+</html>
+
+
+
+
+
+

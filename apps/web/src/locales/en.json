@@ -1,0 +1,608 @@
+{
+  "brand": {
+    "name": "HeartChat",
+    "tagline": "Meet the one who moves you"
+  },
+  "vip": {
+    "tier": {
+      "purple": "Purple VIP",
+      "crown": "Crown VIP",
+      "none": "Standard"
+    },
+    "expires": "Expires:"
+  },
+  "nav": {
+    "home": "Home",
+    "lucky": "Lucky",
+    "confession": "Confession",
+    "gifts": "Gifts Mall",
+    "giftBox": "Gift Box",
+    "upgrade": "Upgrade",
+    "topup": "Top up",
+    "chat": "Chat",
+    "login": "Login",
+    "register": "Register",
+    "logout": "Logout",
+    "me": "My ID",
+    "language": "Language",
+    "contactService": "Contact Support",
+    "pleaseLoginToContact": "Please log in to contact support",
+    "profileCenter": "Profile Center",
+    "avatarSettings": "Avatar Settings",
+    "identityVerify": "Identity Verification",
+    "systemSettings": "System Settings"
+  },
+  "common": {
+    "loading": "Loading…",
+    "unnamed": "Unnamed",
+    "back": "Back",
+    "save": "Save",
+    "cancel": "Cancel",
+    "confirm": "Confirm",
+    "close": "Close",
+    "submit": "Submit",
+    "submitting": "Submitting…",
+    "noData": "No data to display",
+    "unknownUser": "Unknown user",
+    "reason": "Reason: ",
+    "pagination": { "prev": "Previous", "next": "Next" },
+    "edit": "Edit",
+    "delete": "Delete",
+    "loadFailed": "Load failed",
+    "uploadFailed": "Upload failed",
+    "uploadFailedRetry": "Upload failed, please retry",
+    "submitFailed": "Submit failed, please try again later"
+  },
+  "home": {
+    "discover": "Discover Users",
+    "age": { "yearsCn": "岁", "yearsEn": "y" },
+    "loadError": "Failed to load users"
+  },
+  "chat": {
+    "private": "Private Chat",
+    "withUser": "Chat with {user}",
+    "placeholder": "Type a message...",
+    "send": "Send",
+    "search": {
+      "placeholder": "Search username",
+      "searching": "Searching…",
+      "empty": "No matching users",
+      "userId": "ID: "
+    },
+    "recent": {
+      "title": "Recent Conversations",
+      "empty": "No recent conversations"
+    },
+    "menu": {
+      "translateTo": "Translate to",
+      "showOriginal": "Show original",
+      "dualMode": "Original + Translation"
+    },
+    "support": {
+      "hello": "Hi! Support here",
+      "subtitle": "We’re happy to help — type your question and press send",
+      "online": "Online"
+    },
+    "side": {
+      "gift": {
+        "title": "Send a Gift",
+        "desc": "Be the first to send a gift and make a great impression.",
+        "cta": "Send a gift"
+      },
+      "vip": {
+        "title": "VIP Perks",
+        "benefit1": "Eye-catching VIP badge",
+        "benefit2": "See who viewed you",
+        "benefit3": "Smooth, unrestricted chats",
+        "benefit4": "See who liked you to match faster",
+        "cta": "Get VIP now"
+      }
+    },
+    "gift": {
+      "modal": { "title": "Gifts Mall" },
+      "send": "Send",
+      "openMall": "Open Gifts Mall"
+    },
+    "toasts": {
+      "loginBeforeGift": "Please log in before sending a gift",
+      "choosePeer": "Please select a chat first",
+      "sendFailed": "Send failed, please try again later",
+      "notUnlocked": "Not unlocked"
+    },
+    "time": {
+      "today": "Today",
+      "yesterday": "Yesterday"
+    },
+    "actions": { "message": "Message" }
+  },
+  "login": {
+    "heroTitle": "Meet someone who truly clicks",
+    "heroSubtitle": "Verified signup, instant chat, private and secure — share your heart anywhere, anytime.",
+    "cardTitle": "Sign in",
+    "cardSubtitle": "Welcome back — let’s get you in"
+  },
+  "footer": {
+    "terms": "Terms",
+    "privacy": "Privacy",
+    "security": "Dating Safety",
+    "help": "Help Center",
+    "contact": "Contact Us"
+  },
+  "auth": {
+    "email": "Email",
+    "password": "Password",
+    "remember": "Remember me",
+    "agree": "I agree to",
+    "and": "and",
+    "tos": "Terms",
+    "privacy": "Privacy",
+    "login": "Login",
+    "register": "Register",
+    "emailLogin": "Login with email",
+    "gender": {
+      "male": "Male",
+      "female": "Female",
+      "other": "Other"
+    },
+    "genderTab": {
+      "male": "Men",
+      "female": "Women"
+    },
+    "forgot": "Forgot password?",
+    "reset": "Reset Password",
+    "haveAccount": "Already have an account?",
+    "noAccount": "Don't have an account?",
+    "sendReset": "Send reset link",
+    "token": "Reset Token",
+    "newPassword": "New Password",
+    "confirmPassword": "Confirm Password"
+  },
+  "form": {
+    "placeholder": {
+      "nickname": "Enter your nickname",
+      "email": "Enter your email",
+      "password": "Enter your password",
+      "selectYear": "Select year",
+      "selectMonth": "Select month",
+      "selectDay": "Select day",
+      "selectZodiac": "Select zodiac",
+      "selectHeight": "Select height",
+      "selectWeight": "Select weight",
+      "selectEducation": "Select education",
+      "selectMarital": "Select marital status",
+      "realName": "Enter your full name"
+    },
+    "help": {
+      "password": "At least 8 chars with letters and numbers"
+    },
+    "error": {
+      "required": "This field is required",
+      "email": "Invalid email format",
+      "passwordWeak": "Password is too weak",
+      "passwordMismatch": "Passwords do not match",
+      "registerFail": "Registration failed, please check your information",
+      "emailExists": "This email is already registered",
+      "invalidCredentials": "Invalid email or password",
+      "loginFail": "Login failed, please try again later"
+    }
+  },
+  "settings": {
+    "menu": {
+      "vipCenter": "VIP Center",
+      "visitors": "Visitors",
+      "likedMe": "Liked me",
+      "myLikes": "My likes",
+      "verify": "Verify",
+      "editProfile": "Edit profile",
+      "settings": "Settings"
+    },
+    "actions": { "editProfile": "Edit profile" },
+    "balance": { "title": "Balance", "unit": "coins" },
+    "page": {
+      "title": "My Settings",
+      "profileTitle": "Profile Privacy",
+      "profileDesc": "When privacy is on, others cannot view your album and profile"
+    },
+    "password": {
+      "title": "Change Password",
+      "desc": "Update your password regularly for account security",
+      "changeBtn": "Change Password",
+      "old": "Current password",
+      "new": "New password",
+      "confirm": "Confirm new password",
+      "toggleOld": "Toggle current password visibility",
+      "toggleNew": "Toggle new password visibility",
+      "toggleConfirm": "Toggle confirm password visibility",
+      "strength": "Strength: ",
+      "ruleLen8": "At least 8 characters",
+      "ruleAlnum": "Letters and numbers",
+      "fillAll": "Please fill in all fields",
+      "ruleCombined": "Password must be at least 8 characters and include letters and numbers",
+      "changed": "Password changed. Please log in again with your new password",
+      "levelWeak": "Weak",
+      "levelMedium": "Medium",
+      "levelStrong": "Strong"
+    },
+    "visitors": {
+      "title": "Visitors",
+      "whoSeeMe": "Who viewed me",
+      "meSeeWho": "I viewed",
+      "sayHi": "Say hi",
+      "openVipHint": "Open VIP to view more"
+    },
+    "likes": {
+      "likedMe": "Liked me",
+      "myLikes": "My likes",
+      "sayHi": "Say hi",
+      "unlike": "Unlike",
+      "openVipHint": "Open VIP to view more",
+      "tipMyLikes": "People you liked will appear here — saying hi first increases your chances!"
+    },
+    "gift": {
+      "title": "Gifts",
+      "received": "Received",
+      "sent": "Sent",
+      "from": "From {name}",
+      "to": "To {name}",
+      "emptyReceived": "No gifts received yet",
+      "emptySent": "No gifts sent yet"
+    },
+    "verify": {
+      "title": "Identity Verification",
+      "upload": "Upload Documents",
+      "submit": "Submit for verification",
+      "submitted": "Verification data submitted. Please wait for review",
+      "need3Photos": "Please upload three verification photos"
+    },
+    "conversations": { "title": "Messages" },
+    "alerts": {
+      "vipFailed": "VIP activation failed, please try again later",
+      "saveFailed": "Save failed, please try again later"
+    }
+  },
+  "register": {
+    "membersJoinedPrefix": "Over",
+    "membersJoinedSuffix": "members joined",
+    "chooseBirthday": "Please select your birthday"
+  },
+  "onboarding": {
+    "title": "Complete your profile",
+    "subtitle": "Fill these to get better matches",
+    "nickname": "Nickname",
+    "gender": "Gender",
+    "birthday": "Birthday",
+    "avatar": "Avatar",
+    "avatarNote": "Your new avatar will be reviewed and applied after approval",
+    "height": "Height (cm)",
+    "weight": "Weight (kg)",
+    "identity": "Identity Verification",
+    "tabs": { "basic": "Basic Info", "verify": "Verification" },
+    "zodiac": "Zodiac",
+    "education": "Education",
+    "marital": "Marital Status",
+    "realName": "Full Name",
+  "submit": "Submit",
+  "skipVerify": "Skip for now",
+  "status": { "pending": "Under Review", "approved": "Verified", "rejected": "Rejected" },
+  "submittedNotice": "Your information has been submitted for review",
+  "rejectedHint": "Review failed, please resubmit",
+  "avatarRejectedHint": "Avatar review failed, please re-upload",
+    "zodiacOptions": {
+      "aries": "Aries",
+      "taurus": "Taurus",
+      "gemini": "Gemini",
+      "cancer": "Cancer",
+      "leo": "Leo",
+      "virgo": "Virgo",
+      "libra": "Libra",
+      "scorpio": "Scorpio",
+      "sagittarius": "Sagittarius",
+      "capricorn": "Capricorn",
+      "aquarius": "Aquarius",
+      "pisces": "Pisces"
+    },
+    "educationOptions": {
+      "highschool": "High School or below",
+      "associate": "Associate",
+      "bachelor": "Bachelor",
+      "master": "Master",
+      "doctor": "Doctorate",
+      "other": "Other"
+    },
+    "maritalOptions": {
+      "single": "Single",
+      "married": "Married"
+    },
+    "idFront": "ID Front",
+    "idBack": "ID Back",
+    "selfie": "Selfie",
+    "identityNote": "Images only. After submission, please wait for review results.",
+    "chooseFile": "Choose file",
+    "noFile": "No file chosen",
+    "upload": {
+      "dragDrop": "or drag & drop image here",
+      "remove": "Remove",
+      "tooLarge": "File too large, max {max} MB",
+      "invalidType": "Unsupported file type"
+    },
+  "weightRangeLabel": "{min}-{max}kg",
+    "region": "Region",
+    "bio": "Bio",
+    "interests": "Interests",
+    "save": "Save and continue",
+    "presets": {
+      "interests": [
+        "Travel",
+        "Food",
+        "Music",
+        "Movies",
+        "Sports",
+        "Reading",
+        "Photography",
+        "Pets",
+        "Gaming",
+        "Art"
+      ],
+      "regions": [
+        "Beijing",
+        "Shanghai",
+        "Guangzhou",
+        "Shenzhen",
+        "Hangzhou",
+        "Chengdu",
+        "Chongqing",
+        "Wuhan",
+        "Nanjing",
+        "Xiamen"
+      ]
+    }
+  },
+  "info": {
+    "menu": {
+      "about": "About us"
+    },
+    "sections": {
+      "about": {
+        "title": "About",
+        "content": [
+          "Company Profile",
+          "We are committed to developing online dating services across 230+ countries and regions, operating multiple multilingual sites. Here you can enjoy sharing and connecting with friends — a highly efficient and engaging platform with hundreds of new members joining every day.",
+          "Our Mission",
+          "Our mission is simple: help you make friends around the world. We receive messages from users worldwide every month, sharing their MeetLove stories and experiences.",
+          "How It Works",
+          "We provide opportunities for people around the globe to get to know each other. Users can freely write their profile pages to describe themselves in detail, upload multiple photos, and share their interests. We value privacy: all communications between members are routed through an anonymous email network. Names and contact details remain confidential unless members choose to share them. Once registered, you can immediately view photos, bookmark potential friends, and get in touch."
+        ]
+      },
+      "terms": {
+        "title": "Terms",
+        "content": [
+          "Lookinglove (hereinafter, the “Platform”) provides the following agreement (the “Terms of Use”) for the related online services (the “Services”). Anyone using our Services is deemed to have agreed to these Terms.",
+          "Governing Law — These Terms of Use and any separate agreement under which we provide Services shall be governed by and construed in accordance with the laws of Hong Kong.",
+          "Welcome to our platform. You can top up your account via the Recharge button on the left side of the home page. Typical amounts include USD 100, USD 200, and similar values. Upon successful top-up, you can click the Upgrade button to become a member. Members can use translation features, share photos, chat without limits, and meet more friends. To make conversations more fun, members can also send virtual gifts to each other to enhance mutual understanding.",
+          "1. Acceptance of Terms",
+          "These Terms (including current and future websites and clients) apply to all users. By using the Services, whether or not you register as a member, you are deemed to accept the Terms. If you disagree, please stop using the Services.",
+          "2. Eligibility",
+          "The Services are not available to individuals under 18. By using the Services, you represent and warrant that you have the right and capacity to comply with all provisions herein.",
+          "3. Changes to the Terms",
+          "We reserve the right to change these Terms without prior notice. Please review the Terms periodically for updates. Continued use after changes constitutes acceptance.",
+          "4. Privacy",
+          "We respect visitors’ privacy. Use of the Services is subject to our Privacy Policy. Our partners also agree to comply with the Privacy Policy.",
+          "5. Service Changes",
+          "We may add, remove, or modify parts of the Services without prior notice.",
+          "6. Fees and Payment",
+          "a) Payment",
+          "Your payment terms depend on your chosen payment method and your agreement with your financial institution, card issuer, or payment service provider. If you decline the services provided by the payment service provider, you still agree to pay all amounts due. If your paid status is active, you may request to cancel it; once canceled, the paid status ends from the date of your last payment. Paid status is non-transferable. Disputes must be reported within 60 days of purchase. For billing questions, please contact us.",
+          "b) Service Contract",
+          "Orders placed on the Platform do not auto-renew. You can contact customer service to modify or reorder at any time. If you opt in to a subscription that does not auto-renew, it will expire at the end of its term. Cancellations before expiry are non-refundable.",
+          "c) Free Trials and Promotions",
+          "Free trials and other promotions are available during specified periods under applicable terms. If you wish to avoid charges, cancel before the trial ends.",
+          "7. Joining via Partners",
+          "If you register through a partner and the Platform co-provides the Services, you will receive member rights accordingly. The Platform may migrate your membership or paid account to similar services on the Platform.",
+          "8. Community Content",
+          "All Services are subject to Community Content Guidelines. You agree not to post, distribute, or link to content that is unlawful, harassing, defamatory, threatening, harmful, obscene, inciting, or invasive of privacy; nor hate or discriminatory content against any group. Do not use others’ copyrighted or trademarked materials without written consent, nor alter others’ IP (including text and images). The Platform is not responsible for content sent by members or third parties, nor for any third-party information, goods, or services. By using the Services, you agree the Platform is not liable for threats, defamation, obscenity, assault, or IP infringement. You are responsible for the information you provide (including feedback and suggestions) and the information you post, download, input, or submit (the “Submitted Information”). By publishing, uploading, inputting, providing, or submitting information on our site or clients, you grant the Platform a perpetual, irrevocable right to copy, use, store, modify, edit, translate, or publish any or all submitted information without royalty. The Platform is not obligated to publish or use any submitted information and may remove it at any time. The Platform and its partners are not liable for deletion, invalidation, or failure to store information.",
+          "9. Member Accounts",
+          "Upon registering, you will receive an account and password. You are responsible for confidentiality and for all activities under your account. You are responsible for the content in your profile. Posting pornographic or obscene content is prohibited and may jeopardize your membership. The Platform is not responsible for consequences arising from such behavior. You agree that we may send you emails regarding service information (including upgrades), new features or events, and usage tips.",
+          "10. Copyright and Trademarks",
+          "Content on the Platform is protected by copyright.",
+          "11. Disclaimer",
+          "Information on the Platform is provided “as is” and “as available,” without warranties of any kind, express or implied. We do not control third-party information, products, or services. You expressly agree that your use of the Services is at your sole risk. To the maximum extent permitted by law, we disclaim all warranties, including implied warranties of merchantability and fitness for a particular purpose. We do not warrant that the Services will meet your needs or be uninterrupted, timely, secure, or accurate; nor do we warrant the results obtained. We do not warrant that the site or Services are free of viruses or harmful components, or that transmissions are fully confidential, or that translations are accurate or complete. We make no warranties regarding goods or services purchased through or sponsored on the site, or any transactions conducted. No advice or information creates a warranty unless expressly stated in writing."
+        ]
+      },
+      "privacy": {
+        "title": "Privacy",
+        "content": [
+          "Lookinglove (the “Platform”) respects user privacy and sets out this Privacy Policy to protect it. The Policy explains what we collect, how we use it, and with whom it may be shared. By using our site or Services, you agree to this Policy. If you have questions, please contact us.",
+          "Minors",
+          "We do not knowingly collect or maintain information from individuals under 18, nor do we offer features to under-18 users. If you are under 18, please stop using or accessing the site or Services. If we learn that we have collected personal information from someone under 18, we will take reasonable steps to delete it.",
+          "Information We Collect",
+          "Information you provide when creating or updating your profile (personal and contact details); survey responses, feedback, and entries for activities; communications with us; transaction data related to products or services you order on our site; and visit logs/technical data for security and compliance. You may contact us to request access, correction, or deletion as permitted by applicable law.",
+          "Information Collected by Others",
+          "We allow third parties (authorized service providers, ad companies, and ad networks) to display ads on our site. If you click a link (e.g., a banner) that takes you to another website and you provide information there, we cannot control how it is used. This Policy does not apply to other sites or advertisers. The Platform is not responsible for how other sites use your information.",
+          "How We Use Information",
+          "To manage your account (including match notifications, reminders, announcements, updates, or promotions), personalize your experience, provide or recommend products/services you may be interested in, conduct market analysis and research, improve our structure and usability, and for security/compliance.",
+          "With Whom We Share",
+          "We may share necessary information with third parties in certain cases — for example, to payment processors when you place orders; or with partners providing infrastructure services like email or chat. We will control and limit how these third parties use your information.",
+          "Cookies",
+          "We use cookies to store and remember information related to your preferences. A cookie is a small data file sent by a web server to your browser and stored on your device.",
+          "Changes to this Policy",
+          "We review and update this Privacy Policy on this page. Please revisit periodically to understand what we collect, how we use it, and when we share it."
+        ]
+      },
+      "security": {
+            "title": "Dating Safety",
+        "content": [
+          "We take member privacy seriously. We manage your profile, photos, and language settings on the site and work hard to keep your privacy and security protected. That said, online safety is also your responsibility. Please stay cautious and think twice — protect yourself!",
+          "Never share your password with anyone, even friends. If your password is lost or leaked, your private data may be exposed. If your profile is compromised, report it to our team via the feedback page. Don’t share personal details with someone you just met — this includes email, IM handles, full name, and URLs. Avoid providing financial information such as credit card details. Beware of scammers impersonating our company or others to ask for money or claim “prizes.” Be extra vigilant when someone says they are in financial trouble — that’s often a scam. If you encounter inappropriate behavior, click the “Report” link and our team will investigate promptly. If you feel uncomfortable during a conversation, you can block the member. Don’t tolerate rudeness or harassment — contact support to report it. We operate comprehensive monitoring and quality control systems and will act quickly. Offline meeting tips:",
+          "When chatting with a new member, take time to get to know each other and ask for a recent photo (preferably within the last four weeks). Don’t rush into meeting — only do so when you’re ready. Tell a friend where you’re going and ask them to call or text to confirm your safety. Always bring a fully charged phone. Arrange your own transport to and from the meeting place — don’t meet at either person’s home. Avoid sharing your address unless you already know each other well. Plan the first meeting during the daytime in a public place. Don’t drink too much at parties and always keep an eye on your belongings and drinks."
+        ]
+      },
+      "help": {
+        "title": "Help Center",
+        "content": [
+          "1. I can’t log in",
+          "Please confirm you’ve registered and double-check your account and password. If you still can’t log in, click “Forgot Password.” If the issue persists, contact the site administrator.",
+          "2. Forgot your password",
+          "If you forgot your password when logging in, click “Forgot Password” to recover or reset it.",
+          "3. How to upgrade membership",
+          "Click the “Upgrade” button and choose the membership level you want to upgrade to.",
+          "4. How to report illegal accounts",
+          "If you encounter suspicious accounts, go to their profile and click “Report,” or contact us. We’ll investigate and handle it to keep the site safe.",
+          "5. How to pay",
+          "You can top up within the platform. We currently support secure online payments such as PayPal, Visa credit/debit cards, and MasterCard. All payment methods are secure. We never run automatic or recurring charges. For questions, contact the site administrator.",
+          "6. Top-up failed",
+          "If you can’t complete a top-up, first check if your card has issues, then try another browser. You may also need to contact PayPal (e.g., when prompted that your card can’t be used for this transaction). If the issue remains after multiple attempts, please share details (payment channel, error message, browser) and provide a screenshot of the error page to help our engineers troubleshoot quickly."
+        ]
+      },
+      "contact": {
+        "title": "Contact Us",
+        "content": [
+          "Company: Lookinglove",
+          "Address: Lookinglove",
+          "E-mail: Lookinglove@outlook.com",
+          "Here you’ll find answers to common questions. If you have great ideas, spot issues, or need support, email us and we’ll get back to you as soon as possible. During peak times, replies may be delayed — thanks for your patience. Working hours: Mon–Sun 09:00–18:00. For better service, please check the Help Center first or contact us via email."
+        ]
+      }
+    }
+  }
+  ,
+  "admin": {
+    "content": {
+      "title": "Content Management",
+      "loginOnly": "Visible to logged-in users only",
+      "localeLabel": "Locale",
+      "sectionLabel": "Section",
+      "targetLang": "MT target language",
+      "titleLabel": "Title",
+      "paragraphsLabel": "Paragraphs",
+      "delete": "Delete",
+      "addParagraph": "Add paragraph",
+      "reload": "Reload",
+      "translateAll": "Translate all to {lang}",
+      "ready": "Ready",
+      "saving": "Saving...",
+      "saved": "Saved",
+      "saveFailed": "Save failed",
+      "translating": "Translating...",
+      "translatedNote": "Translation done (written to editor, don't forget to save)"
+    },
+    "gifts": {
+      "title": "Gifts Admin",
+      "subtitle": "Admins only: upload images, create/edit/delete gifts",
+      "editGift": "Edit gift",
+      "addGift": "Add gift",
+      "name": "Name",
+      "namePlaceholder": "Enter gift name",
+      "price": "Price (¥)",
+      "pricePlaceholder": "Enter price",
+      "image": "Image",
+      "upload": "Upload",
+      "uploadHint": "Tip: after upload you'll get a link starting with",
+      "catalog": "Gifts Catalog",
+      "refresh": "Refresh",
+      "saveChanges": "Save changes",
+      "create": "Create",
+      "confirmDelete": "Delete \"{name}\"?"
+    }
+  },
+  "giftBox": {
+    "title": "Gift Box",
+    "subtitle": "See your received/sent gifts and every fluttering moment",
+    "toMall": "Go to Gifts Mall",
+    "received": "Received Gifts",
+    "sent": "Sent Gifts",
+    "countUnit": "items",
+    "refresh": "Refresh",
+    "from": "From",
+    "to": "To",
+    "reciprocate": "Send back",
+    "emptyReceived": "No gifts received yet",
+    "emptySent": "No gifts sent yet",
+    "goMall": "Browse the mall",
+    "goFirstGift": "Send your first gift"
+  },
+  "avatar": {
+    "title": "Change Avatar",
+    "subtitle": "Choose a new avatar and submit for review",
+    "hint": "Recommended 256x256+ JPG/PNG",
+    "submit": "Submit for review",
+    "submitted": "Avatar submitted for review"
+  },
+  "confession": {
+    "sweetMoments": "Sweet Moments",
+    "themeSwitch": "Theme switch",
+    "theme": { "sakura": "Sakura", "sunset": "Sunset", "starry": "Starry" },
+    "loading": "Loading sweet moments…",
+    "captionDefault": "Our {index}th heartbeat",
+    "bubbleNote": "You can change the declaration in 'My Confession' on the right",
+    "myConfession": "My Confession",
+    "maxChars": "Up to {n} characters",
+  "formDesc": "Upload a sweet photo. After approval it appears on the left.",
+    "image": "Image",
+    "dropHere": "Drag image here, or click to choose",
+    "uploading": "Uploading…",
+    "reupload": "Re-upload",
+    "upload": "Upload Image",
+    "uploaded": "Uploaded",
+    "chosenNotUploaded": "Chosen, waiting to upload",
+    "declaration": "Declaration",
+  "placeholder": "Write a sweet line that's just for you two",
+    "remaining": "{n} left",
+    "submit": "Submit for review",
+    "reviewHint": "Only visible to yourself before approval; not publicly displayed.",
+    "defaultBubble": "You are the harbor I long to rest in after a thousand sails. 💗\nMay every ordinary day turn into a romance with you.",
+    "errOnlyImage": "Images only",
+    "errTooLarge": "Image must be under 8MB",
+    "submitted": "Submitted for review. It will appear on the left after approval.",
+    "places": {
+      "sea": "Seaside",
+      "cafe": "Cafe",
+      "park": "Theme Park",
+      "night": "Nightscape",
+      "hike": "Hiking",
+      "ticket": "Movie Ticket",
+      "anniversary": "Anniversary",
+      "surprise": "Surprise",
+      "travel": "Travel Photo"
+    }
+  }
+  ,
+  "giftsMall": {
+    "title": "Gifts Mall",
+    "subtitle": "Send a thoughtful gift to bring hearts closer",
+    "send": "Send",
+    "tipsTitle": "Tips",
+    "tipsDesc": "Pick a gift that represents you to show sincerity and move things forward.",
+    "alertChooseTarget": "Please select a recipient first (URL needs ?to=<userId>)",
+    "sentTo": "Sent \"{name}\" to {id}",
+    "sendFailed": "Failed to send, please try again later"
+  }
+  ,
+  "topup": {
+    "amountLabel": "Top-up amount"
+  },
+  "vipModal": {
+    "title": "VIP Membership Plans",
+    "currentIs": "You are: ",
+    "openNow": "Activate now",
+    "planLabel": "{months} mo ({usd} USD)",
+    "benefitsTitle": "VIP Dating Perks",
+    "benefitsAria": "Perks comparison",
+    "benefit": "Perk",
+    "benefitsQuick": "Perks at a glance",
+    "feat": {
+      "vipBadge": "VIP badge",
+      "unlimitedChats": "Unlimited chats",
+      "topExposure": "Top exposure",
+      "freeTranslate": "Free translation",
+      "identityVerify": "Identity verification",
+      "lucky": "Lucky Star",
+      "confessionWall": "Confession Wall",
+      "privateSupport": "Private support",
+      "sendImages": "Send images",
+      "moreExposure": "More exposure",
+      "likedMe": "See who liked me",
+      "viewedMe": "See who viewed me",
+      "advancedSearch": "Advanced search"
+    }
+  }
+}

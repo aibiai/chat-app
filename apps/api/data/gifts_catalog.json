@@ -1,0 +1,26 @@
+[
+  {
+    "id": "g1",
+    "name": "心动礼盒",
+    "price": 29,
+    "img": "/static/gifts/box.png"
+  },
+  {
+    "id": "g2",
+    "name": "甜蜜鲜花",
+    "price": 39,
+    "img": "/static/gifts/flower.png"
+  },
+  {
+    "id": "g3",
+    "name": "巧克力",
+    "price": 19,
+    "img": "/static/gifts/chocolate.png"
+  },
+  {
+    "id": "g4",
+    "name": "幸运星",
+    "price": 9,
+    "img": "/static/gifts/star.png"
+  }
+]

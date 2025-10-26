@@ -1,0 +1,190 @@
+﻿<!DOCTYPE html>
+<html lang="zh-CN">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>&#20805;&#20540;&#35760;&#24405; - &#35746;&#21333;&#31649;&#29702;</title>
+    <link rel="stylesheet" href="/admin/static/styles.css" />
+  </head>
+  <body class="admin-layout">
+    <aside class="admin-sidebar">
+      <div class="sidebar-top">
+        <div class="sidebar-logo">
+          <span class="logo-dot"></span>
+          <strong>&#25511;&#21046;&#21488;</strong>
+        </div>
+        <div class="sidebar-profile">
+          <div class="sidebar-avatar" id="sidebar-avatar">A</div>
+          <div>
+            <p id="admin-name" class="sidebar-name">&#31649;&#29702;&#21592;</p>
+            <span class="sidebar-status">&#22312;&#32447;</span>
+          </div>
+        </div>
+      </div>
+      <nav class="admin-nav">
+        <a class="nav-item" href="/admin/dashboard">
+          <span>&#25511;&#21046;&#21488;</span>
+          <small class="nav-tag hot">HOT</small>
+        </a>
+        <details class="nav-group">
+          <summary class="nav-item">
+            <span>&#24120;&#35268;&#31649;&#29702;</span>
+          </summary>
+          <div class="nav-sub">
+            <a class="nav-sub-item" href="/admin/profile">&#20010;&#20154;&#36164;&#26009;</a>
+            <a class="nav-sub-item" href="/admin/attachments">&#38468;&#20214;&#31649;&#29702;</a>
+            <a class="nav-sub-item" href="#">&#26639;&#30446;&#37197;&#32622;</a>
+            <a class="nav-sub-item" href="#">&#32531;&#23384;&#28165;&#29702;</a>
+          </div>
+        </details>
+        <details class="nav-group">
+          <summary class="nav-item">
+            <span>&#26435;&#38480;&#31649;&#29702;</span>
+            <small class="nav-tag new">NEW</small>
+          </summary>
+          <div class="nav-sub">
+            <a class="nav-sub-item" href="/admin/admins">&#31649;&#29702;&#21592;&#31649;&#29702;</a>
+            <a class="nav-sub-item" href="/admin/admin-logs">&#31649;&#29702;&#21592;&#26085;&#24535;</a>
+            <a class="nav-sub-item" href="/admin/roles">&#35282;&#33394;&#32452;</a>
+            <a class="nav-sub-item" href="/admin/rules">&#33756;&#21333;&#35268;&#21017;</a>
+          </div>
+        </details>
+        <details class="nav-group">
+          <summary class="nav-item">
+            <span>&#21363;&#26102;&#36890;&#20449;&#31649;&#29702;</span>
+          </summary>
+          <div class="nav-sub">
+            <a class="nav-sub-item" href="/admin/push">&#25512;&#36865;&#28040;&#24687;</a>
+            <a class="nav-sub-item" href="/admin/service-accounts">&#26381;&#21153;&#36134;&#21495;&#31649;&#29702;</a>
+          </div>
+        </details>
+        <details class="nav-group">
+          <summary class="nav-item">
+            <span>&#31036;&#29289;&#31649;&#29702;</span>
+          </summary>
+          <div class="nav-sub">
+            <a class="nav-sub-item" href="/admin/gift-categories">&#31036;&#29289;&#20998;&#31867;</a>
+            <a class="nav-sub-item" href="/admin/gifts">&#31036;&#29289;&#31649;&#29702;</a>
+          </div>
+        </details>
+        <a class="nav-item" href="/admin/stickers"><span>&#34920;&#24773;&#36148;&#31649;&#29702;</span></a>
+        <details class="nav-group" open>
+          <summary class="nav-item">
+            <span>&#35746;&#21333;&#31649;&#29702;</span>
+          </summary>
+          <div class="nav-sub">
+            <a class="nav-sub-item" href="/admin/order-overview">&#24635;&#33829;&#19994;&#39069;</a>
+            <a class="nav-sub-item active" href="/admin/recharge-records">&#20805;&#20540;&#35760;&#24405;</a>
+            <a class="nav-sub-item" href="/admin/coin-consumption">&#37329;&#24065;&#28040;&#36153;&#35760;&#24405;</a>
+          </div>
+        </details>
+      </nav>
+      <button type="button" class="logout-btn" id="logout-btn">&#36864;&#20986;&#30331;&#24405;</button>
+    </aside>
+
+    <main class="admin-main members-compact">
+      <header class="admin-topbar">
+        <div>
+          <h1>&#20805;&#20540;&#35760;&#24405;</h1>
+          <p class="topbar-subtitle">
+            &#20805;&#20540;&#36890;&#36947;&#28040;&#24687;&#19968;&#30452;&#34987;&#35745;&#21010;&#65292;&#22312;&#27491;&#30830;&#30340;&#35745;&#21010;&#19979;&#65292;&#20998;&#26512;&#30340;&#25968;&#25454;&#20801;&#35768;&#25105;&#20204;&#26681;&#25454;&#24080;&#21495;&#65292;&#30005;&#23376;&#36134;&#21333;&#19982;&#25903;&#20184;&#20449;&#24687;&#36827;&#34892;&#32467;&#31639;&#65292;&#25552;&#21040;&#26356;&#22909;&#30340;&#26381;&#21153;&#65292;&#20197;&#24471;&#21040;&#26356;&#22909;&#30340;&#32467;&#26524;&#12290;
+          </p>
+        </div>
+        <div class="topbar-actions">
+          <label class="search-box">
+            <svg viewBox="0 0 24 24" width="18" height="18" aria-hidden="true">
+              <path fill="currentColor" d="M15.5 14h-.79l-.28-.27A6.5 6.5 0 1 0 9.5 16a6.48 6.48 0 0 0 4.23-1.57l.27.28v.79l5 5L20.5 19l-5-5Zm-6 0A4.5 4.5 0 1 1 14 9.5 4.5 4.5 0 0 1 9.5 14Z"/>
+            </svg>
+            <input type="search" id="recharge-search" placeholder="&#25628;&#32034;&#35746;&#21333;&#21495; / &#24080;&#21495;" />
+          </label>
+          <div class="view-switch">
+            <button class="topbar-icon" id="recharge-refresh" aria-label="&#21047;&#26032;">
+              <svg viewBox="0 0 24 24" width="18" height="18" fill="currentColor">
+                <path d="M17.65 6.35A7.95 7.95 0 0 0 12 4V1L7 6l5 5V7a5 5 0 1 1-5 5H5a7 7 0 1 0 12.65-5.65Z" />
+              </svg>
+            </button>
+            <button class="topbar-icon" id="recharge-export" aria-label="&#23548;&#20986;">
+              <svg viewBox="0 0 24 24" width="18" height="18" fill="currentColor">
+                <path d="M5 20h14v-2H5m14-9h-4V3H9v6H5l7 7 7-7Z" />
+              </svg>
+            </button>
+          </div>
+        </div>
+      </header>
+
+      <section class="panel members-compact">
+        <header class="panel-head">
+          <div class="panel-actions">
+            <button class="panel-btn danger" id="recharge-delete">&#21024;&#38500;</button>
+            <button class="panel-btn" id="recharge-more">&#26356;&#22810;</button>
+          </div>
+          <div class="panel-filters">
+            <label class="filter-item">
+              <span>&#35746;&#21333;&#29366;&#24577;</span>
+              <select id="status-filter">
+                <option value="all">&#20840;&#37096;</option>
+                <option value="success">&#25104;&#21151;</option>
+                <option value="pending">&#25552;&#20132;&#35746;&#21333;</option>
+                <option value="failed">&#25903;&#20184;&#22833;&#36133;</option>
+              </select>
+            </label>
+            <label class="filter-item">
+              <span>&#36807;&#28388;&#31867;&#22411;</span>
+              <select id="type-filter">
+                <option value="all">&#20840;&#37096;</option>
+                <option value="鍏呭€?>&#20805;&#20540;</option>
+                <option value="鍗囩骇">&#21319;&#32423;</option>
+              </select>
+            </label>
+          </div>
+        </header>
+
+        <div class="table-wrapper">
+          <table class="data-table" id="recharge-table">
+            <thead>
+              <tr>
+                <th><input type="checkbox" id="recharge-check-all" /></th>
+                <th>ID</th>
+                <th>&#35746;&#21333;&#21495;</th>
+                <th>&#24080;&#21495;</th>
+                <th>&#25152;&#23646;&#20154;</th>
+                <th>&#37329;&#39069;</th>
+                <th>&#25903;&#20184;&#37329;&#39069;</th>
+                <th>&#31867;&#22411;</th>
+                <th>&#25903;&#20184;&#26041;&#24335;</th>
+                <th>&#35746;&#21333;&#29366;&#24577;</th>
+                <th>&#25903;&#20184;&#22791;&#27880;</th>
+                <th>&#20805;&#20540;&#26102;&#38388;</th>
+              </tr>
+            </thead>
+            <tbody>
+              <tr><td colspan="12" class="empty">&#21152;&#36733;&#20013;...</td></tr>
+            </tbody>
+          </table>
+        </div>
+
+        <footer class="table-foot">
+          <div class="table-info" id="recharge-info">
+            &#26174;&#31034;&#31532;&nbsp;1&nbsp;&#39029;&nbsp;/&nbsp;&#20849;&nbsp;1&nbsp;&#39029;&#65292;&#24635;&#35745;&nbsp;0&nbsp;&#26465;&#35760;&#24405;
+          </div>
+          <div class="table-pager">
+            <button class="pager-btn" data-page="prev">&#19978;&#19968;&#39029;</button>
+            <div id="recharge-pager"></div>
+            <button class="pager-btn" data-page="next">&#19979;&#19968;&#39029;</button>
+            <label class="pager-size">
+              &#27599;&#39029;&#23637;&#31034
+              <select id="recharge-page-size">
+                <option value="10">10 &#26465;</option>
+                <option value="20">20 &#26465;</option>
+                <option value="50">50 &#26465;</option>
+              </select>
+            </label>
+          </div>
+        </footer>
+      </section>
+    </main>
+
+    <script type="module" src="/admin/static/recharge-records.js"></script>
+  </body>
+</html>
+
