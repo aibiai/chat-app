@@ -1,6 +1,7 @@
 {
   "name": "chat-app-monorepo",
   "private": true,
+  "type": "commonjs",
   "workspaces": [
     "apps/*",
     "packages/*"
