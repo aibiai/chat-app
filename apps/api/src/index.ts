@@ -24,23 +24,22 @@ dotenv.config();
 const app = express();
 
 // Polyfill fetch for Node < 18 to avoid runtime 500 in routes using fetch
-try {
-  // @ts-ignore
-  if (typeof fetch !== 'function') {
-    // dynamic require via import to keep ESM compatibility
-    // eslint-disable-next-line @typescript-eslint/ban-ts-comment
+(async () => {
+  try {
     // @ts-ignore
-    const undici = await import('undici');
-    // @ts-ignore
-    (globalThis as any).fetch = (undici as any).fetch;
-    // @ts-ignore
-    (globalThis as any).Headers = (undici as any).Headers;
-    // @ts-ignore
-    (globalThis as any).Request = (undici as any).Request;
-    // @ts-ignore
-    (globalThis as any).Response = (undici as any).Response;
+    if (typeof fetch !== 'function') {
+      // dynamic import to keep compatibility when running under CommonJS
+      const undici = await import('undici');
+      const anyUndici = undici as any;
+      (globalThis as any).fetch = anyUndici.fetch;
+      (globalThis as any).Headers = anyUndici.Headers;
+      (globalThis as any).Request = anyUndici.Request;
+      (globalThis as any).Response = anyUndici.Response;
+    }
+  } catch {
+    // ignore polyfill failures in environments that already provide fetch
   }
-} catch {/* ignore */}
+})();
 app.use(cors());
 app.use(express.json());
 
