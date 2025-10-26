@@ -129,7 +129,7 @@ app.use('/api/visits', visitsRouter);
 app.use('/api/confession', confessionRouter);
 
 const server = http.createServer(app);
-// 输出底层错误，便于诊断端口未监听等问题
+// 输出底层错误，便于诊断端口未监听等问�?
 server.on('error', (err) => {
   console.error('[server:error]', err);
 });
@@ -151,7 +151,7 @@ io.use((socket, next: (err?: Error) => void) => {
   const auth: any = socket.handshake.auth || {};
   const token = auth.token || socket.handshake.query?.token;
   const payload = typeof token === 'string' ? verifyToken(token) : null;
-  // 支持游客模式：当客户端传入 guest=true 时放行，并赋予临时 uid
+  // 支持游客模式：当客户端传�?guest=true 时放行，并赋予临�?uid
   const isGuest = auth.guest === true || auth.guest === 'true';
   if (payload) {
     (socket as any).uid = payload.uid;
@@ -167,9 +167,9 @@ io.use((socket, next: (err?: Error) => void) => {
 
 setupSocket(io);
 
-// 默认使用 3003 以与前端 Vite 开发环境一致；如需自定义，请设置 API_PORT
-// 注意：不再读取通用 PORT，避免与其他工具或环境变量冲突导致端口漂移
-const PORT = Number(process.env.API_PORT || 3003);
+// 默认使用 3003 以与前端 Vite 开发环境一致；如需自定义，请设�?API_PORT
+// 注意：不再读取通用 PORT，避免与其他工具或环境变量冲突导致端口漂�?
+const PORT = Number(process.env.PORT || process.env.API_PORT || 3003);
 const HOST = process.env.HOST || '0.0.0.0';
 server.listen(PORT, HOST as any, () => {
   console.log(`API listening on http://${HOST === '0.0.0.0' ? 'localhost' : HOST}:${PORT}`);
