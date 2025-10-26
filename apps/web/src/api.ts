@@ -1,15 +1,19 @@
 import axios from 'axios';
-// å¼€å‘çŽ¯å¢ƒä¸€å¾‹èµ°ç›¸å¯¹è·¯å¾„ï¼Œè®© Vite ä»£ç†è‡³ http://localhost:3003ï¼›ç”Ÿäº§å†ä½¿ç”¨ VITE_API_URLï¼ˆå¦‚é…ç½®ï¼‰
-const isDev = (import.meta as any).env?.DEV;
-const baseURL = isDev ? '/' : ((import.meta as any).env?.VITE_API_URL || '/');
-// ç»Ÿä¸€è®¾ç½®è¶…æ—¶ï¼Œé¿å…æ…¢æŽ¥å£æ‹–åž®é¦–å±ï¼›å¯ä»¥æŒ‰éœ€åœ¨å•ä¸ªè¯·æ±‚é‡Œè¦†ç›–
+// ¿ª·¢»·¾³Ò»ÂÉ×ßÏà¶ÔÂ·¾¶£¬ÈÃ Vite ´úÀíµ½ http://localhost:3003£»
+// Éú²ú»·¾³ÓÅÏÈ¶ÁÈ¡ VITE_API_URL / VITE_API_BASE£¬×îºó¶µµ×ÎªÏßÉÏ API ÓòÃû
+const env = (import.meta as any).env || {};
+const isDev = !!env.DEV;
+const baseURL = isDev
+  ? '/'
+  : env.VITE_API_URL || env.VITE_API_BASE || 'https://chat-app-mwu5.onrender.com';
+// Í³Ò»ÉèÖÃ³¬Ê±£¬±ÜÃâÂý½Ó¿ÚÍÏ¿åÊ×ÆÁ£»¿ÉÒÔ°´ÐèÔÚµ¥¸öÇëÇóÀï¸²¸Ç
 const api = axios.create({ baseURL, timeout: 8000 });
 
 api.interceptors.request.use(config => {
   const token = localStorage.getItem('token');
   if (token) {
     config.headers = config.headers || {};
-    (config.headers as any).Authorization = `Bearer ${token}`;
+    (config.headers as any).Authorization = Bearer ;
   }
   return config;
 });
