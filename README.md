@@ -23,6 +23,20 @@ npm run dev:win
 
 - 复制 `apps/api/.env.example` 到 `apps/api/.env` 并按需修改。
 
+## 系统验证
+
+运行以下命令验证系统是否正常工作：
+
+```powershell
+npm run verify
+```
+
+该脚本会：
+- 检查所有构建输出是否存在
+- 启动 API 服务器
+- 测试健康检查端点
+- 验证系统功能正常
+
 ## 项目结构
 
 - apps/api: Node.js + Express + Socket.IO + TypeScript
