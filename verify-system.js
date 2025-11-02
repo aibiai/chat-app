@@ -69,32 +69,45 @@ function startApiServer() {
     });
 
     let output = '';
+    let resolved = false;
     
-    apiProcess.stdout.on('data', (data) => {
+    const onData = (data) => {
       output += data.toString();
-      if (output.includes('listening on')) {
+      if (!resolved && output.includes('listening on')) {
+        resolved = true;
+        apiProcess.stdout.removeListener('data', onData);
         resolve();
       }
-    });
+    };
+    
+    apiProcess.stdout.on('data', onData);
 
     apiProcess.stderr.on('data', (data) => {
       output += data.toString();
     });
 
     apiProcess.on('error', (err) => {
-      reject(err);
+      if (!resolved) {
+        resolved = true;
+        reject(err);
+      }
     });
 
     apiProcess.on('exit', (code) => {
-      if (code !== 0 && code !== null) {
+      if (code !== 0 && code !== null && !resolved) {
+        resolved = true;
         reject(new Error(`API server exited with code ${code}`));
       }
     });
 
-    // Timeout fallback
+    // Timeout fallback - still resolve to allow health check to determine readiness
     setTimeout(() => {
-      if (!output.includes('listening on')) {
-        resolve(); // Continue anyway, will check health endpoint
+      if (!resolved) {
+        resolved = true;
+        if (!output.includes('listening on')) {
+          log('Server start message not detected, will verify via health check...');
+        }
+        resolve();
       }
     }, 5000);
   });
@@ -103,7 +116,16 @@ function startApiServer() {
 function stopApiServer() {
   if (apiProcess) {
     log('Stopping API server...');
-    apiProcess.kill();
+    apiProcess.kill('SIGTERM');
+    
+    // Fallback to SIGKILL after 5 seconds
+    setTimeout(() => {
+      if (apiProcess) {
+        log('Force stopping API server...');
+        apiProcess.kill('SIGKILL');
+      }
+    }, 5000);
+    
     apiProcess = null;
   }
 }
