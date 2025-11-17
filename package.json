@@ -11,9 +11,15 @@
     "dev": "npm run dev -w apps/api & npm run dev -w apps/web",
     "dev:win": "powershell -Command \"Start-Process cmd -ArgumentList '/c','npm run dev -w apps/api' ; Start-Process cmd -ArgumentList '/c','npm run dev -w apps/web'\"",
     "lint": "npm --workspaces run lint",
-    "format": "npm --workspaces run format"
+    "format": "npm --workspaces run format",
+    "fix:levels": "node -r esbuild-register scripts/fix-membership-levels.ts",
+    "fix:levels:dry": "node -r esbuild-register scripts/fix-membership-levels.ts --dry-run"
   },
   "dependencies": {
     "emoji-button": "^2.2.2"
+  },
+  "devDependencies": {
+    "esbuild": "^0.21.0",
+    "esbuild-register": "^3.5.0"
   }
 }

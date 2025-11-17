@@ -9,157 +9,36 @@ const searchInput = document.querySelector('#recharge-search');
 const checkAllEl = document.querySelector('#recharge-check-all');
 const statusFilter = document.querySelector('#status-filter');
 const typeFilter = document.querySelector('#type-filter');
+const startInput = document.querySelector('#start-date');
+const endInput = document.querySelector('#end-date');
 
-const records = [
-  {
-    id: 15183,
-    orderNo: '202509100385680486',
-    account: 'a8680193',
-    owner: 'Alex005',
-    amount: 388,
-    paidAmount: 388,
-    type: '充值',
-    method: '支付2',
-    status: 'success',
-    statusLabel: '成功',
-    remark: '',
-    rechargeAt: '2025-10-01 20:53:56'
-  },
-  {
-    id: 15182,
-    orderNo: '202509050037865808177',
-    account: 'qqw123',
-    owner: 'Alex003',
-    amount: 50,
-    paidAmount: 0,
-    type: '充值',
-    method: '支付2',
-    status: 'pending',
-    statusLabel: '提交订单',
-    remark: 'order faild',
-    rechargeAt: '2025-09-30 18:55:57'
-  },
-  {
-    id: 15181,
-    orderNo: '202509030042710313',
-    account: 'jerry0422',
-    owner: 'Alex002',
-    amount: 120,
-    paidAmount: 120,
-    type: '升级',
-    method: '支付2',
-    status: 'success',
-    statusLabel: '成功',
-    remark: '-',
-    rechargeAt: '2025-09-30 18:57:42'
-  },
-  {
-    id: 15180,
-    orderNo: '202509020020474027413',
-    account: 'Aa19780710',
-    owner: 'Alex005',
-    amount: 120,
-    paidAmount: 120,
-    type: '升级',
-    method: '支付2',
-    status: 'success',
-    statusLabel: '成功',
-    remark: '-',
-    rechargeAt: '2025-09-30 18:51:42'
-  },
-  {
-    id: 15178,
-    orderNo: '2025090300155551221855',
-    account: 'Aa19780710',
-    owner: 'Alex005',
-    amount: 16,
-    paidAmount: 0,
-    type: '升级',
-    method: '支付2',
-    status: 'pending',
-    statusLabel: '提交订单',
-    remark: '(YX007)Payment time out',
-    rechargeAt: '2025-09-30 01:55:51'
-  },
-  {
-    id: 15177,
-    orderNo: '202509030012704538842',
-    account: 'stK19911031',
-    owner: 'Alex002',
-    amount: 120,
-    paidAmount: 0,
-    type: '充值',
-    method: '支付2',
-    status: 'pending',
-    statusLabel: '提交订单',
-    remark: '(YX007)Payment time out',
-    rechargeAt: '2025-09-30 01:27:04'
-  },
-  {
-    id: 15176,
-    orderNo: '202509030012702160067',
-    account: 'stK19911031',
-    owner: 'Alex002',
-    amount: 120,
-    paidAmount: 0,
-    type: '充值',
-    method: '支付2',
-    status: 'pending',
-    statusLabel: '提交订单',
-    remark: '(YX007)Payment time out',
-    rechargeAt: '2025-09-30 01:27:02'
-  },
-  {
-    id: 15175,
-    orderNo: '202509030012700324808',
-    account: 'stK19911031',
-    owner: 'Alex002',
-    amount: 120,
-    paidAmount: 0,
-    type: '充值',
-    method: '支付2',
-    status: 'pending',
-    statusLabel: '提交订单',
-    remark: 'order faild',
-    rechargeAt: '2025-09-30 01:27:00'
-  },
-  {
-    id: 15174,
-    orderNo: '2025090300124556922785',
-    account: 'Amiy',
-    owner: 'Alex005',
-    amount: 100,
-    paidAmount: 0,
-    type: '充值',
-    method: '支付2',
-    status: 'pending',
-    statusLabel: '提交订单',
-    remark: '-',
-    rechargeAt: '2025-09-30 01:24:55'
-  },
-  {
-    id: 15173,
-    orderNo: '202509022359207645210',
-    account: 'guest129',
-    owner: 'Alex001',
-    amount: 60,
-    paidAmount: 60,
-    type: '充值',
-    method: '支付1',
-    status: 'success',
-    statusLabel: '成功',
-    remark: '-',
-    rechargeAt: '2025-09-29 23:59:59'
-  }
-];
+const API_BASE = '/admin/api/orders';
 
 const state = {
+  items: [],
+  total: 0,
   page: 1,
-  pageSize: 10,
+  pageSize: Number(pageSizeSelect?.value) || 10,
   keyword: '',
   status: 'all',
-  type: 'all'
+  type: 'all',
+  start: '',
+  end: '',
+  loading: false
 };
+
+function getToken() {
+  const token = localStorage.getItem('admin_token');
+  if (!token) {
+    window.location.replace('/admin/login');
+    return null;
+  }
+  return token;
+}
+
+function ensureToken() {
+  return getToken();
+}
 
 function readProfile() {
   try {
@@ -170,144 +49,247 @@ function readProfile() {
   }
 }
 
-function ensureToken() {
-  const token = localStorage.getItem('admin_token');
-  if (!token) {
-    window.location.replace('/admin/login');
-    return null;
-  }
-  return token;
-}
-
 function renderProfile() {
   const profile = readProfile() || {};
-  const displayName = profile.nickname || profile.username || '\u7ba1\u7406\u5458';
+  const displayName = profile.nickname || profile.username || '管理员';
   if (nameEl) nameEl.textContent = displayName;
   if (avatarEl) avatarEl.textContent = displayName.slice(0, 1).toUpperCase();
 }
 
-function typeTag(type) {
-  return type === '充值' ? 'accent-rose' : 'accent-amber';
+function formatDate(value) {
+  if (!value) return '-';
+  const num = Number(value);
+  const date = Number.isFinite(num) ? new Date(num) : new Date(value);
+  if (Number.isNaN(date.getTime())) return value.toString();
+  const y = date.getFullYear();
+  const m = String(date.getMonth() + 1).padStart(2, '0');
+  const d = String(date.getDate()).padStart(2, '0');
+  const hh = String(date.getHours()).padStart(2, '0');
+  const mm = String(date.getMinutes()).padStart(2, '0');
+  return `${y}-${m}-${d} ${hh}:${mm}`;
+}
+
+function formatAmount(value) {
+  const num = Number(value);
+  return Number.isFinite(num) ? num.toFixed(2) : '0.00';
+}
+
+function typeLabel(type) {
+  if (type === 'upgrade') return '升级';
+  return '充值';
+}
+
+function statusLabel(status) {
+  if (status === 'success') return '成功';
+  if (status === 'pending') return '提交订单';
+  if (status === 'failed') return '支付失败';
+  return status || '-';
 }
 
 function statusTag(status) {
-  if (status === 'success') return 'accent-emerald';
+  if (status === 'success') return 'accent-teal';
   if (status === 'pending') return 'accent-amber';
   if (status === 'failed') return 'accent-rose';
-  return 'neutral';
-}
-
-function normalizeKeyword(source) {
-  return (source || '').toString().trim().toLowerCase();
-}
-
-function filterData() {
-  return records.filter((record) => {
-    const keyword = normalizeKeyword(state.keyword);
-    const matchedKeyword =
-      !keyword ||
-      record.orderNo.toLowerCase().includes(keyword) ||
-      record.account.toLowerCase().includes(keyword) ||
-      record.owner.toLowerCase().includes(keyword);
-    const matchedStatus = state.status === 'all' || record.status === state.status;
-    const matchedType = state.type === 'all' || record.type === state.type;
-    return matchedKeyword && matchedStatus && matchedType;
-  });
-}
-
-function paginate(list) {
-  const start = (state.page - 1) * state.pageSize;
-  return list.slice(start, start + state.pageSize);
+  return 'accent-slate';
 }
 
 function renderTable() {
-  const filtered = filterData();
-  const pageData = paginate(filtered);
-
   if (checkAllEl) checkAllEl.checked = false;
 
-  if (pageData.length === 0) {
-    tableBody.innerHTML = '<tr><td colspan="12" class="empty">\u6682\u65e0\u6570\u636e</td></tr>';
-  } else {
-    tableBody.innerHTML = pageData
-      .map(
-        (item) => `
+  if (!state.items.length) {
+    tableBody.innerHTML = '<tr><td colspan="12" class="empty">暂无数据</td></tr>';
+    return;
+  }
+
+  tableBody.innerHTML = state.items
+    .map((item) => {
+      const amount = formatAmount(item.amount);
+      const paidAmount = formatAmount(item.paidAmount);
+      const createdAt = formatDate(item.createdAt || item.rechargeAt);
+      const method = item.method || '-';
+      const type = item.type || 'recharge';
+      const status = item.status || 'success';
+      const note = item.note || item.remark || '-';
+      return `
         <tr>
           <td><input type="checkbox" data-id="${item.id}" /></td>
           <td>${item.id}</td>
-          <td>${item.orderNo}</td>
-          <td>${item.account}</td>
-          <td><span class="tag-badge owner">${item.owner}</span></td>
-          <td>${item.amount.toFixed(2)}</td>
-          <td>${item.paidAmount.toFixed(2)}</td>
-          <td><span class="tag ${typeTag(item.type)}">${item.type}</span></td>
-          <td><a class="link" href="#">${item.method}</a></td>
-          <td><span class="tag ${statusTag(item.status)}">${item.statusLabel}</span></td>
-          <td>${item.remark && item.remark !== '-' ? item.remark : '-'}</td>
-          <td>${item.rechargeAt}</td>
-        </tr>`
-      )
-      .join('');
-  }
+          <td>${item.orderNo || '-'}</td>
+          <td>${item.account || '-'}</td>
+          <td><span class="tag-badge owner">${item.owner || '-'}</span></td>
+          <td>${amount}</td>
+          <td>${paidAmount}</td>
+          <td><span class="tag ${type === 'recharge' ? 'accent-rose' : 'accent-amber'}">${typeLabel(type)}</span></td>
+          <td><span class="link">${method}</span></td>
+          <td><span class="tag ${statusTag(status)}">${statusLabel(status)}</span></td>
+          <td>${note || '-'}</td>
+          <td>${createdAt}</td>
+        </tr>`;
+    })
+    .join('');
+}
 
-  const totalPages = Math.max(1, Math.ceil(filtered.length / state.pageSize));
-  state.page = Math.min(state.page, totalPages);
-  infoEl.innerHTML = `\u663e\u793a\u7b2c&nbsp;${state.page}&nbsp;\u9875&nbsp;/&nbsp;\u5171&nbsp;${totalPages}&nbsp;\u9875\uff0c\u603b\u8ba1&nbsp;${filtered.length}&nbsp;\u6761\u8bb0\u5f55`;
+function renderInfo() {
+  const totalPages = Math.max(1, Math.ceil(state.total / state.pageSize));
+  if (state.page > totalPages) state.page = totalPages;
+  infoEl.innerHTML = `显示第&nbsp;${state.page}&nbsp;页&nbsp;/&nbsp;共&nbsp;${totalPages}&nbsp;页，总计&nbsp;${state.total}&nbsp;条记录`;
+
+  if (pageSizeSelect) pageSizeSelect.value = String(state.pageSize);
+  if (statusFilter) statusFilter.value = state.status;
+  if (typeFilter) typeFilter.value = state.type;
 
   const buttons = [];
   const startPage = Math.max(1, state.page - 2);
   const endPage = Math.min(totalPages, startPage + 4);
-  for (let i = startPage; i <= endPage; i++) {
+  for (let i = startPage; i <= endPage; i += 1) {
     buttons.push(`<button data-page="${i}" class="${i === state.page ? 'active' : ''}">${i}</button>`);
   }
   pagerContainer.innerHTML = buttons.join('');
 }
 
+function renderAll() {
+  renderTable();
+  renderInfo();
+}
+
+async function fetchRecords() {
+  if (state.loading) return;
+  const token = ensureToken();
+  if (!token) return;
+  state.loading = true;
+  try {
+    const params = new URLSearchParams({
+      page: String(state.page),
+      pageSize: String(state.pageSize)
+    });
+    if (state.keyword.trim()) params.set('keyword', state.keyword.trim());
+    if (state.status && state.status !== 'all') params.set('status', state.status);
+    if (state.type && state.type !== 'all') params.set('type', state.type);
+    if (state.start) params.set('start', state.start);
+    if (state.end) params.set('end', state.end);
+
+    const response = await fetch(`${API_BASE}?${params.toString()}`, {
+      headers: { Authorization: `Bearer ${token}` }
+    });
+    if (!response.ok) throw new Error(`Failed to load recharge records: ${response.status}`);
+    const data = await response.json();
+    state.items = Array.isArray(data.items) ? data.items : [];
+    state.total = Number(data.total) || state.items.length;
+    state.page = Number(data.page) || state.page;
+    state.pageSize = Number(data.pageSize) || state.pageSize;
+    renderAll();
+  } catch (error) {
+    console.error(error);
+    alert('加载充值记录失败，请稍后重试。');
+    state.items = [];
+    state.total = 0;
+    renderAll();
+  } finally {
+    state.loading = false;
+  }
+}
+
 function getSelectedIds() {
   return Array.from(tableBody.querySelectorAll('input[type="checkbox"]:checked')).map((item) =>
-    Number(item.dataset.id)
+    String(item.dataset.id || '').trim()
   );
 }
 
+async function handleDelete(ids) {
+  if (!ids.length) return;
+  if (!confirm(`确认删除选中的 ${ids.length} 条记录吗？`)) return;
+  const token = ensureToken();
+  if (!token) return;
+  try {
+    state.loading = true;
+    const response = await fetch(`${API_BASE}/delete`, {
+      method: 'POST',
+      headers: {
+        Authorization: `Bearer ${token}`,
+        'Content-Type': 'application/json'
+      },
+      body: JSON.stringify({ ids })
+    });
+    if (!response.ok) {
+      if (response.status === 404) throw new Error('选中的记录不存在，可能已被删除。');
+      throw new Error('删除失败，请稍后重试。');
+    }
+    const result = await response.json();
+    const deleted = Array.isArray(result.deleted) ? result.deleted.length : ids.length;
+    const notFound = Array.isArray(result.notFound) ? result.notFound.length : 0;
+    if (notFound && !deleted) {
+      alert('未找到需要删除的记录，可能已被其他管理员处理。');
+    } else if (notFound) {
+      alert(`已删除 ${deleted} 条记录，另有 ${notFound} 条未找到。`);
+    } else {
+      alert(`已删除 ${deleted} 条记录。`);
+    }
+    await fetchRecords();
+  } catch (error) {
+    console.error(error);
+    alert(error instanceof Error ? error.message : '删除失败，请稍后重试。');
+  } finally {
+    state.loading = false;
+    if (checkAllEl) checkAllEl.checked = false;
+  }
+}
+
 function bindEvents() {
+  let searchTimer = null;
   searchInput?.addEventListener('input', (event) => {
-    state.keyword = event.target.value;
+    state.keyword = event.target.value || '';
     state.page = 1;
-    renderTable();
+    if (searchTimer) clearTimeout(searchTimer);
+    searchTimer = setTimeout(() => fetchRecords(), 300);
   });
 
   pageSizeSelect?.addEventListener('change', (event) => {
-    state.pageSize = Number(event.target.value);
+    state.pageSize = Number(event.target.value) || 10;
     state.page = 1;
-    renderTable();
+    fetchRecords();
   });
 
   statusFilter?.addEventListener('change', (event) => {
-    state.status = event.target.value;
+    state.status = event.target.value || 'all';
     state.page = 1;
-    renderTable();
+    fetchRecords();
   });
 
   typeFilter?.addEventListener('change', (event) => {
-    state.type = event.target.value;
+    state.type = event.target.value || 'all';
     state.page = 1;
-    renderTable();
+    fetchRecords();
+  });
+
+  startInput?.addEventListener('change', (e) => {
+    state.start = e.target.value || '';
+    state.page = 1;
+    fetchRecords();
+  });
+
+  endInput?.addEventListener('change', (e) => {
+    state.end = e.target.value || '';
+    state.page = 1;
+    fetchRecords();
   });
 
   pagerContainer?.addEventListener('click', (event) => {
     const button = event.target.closest('button');
     if (!button) return;
-    state.page = Number(button.dataset.page);
-    renderTable();
+    const nextPage = Number(button.dataset.page);
+    if (Number.isFinite(nextPage) && nextPage !== state.page) {
+      state.page = nextPage;
+      fetchRecords();
+    }
   });
 
   document.querySelectorAll('.table-pager .pager-btn').forEach((btn) =>
     btn.addEventListener('click', (event) => {
       const type = event.currentTarget.dataset.page;
-      const totalPages = Math.max(1, Math.ceil(filterData().length / state.pageSize));
+      const totalPages = Math.max(1, Math.ceil(state.total / state.pageSize));
       if (type === 'prev') state.page = Math.max(1, state.page - 1);
       if (type === 'next') state.page = Math.min(totalPages, state.page + 1);
-      renderTable();
+      fetchRecords();
     })
   );
 
@@ -318,34 +300,64 @@ function bindEvents() {
     });
   });
 
-  document.querySelector('#recharge-refresh')?.addEventListener('click', () => {
-    renderTable();
-    alert('\u5df2\u5237\u65b0\u5145\u503c\u8bb0\u5f55\uff08\u6f14\u793a\uff09\u3002');
-  });
+  document.querySelector('#recharge-refresh')?.addEventListener('click', () => fetchRecords());
 
-  document.querySelector('#recharge-export')?.addEventListener('click', () => {
-    alert('\u5bfc\u51fa\u5145\u503c\u660e\u7ec6\uff08\u6f14\u793a\uff09\u3002');
-  });
+  // 导出在下方以带上 Authorization 头下载
 
   document.querySelector('#recharge-delete')?.addEventListener('click', () => {
     const ids = getSelectedIds();
-    if (ids.length === 0) {
-      alert('\u8bf7\u9009\u62e9\u9700\u8981\u64cd\u4f5c\u7684\u8bb0\u5f55\u3002');
+    if (!ids.length) {
+      alert('请选择需要操作的记录。');
       return;
     }
-    const confirmed = confirm(`\u786e\u5b9a\u5220\u9664 ${ids.length} \u6761\u5145\u503c\u8bb0\u5f55\u5417\uff1f`);
-    if (confirmed) alert('\u6f14\u793a\u73af\u5883\uff1a\u4e0d\u4f1a\u6267\u884c\u5b9e\u9645\u64cd\u4f5c\u3002');
+    handleDelete(ids);
   });
 
-  document.querySelector('#recharge-more')?.addEventListener('click', () => {
-    alert('\u66f4\u591a\u529f\u80fd\u5982\u5bfc\u51fa\u62a5\u8868\u3001\u652f\u4ed8\u901a\u9053\u5206\u6790\u6b63\u5728\u8bbe\u8ba1\uff08\u6f14\u793a\uff09\u3002');
+  document.querySelector('#recharge-export')?.addEventListener('click', async () => {
+    const token = ensureToken();
+    if (!token) return;
+    try {
+      const params = new URLSearchParams();
+      if (state.keyword.trim()) params.set('keyword', state.keyword.trim());
+      if (state.status && state.status !== 'all') params.set('status', state.status);
+      if (state.type && state.type !== 'all') params.set('type', state.type);
+      if (state.start) params.set('start', state.start);
+      if (state.end) params.set('end', state.end);
+      const url = `${API_BASE}/export?${params.toString()}`;
+      const res = await fetch(url, { headers: { Authorization: `Bearer ${token}` } });
+      if (!res.ok) {
+        try {
+          const data = await res.json();
+          alert(data?.error || `导出失败（${res.status}）`);
+        } catch {
+          alert(`导出失败（${res.status}）`);
+        }
+        return;
+      }
+      const blob = await res.blob();
+      const cd = res.headers.get('Content-Disposition') || res.headers.get('content-disposition') || '';
+      let filename = 'orders_export.csv';
+      const m = /filename\*=UTF-8''([^;]+)|filename="?([^";]+)"?/i.exec(cd);
+      if (m) filename = decodeURIComponent(m[1] || m[2] || filename);
+      const href = URL.createObjectURL(blob);
+      const a = document.createElement('a');
+      a.href = href;
+      a.download = filename;
+      document.body.appendChild(a);
+      a.click();
+      a.remove();
+      URL.revokeObjectURL(href);
+    } catch (err) {
+      console.error(err);
+      alert('导出失败，请稍后重试。');
+    }
   });
 }
 
 ensureToken();
 renderProfile();
-renderTable();
 bindEvents();
+fetchRecords();
 
 logoutBtn?.addEventListener('click', () => {
   localStorage.removeItem('admin_token');

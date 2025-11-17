@@ -1,8 +1,8 @@
 <template>
   <div class="relative min-h-screen">
     <!-- 背景图 + 渐变遮罩 -->
-  <div class="absolute inset-0 bg-cover bg-center bg-no-repeat" style="background-image:url('/bg-sakura.jpg'), url('https://source.unsplash.com/1920x1080/?couple,date,night,city,neon'), url('https://picsum.photos/1920/1080?random=7');"></div>
-    <div class="absolute inset-0 bg-gradient-to-b from-black/40 via-black/30 to-black/50"></div>
+    <div class="absolute inset-0 bg-cover bg-center bg-no-repeat" style="background-image:url('/images/register-love.jpg');filter:brightness(1.2);"></div>
+    <div class="absolute inset-0 bg-gradient-to-b from-black/20 via-black/15 to-black/30"></div>
 
     <!-- 居中卡片 -->
     <div class="relative z-10 flex items-center justify-center px-4 py-10">
@@ -123,7 +123,7 @@
 </template>
 
 <script setup lang="ts">
-import { ref, computed, watch } from 'vue';
+import { ref, computed, watch, onMounted, onUnmounted } from 'vue';
 import { useI18n } from 'vue-i18n';
 import api from '../api';
 import { useAuth } from '../stores';
@@ -134,6 +134,31 @@ import FormField from '../components/FormField.vue';
 import FloatingSelect from '../components/FloatingSelect.vue';
 const auth = useAuth();
 const { t } = useI18n();
+
+const REGISTER_BG = "/images/register-love.jpg";
+
+const applyAppBackground = (url: string | null) => {
+  const appBg = document.getElementById('app-bg');
+  if (!appBg) return;
+  if (url) {
+    appBg.style.backgroundImage = `url('${url}')`;
+    appBg.style.backgroundSize = 'cover';
+    appBg.style.backgroundPosition = 'center';
+    appBg.style.backgroundRepeat = 'no-repeat';
+    appBg.style.filter = 'brightness(1.2)';
+    appBg.style.zIndex = '-1';
+  } else {
+    appBg.style.backgroundImage = '';
+    appBg.style.backgroundSize = '';
+    appBg.style.backgroundPosition = '';
+    appBg.style.backgroundRepeat = '';
+    appBg.style.filter = '';
+    appBg.style.removeProperty('z-index');
+  }
+};
+
+onMounted(() => applyAppBackground(REGISTER_BG));
+onUnmounted(() => applyAppBackground(null));
 
 const email = ref('');
 const password = ref('');

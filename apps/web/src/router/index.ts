@@ -83,9 +83,9 @@ router.beforeEach((to, _from, next) => {
     localStorage.removeItem('uid');
   }
   const open = ['/login', '/register', '/forgot', '/reset'];
-  // 允许游客访问 /chat/support，其余 /chat 仍需登录；/onboarding 仍需登录
+  // 现需求：未登录不支持任何客服或私聊，包括 /chat/support
   const hasToken = tokenOk;
-  if ((to.path.startsWith('/chat') && to.path !== '/chat/support' || to.path.startsWith('/onboarding') || to.path.startsWith('/avatar') || to.path.startsWith('/settings') || to.path.startsWith('/admin')) && !hasToken) {
+  if ((to.path.startsWith('/chat') || to.path.startsWith('/onboarding') || to.path.startsWith('/avatar') || to.path.startsWith('/settings') || to.path.startsWith('/admin')) && !hasToken) {
     next('/login');
   } else if (open.includes(to.path) && hasToken) {
     next('/');

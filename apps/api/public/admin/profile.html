@@ -21,26 +21,35 @@
           </div>
         </div>
       </div>
-      <nav class="admin-nav">
+            <nav class="admin-nav">
         <a class="nav-item" href="/admin/dashboard">
           <span>控制台</span>
           <small class="nav-tag hot">HOT</small>
         </a>
-        <details class="nav-group" open>
+        <details class="nav-group open">
           <summary class="nav-item">
             <span>常规管理</span>
           </summary>
           <div class="nav-sub">
             <a class="nav-sub-item active" href="/admin/profile">个人资料</a>
-            <a class="nav-sub-item" href="/admin/attachments">附件管理</a>
             <a class="nav-sub-item" href="#">栏目配置</a>
             <a class="nav-sub-item" href="#">缓存清理</a>
           </div>
         </details>
         <details class="nav-group">
           <summary class="nav-item">
+            <span>信息审核</span>
+          </summary>
+          <div class="nav-sub">
+            <a class="nav-sub-item" href="/admin/attachments">附件审核</a>
+            <a class="nav-sub-item" href="/admin/avatar-review">头像审核</a>
+            <a class="nav-sub-item" href="/admin/identity-review">身份审核</a>
+            <a class="nav-sub-item" href="/admin/confession-review">表白墙审核</a>
+          </div>
+        </details>
+        <details class="nav-group">
+          <summary class="nav-item">
             <span>权限管理</span>
-            <small class="nav-tag new">NEW</small>
           </summary>
           <div class="nav-sub">
             <a class="nav-sub-item" href="/admin/admins">管理员管理</a>
@@ -64,8 +73,8 @@
           </summary>
           <div class="nav-sub">
             <a class="nav-sub-item" href="/admin/members">会员管理</a>
-            <a class="nav-sub-item" href="/admin/avatar-review">头像审核</a>
             <a class="nav-sub-item" href="/admin/customer-service">客服管理</a>
+            <a class="nav-sub-item" href="/admin/member-upgrade">升级会员</a>
           </div>
         </details>
         <details class="nav-group">
@@ -77,7 +86,9 @@
             <a class="nav-sub-item" href="/admin/gifts">礼物管理</a>
           </div>
         </details>
-        <a class="nav-item" href="/admin/stickers"><span>表情贴管理</span></a>
+        <a class="nav-item" href="/admin/stickers">
+          <span>表情贴管理</span>
+        </a>
         <details class="nav-group">
           <summary class="nav-item">
             <span>订单管理</span>
@@ -86,8 +97,25 @@
             <a class="nav-sub-item" href="/admin/order-overview">总营业额</a>
             <a class="nav-sub-item" href="/admin/recharge-records">充值记录</a>
             <a class="nav-sub-item" href="/admin/coin-consumption">金币消费记录</a>
+            <a class="nav-sub-item" href="/admin/card-review">点卡审核</a>
           </div>
         </details>
+        <details class="nav-group">
+          <summary class="nav-item">
+            <span>前端管理</span>
+          </summary>
+          <div class="nav-sub">
+            <a class="nav-sub-item" href="/admin/frontend-terms">使用条款修改</a>
+            <a class="nav-sub-item" href="/admin/frontend-privacy">隐私条款修改</a>
+            <a class="nav-sub-item" href="/admin/frontend-security">交友安全修改</a>
+            <a class="nav-sub-item" href="/admin/frontend-help">帮助中心修改</a>
+            <a class="nav-sub-item" href="/admin/frontend-contact">联系我们修改</a>
+            <a class="nav-sub-item" href="/admin/frontend-user-config">用户参数修改</a>
+            <a class="nav-sub-item" href="/admin/frontend-card-redeem">点卡兑换内容修改</a>
+            <a class="nav-sub-item" href="/admin/frontend-confession-images">表白墙图片修改</a>
+          </div>
+        </details>
+
       </nav>
       <button type="button" class="logout-btn" id="logout-btn">退出登录</button>
     </aside>
@@ -219,6 +247,7 @@
       </section>
     </main>
 
-    <script type="module" src="/admin/static/profile.js"></script>
+  <script type="module" src="/admin/static/perm-guard.js"></script>
+  <script type="module" src="/admin/profile.js"></script>
   </body>
 </html>

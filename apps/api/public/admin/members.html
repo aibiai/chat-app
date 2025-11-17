@@ -4,7 +4,7 @@
     <meta charset="UTF-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
     <title>&#20250;&#21592;&#31649;&#29702; - &#20250;&#21592;&#31649;&#29702;</title>
-    <link rel="stylesheet" href="/admin/static/styles.css" />
+  <link rel="stylesheet" href="/admin/static/styles.css" />
   </head>
   <body class="admin-layout">
     <aside class="admin-sidebar">
@@ -21,73 +21,101 @@
           </div>
         </div>
       </div>
-      <nav class="admin-nav">
+            <nav class="admin-nav">
         <a class="nav-item" href="/admin/dashboard">
-          <span>&#25511;&#21046;&#21488;</span>
+          <span>控制台</span>
           <small class="nav-tag hot">HOT</small>
         </a>
         <details class="nav-group">
           <summary class="nav-item">
-            <span>&#24120;&#35268;&#31649;&#29702;</span>
+            <span>常规管理</span>
           </summary>
           <div class="nav-sub">
-            <a class="nav-sub-item" href="/admin/profile">&#20010;&#20154;&#36164;&#26009;</a>
-            <a class="nav-sub-item" href="/admin/attachments">&#38468;&#20214;&#31649;&#29702;</a>
-            <a class="nav-sub-item" href="#">&#26639;&#30446;&#37197;&#32622;</a>
-            <a class="nav-sub-item" href="#">&#32531;&#23384;&#28165;&#29702;</a>
+            <a class="nav-sub-item" href="/admin/profile">个人资料</a>
+            <a class="nav-sub-item" href="#">栏目配置</a>
+            <a class="nav-sub-item" href="#">缓存清理</a>
           </div>
         </details>
         <details class="nav-group">
           <summary class="nav-item">
-            <span>&#26435;&#38480;&#31649;&#29702;</span>
-            <small class="nav-tag new">NEW</small>
+            <span>信息审核</span>
           </summary>
           <div class="nav-sub">
-            <a class="nav-sub-item" href="/admin/admins">&#31649;&#29702;&#21592;&#31649;&#29702;</a>
-            <a class="nav-sub-item" href="/admin/admin-logs">&#31649;&#29702;&#21592;&#26085;&#24535;</a>
-            <a class="nav-sub-item" href="/admin/roles">&#35282;&#33394;&#32452;</a>
-            <a class="nav-sub-item" href="/admin/rules">&#33756;&#21333;&#35268;&#21017;</a>
+            <a class="nav-sub-item" href="/admin/attachments">附件审核</a>
+            <a class="nav-sub-item" href="/admin/avatar-review">头像审核</a>
+            <a class="nav-sub-item" href="/admin/identity-review">身份审核</a>
+            <a class="nav-sub-item" href="/admin/confession-review">表白墙审核</a>
           </div>
         </details>
         <details class="nav-group">
           <summary class="nav-item">
-            <span>&#21363;&#26102;&#36890;&#20449;&#31649;&#29702;</span>
+            <span>权限管理</span>
           </summary>
           <div class="nav-sub">
-            <a class="nav-sub-item" href="/admin/push">&#25512;&#36865;&#28040;&#24687;</a>
-            <a class="nav-sub-item" href="/admin/service-accounts">&#26381;&#21153;&#36134;&#21495;&#31649;&#29702;</a>
+            <a class="nav-sub-item" href="/admin/admins">管理员管理</a>
+            <a class="nav-sub-item" href="/admin/admin-logs">管理员日志</a>
+            <a class="nav-sub-item" href="/admin/roles">角色组</a>
+            <a class="nav-sub-item" href="/admin/rules">菜单规则</a>
           </div>
         </details>
-        <details class="nav-group" open>
-          <summary class="nav-item">
-            <span>&#20250;&#21592;&#31649;&#29702;</span>
-          </summary>
-          <div class="nav-sub">
-            <a class="nav-sub-item active" href="/admin/members">&#20250;&#21592;&#31649;&#29702;</a>
-            <a class="nav-sub-item" href="/admin/avatar-review">&#22836;&#20687;&#23457;&#26680;</a>
-            <a class="nav-sub-item" href="/admin/customer-service">&#23458;&#26381;&#31649;&#29702;</a>
-          </div>
-        </details>
-                <details class="nav-group">
-          <summary class="nav-item">
-            <span>&#31036;&#29289;&#31649;&#29702;</span>
-          </summary>
-          <div class="nav-sub">
-            <a class="nav-sub-item" href="/admin/gift-categories">&#31036;&#29289;&#20998;&#31867;</a>
-            <a class="nav-sub-item" href="/admin/gifts">&#31036;&#29289;&#31649;&#29702;</a>
-          </div>
-        </details>
-        <a class="nav-item" href="/admin/stickers"><span>&#34920;&#24773;&#36148;&#31649;&#29702;</span></a>
         <details class="nav-group">
           <summary class="nav-item">
-            <span>&#35746;&#21333;&#31649;&#29702;</span>
+            <span>即时通信管理</span>
           </summary>
           <div class="nav-sub">
-            <a class="nav-sub-item" href="/admin/order-overview">&#24635;&#33829;&#19994;&#39069;</a>
-            <a class="nav-sub-item" href="/admin/recharge-records">&#20805;&#20540;&#35760;&#24405;</a>
-            <a class="nav-sub-item" href="/admin/coin-consumption">&#37329;&#24065;&#28040;&#36153;&#35760;&#24405;</a>
+            <a class="nav-sub-item" href="/admin/push">推送消息</a>
+            <a class="nav-sub-item" href="/admin/service-accounts">服务账号管理</a>
           </div>
         </details>
+        <details class="nav-group open">
+          <summary class="nav-item">
+            <span>会员管理</span>
+          </summary>
+          <div class="nav-sub">
+            <a class="nav-sub-item active" href="/admin/members">会员管理</a>
+            <a class="nav-sub-item" href="/admin/customer-service">客服管理</a>
+            <a class="nav-sub-item" href="/admin/member-upgrade">升级会员</a>
+          </div>
+        </details>
+        <details class="nav-group">
+          <summary class="nav-item">
+            <span>礼物管理</span>
+          </summary>
+          <div class="nav-sub">
+            <a class="nav-sub-item" href="/admin/gift-categories">礼物分类</a>
+            <a class="nav-sub-item" href="/admin/gifts">礼物管理</a>
+          </div>
+        </details>
+        <a class="nav-item" href="/admin/stickers">
+          <span>表情贴管理</span>
+        </a>
+        <details class="nav-group">
+          <summary class="nav-item">
+            <span>订单管理</span>
+          </summary>
+          <div class="nav-sub">
+            <a class="nav-sub-item" href="/admin/order-overview">总营业额</a>
+            <a class="nav-sub-item" href="/admin/recharge-records">充值记录</a>
+            <a class="nav-sub-item" href="/admin/coin-consumption">金币消费记录</a>
+            <a class="nav-sub-item" href="/admin/card-review">点卡审核</a>
+          </div>
+        </details>
+        <details class="nav-group">
+          <summary class="nav-item">
+            <span>前端管理</span>
+          </summary>
+          <div class="nav-sub">
+            <a class="nav-sub-item" href="/admin/frontend-terms">使用条款修改</a>
+            <a class="nav-sub-item" href="/admin/frontend-privacy">隐私条款修改</a>
+            <a class="nav-sub-item" href="/admin/frontend-security">交友安全修改</a>
+            <a class="nav-sub-item" href="/admin/frontend-help">帮助中心修改</a>
+            <a class="nav-sub-item" href="/admin/frontend-contact">联系我们修改</a>
+            <a class="nav-sub-item" href="/admin/frontend-user-config">用户参数修改</a>
+            <a class="nav-sub-item" href="/admin/frontend-card-redeem">点卡兑换内容修改</a>
+            <a class="nav-sub-item" href="/admin/frontend-confession-images">表白墙图片修改</a>
+          </div>
+        </details>
+
       </nav>
       <button type="button" class="logout-btn" id="logout-btn">&#36864;&#20986;&#30331;&#24405;</button>
     </aside>
@@ -106,7 +134,7 @@
             <input type="search" id="member-search" placeholder="&#25628;&#32034;&#29992;&#25143;&#21517; / &#37038;&#31665; / ID" />
           </label>
           <div class="view-switch">
-            <button class="topbar-icon" id="member-refresh" aria-label="&#21047;&#26032;">
+            <button class="topbar-icon" id="member-refresh-icon" aria-label="&#21047;&#26032;">
               <svg viewBox="0 0 24 24" width="18" height="18" fill="currentColor"><path d="M17.65 6.35A7.95 7.95 0 0 0 12 4V1L7 6l5 5V7a5 5 0 1 1-5 5H5a7 7 0 1 0 12.65-5.65Z"/></svg>
             </button>
             <button class="topbar-icon" id="member-export" aria-label="&#23548;&#20986;">
@@ -118,17 +146,17 @@
 
       <section class="panel">
         <header class="panel-head">
-          <div class="panel-tabs" id="member-filter">
-            <button class="tab-btn active" data-status="all">&#20840;&#37096;</button>
-            <button class="tab-btn" data-status="active">&#27491;&#24120;</button>
-            <button class="tab-btn" data-status="frozen">&#20923;&#32467;</button>
-            <button class="tab-btn" data-status="vip">&#20250;&#21592;</button>
-          </div>
-          <div class="panel-actions">
+          <div class="panel-actions" id="member-actions">
+            <button class="panel-btn" id="member-refresh">
+              <svg viewBox="0 0 24 24" width="16" height="16" fill="currentColor" aria-hidden="true">
+                <path d="M17.65 6.35A7.95 7.95 0 0 0 12 4V1L7 6l5 5V7a5 5 0 1 1-5 5H5a7 7 0 1 0 12.65-5.65Z"/>
+              </svg>
+              <span>&#21047;&#26032;</span>
+            </button>
             <button class="panel-btn primary" id="member-add">+ &#28155;&#21152;</button>
             <button class="panel-btn" id="member-edit">&#32534;&#36753;</button>
             <button class="panel-btn danger" id="member-delete">&#21024;&#38500;</button>
-            <button class="panel-btn" id="member-freeze">&#20923;&#32467;</button>
+            <button class="panel-btn" id="member-assign">&#20998;&#37197;</button>
             <button class="panel-btn" id="member-more">&#26356;&#22810;</button>
           </div>
         </header>
@@ -144,18 +172,19 @@
                 <th>&#26165;&#31216;</th>
                 <th>&#30005;&#23376;&#37109;&#31665;</th>
                 <th>&#22836;&#20687;</th>
-                <th>&#20998;&#20540;</th>
+                <th>会员等级</th>
                 <th>&#24615;&#21035;</th>
+                <th>&#20313;&#39069;</th>
                 <th>&#27700;&#26230;&#20250;&#21592;&#21040;&#26399;&#26102;&#38388;</th>
                 <th>&#24093;&#36557;&#20250;&#21592;&#21040;&#26399;&#26102;&#38388;</th>
                 <th>&#30331;&#24405;&#26102;&#38388;</th>
                 <th>&#30331;&#24405;IP</th>
                 <th>&#26159;&#21542;&#22312;&#32447;</th>
-                <th>&#26159;&#21542;&#38544;&#34255;</th>
+                <th>&#26159;&#21542;&#38544;&#36523;</th>
                 <th>&#21152;&#20837;&#26102;&#38388;</th>
                 <th>&#21152;&#20837;IP</th>
                 <th>&#29366;&#24577;</th>
-                <th>&#22791;&#27880;</th>
+                <th>&#31105;&#35328;</th>
                 <th>&#25805;&#20316;</th>
               </tr>
             </thead>
@@ -182,13 +211,199 @@
         </footer>
       </section>
     </main>
+    <!-- 会员新增/编辑弹窗 -->
+    <div id="member-modal" class="modal-mask" style="display:none;">
+      <div class="modal-card">
+        <header class="modal-head">
+          <h3 id="member-modal-title">添加会员</h3>
+          <button class="modal-close" id="member-modal-close" aria-label="关闭">×</button>
+        </header>
+        <div class="modal-body">
+          <form id="member-form">
+            <div class="form-grid">
+              <label class="modal-field">
+                <span>用户名</span>
+                <input id="member-username" type="text" placeholder="请输入用户名" />
+              </label>
 
-    <script type="module" src="/admin/static/members.js"></script>
+              <label class="modal-field">
+                <span>昵称</span>
+                <input id="member-nickname" type="text" placeholder="请输入昵称" />
+              </label>
+
+              <label class="modal-field">
+                <span>密码</span>
+                <input id="member-password" type="password" placeholder="不修改密码请留空" />
+              </label>
+
+              <label class="modal-field">
+                <span>电子邮箱</span>
+                <input id="member-email" type="email" placeholder="请输入邮箱" required />
+              </label>
+
+              <div class="modal-field full">
+                <span>头像</span>
+                <div class="avatar-row">
+                  <input id="member-avatar" type="url" placeholder="头像地址（可粘贴URL）" />
+                  <input id="member-avatar-file" type="file" accept="image/*" style="display:none;" />
+                  <button type="button" class="panel-btn" id="member-avatar-upload">上传</button>
+                  <button type="button" class="panel-btn" id="member-avatar-choose">选择</button>
+                </div>
+              </div>
+
+              <label class="modal-field">
+                <span>会员等级</span>
+                <select id="member-level" class="select" aria-label="会员等级">
+                  <option value="0">普通会员</option>
+                  <option value="1">水晶会员</option>
+                  <option value="2">帝皇会员</option>
+                </select>
+              </label>
+
+              <div class="modal-field">
+                <span>性别</span>
+                <div class="radio-row">
+                  <label><input type="radio" name="member-gender" value="男" checked /> 男</label>
+                  <label><input type="radio" name="member-gender" value="女" /> 女</label>
+                </div>
+              </div>
+
+              <label class="modal-field">
+                <span>生日</span>
+                <input id="member-birthday" type="date" />
+              </label>
+
+              <label class="modal-field">
+                <span>余额</span>
+                <input id="member-balance" type="number" min="0" step="0.01" placeholder="0.00" />
+              </label>
+
+              <label class="modal-field">
+                <span>水晶会员到期时间</span>
+                <input id="member-crystal-expire" type="datetime-local" />
+              </label>
+
+              <label class="modal-field">
+                <span>帝皇会员到期时间</span>
+                <input id="member-emperor-expire" type="datetime-local" />
+              </label>
+
+              <label class="modal-field">
+                <span>加入时间</span>
+                <input id="member-joined-at" type="datetime-local" />
+              </label>
+
+              <div class="modal-field">
+                <span>状态</span>
+                <div class="radio-row">
+                  <label><input type="radio" name="member-hidden" value="0" checked /> 正常</label>
+                  <label><input type="radio" name="member-hidden" value="1" /> 隐藏</label>
+                </div>
+              </div>
+            </div>
+          </form>
+          <p class="tips">等级说明：普通会员 → 水晶会员 → 帝皇会员（数字仅用于内部存储）</p>
+        </div>
+        <footer class="modal-foot">
+          <button class="panel-btn" id="member-modal-reset" type="button">重置</button>
+          <button class="panel-btn primary" id="member-modal-submit" type="button">确定</button>
+        </footer>
+      </div>
+    </div>
+
+    <style>
+      .modal-mask{position:fixed;inset:0;background:rgba(15,23,42,.45);display:flex;align-items:center;justify-content:center;z-index:2000;padding:16px}
+      .modal-card{width:min(860px,100%);background:#fff;border:1px solid var(--border);border-radius:14px;box-shadow:0 24px 60px rgba(15,23,42,.18);display:grid;grid-template-rows:auto 1fr auto;max-height:88vh;overflow:hidden}
+      .modal-head{display:flex;align-items:center;justify-content:space-between;padding:14px 16px;border-bottom:1px solid rgba(226,232,240,.8);background:linear-gradient(135deg,rgba(59,130,246,.08),rgba(236,72,153,.06))}
+      .modal-head h3{margin:0;font-weight:500;font-size:14px}
+      .modal-close{border:none;background:transparent;font-size:20px;line-height:1;cursor:pointer;color:#64748b}
+      .modal-body{padding:18px 16px;overflow:auto;min-height:0}
+      .modal-field{display:grid;gap:8px;margin:10px 0}
+      .modal-field>span{font-size:12px;color:#1f2937;font-weight:600}
+      .modal-field input, .modal-field select{padding:10px 12px;border-radius:12px;border:1px solid rgba(148,163,184,.35);background:rgba(255,255,255,.96)}
+      .radio-row{display:flex;gap:16px;align-items:center}
+      .avatar-row{display:flex;gap:8px;align-items:center}
+      .form-grid{display:grid;grid-template-columns:repeat(2,minmax(0,1fr));gap:12px}
+      .form-grid .full{grid-column:1 / -1}
+      .tips{font-size:12px;color:#ef4444;margin-top:6px}
+      .modal-foot{display:flex;justify-content:center;align-items:center;gap:18px;padding:14px 16px;border-top:1px solid rgba(226,232,240,.8);background:linear-gradient(135deg,rgba(248,250,252,.85),rgba(241,245,249,.85))}
+    </style>
+
+    <!-- 查看聊天记录弹窗 -->
+    <div id="chatlog-modal" class="modal-mask" style="display:none;">
+      <div class="modal-card" style="width:min(980px,100%);">
+        <header class="modal-head">
+          <h3 id="chatlog-title">查看聊天记录</h3>
+          <button class="modal-close" id="chatlog-close" aria-label="关闭">×</button>
+        </header>
+        <div class="modal-body">
+          <div class="panel-actions" style="padding:0;gap:8px;flex-wrap:wrap;">
+            <button class="panel-btn" id="chatlog-refresh">刷新</button>
+            <button class="panel-btn" id="chatlog-edit">编辑</button>
+            <button class="panel-btn danger" id="chatlog-delete">删除</button>
+            <button class="panel-btn" id="chatlog-more">更多</button>
+          </div>
+          <div class="table-wrapper" style="margin-top:8px;">
+            <table class="data-table" id="chatlog-table">
+              <thead>
+                <tr>
+                  <th><input type="checkbox" id="chatlog-check-all" /></th>
+                  <th>Id</th>
+                  <th>接收者</th>
+                  <th>接受者昵称</th>
+                  <th>发送者昵称</th>
+                  <th>聊天内容</th>
+                  <th>创建时间</th>
+                  <th>操作</th>
+                </tr>
+              </thead>
+              <tbody>
+                <tr><td colspan="8" class="empty">暂无记录</td></tr>
+              </tbody>
+            </table>
+          </div>
+          <footer class="table-foot">
+            <div class="table-info" id="chatlog-info">显示第 1 页 / 共 1 页，总计 0 条记录</div>
+            <div class="table-pager">
+              <button class="pager-btn" data-page="prev" id="chatlog-prev">上一页</button>
+              <div id="chatlog-pager"></div>
+              <button class="pager-btn" data-page="next" id="chatlog-next">下一页</button>
+            </div>
+          </footer>
+        </div>
+        <footer class="modal-foot">
+          <button class="panel-btn" id="chatlog-reset" type="button">重置选中</button>
+          <button class="panel-btn primary" id="chatlog-ok" type="button">确定</button>
+        </footer>
+      </div>
+    </div>
+
+    <!-- 分配管理员弹窗 -->
+    <div id="assign-modal" class="modal-mask" style="display:none;">
+      <div class="modal-card" style="width:min(420px,100%);">
+        <header class="modal-head">
+          <h3>分配管理员</h3>
+          <button class="modal-close" id="assign-close" aria-label="关闭">×</button>
+        </header>
+        <div class="modal-body">
+          <div class="modal-field" style="margin-top:4px;">
+            <span>请选择管理员</span>
+            <select id="assign-admin-select">
+              <option value="" selected>加载中...</option>
+            </select>
+          </div>
+          <p class="tips" style="color:#475569;">将所选会员的“所属人”字段更新为选定管理员用户名。</p>
+        </div>
+        <footer class="modal-foot">
+          <button class="panel-btn" id="assign-cancel" type="button">取消</button>
+          <button class="panel-btn primary" id="assign-submit" type="button">确定</button>
+        </footer>
+      </div>
+    </div>
+
+    <!-- 加载新的动态接口脚本，而非旧的静态演示脚本 -->
+  <script type="module" src="/admin/static/perm-guard.js"></script>
+  <script type="module" src="/admin/members.js"></script>
   </body>
 </html>
-
-
-
-
-
 

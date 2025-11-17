@@ -21,73 +21,101 @@
           </div>
         </div>
       </div>
-      <nav class="admin-nav">
+            <nav class="admin-nav">
         <a class="nav-item" href="/admin/dashboard">
-          <span>&#25511;&#21046;&#21488;</span>
+          <span>控制台</span>
           <small class="nav-tag hot">HOT</small>
         </a>
         <details class="nav-group">
           <summary class="nav-item">
-            <span>&#24120;&#35268;&#31649;&#29702;</span>
+            <span>常规管理</span>
           </summary>
           <div class="nav-sub">
-            <a class="nav-sub-item" href="/admin/profile">&#20010;&#20154;&#36164;&#26009;</a>
-            <a class="nav-sub-item" href="/admin/attachments">&#38468;&#20214;&#31649;&#29702;</a>
-            <a class="nav-sub-item" href="#">&#26639;&#30446;&#37197;&#32622;</a>
-            <a class="nav-sub-item" href="#">&#32531;&#23384;&#28165;&#29702;</a>
+            <a class="nav-sub-item" href="/admin/profile">个人资料</a>
+            <a class="nav-sub-item" href="#">栏目配置</a>
+            <a class="nav-sub-item" href="#">缓存清理</a>
           </div>
         </details>
         <details class="nav-group">
           <summary class="nav-item">
-            <span>&#26435;&#38480;&#31649;&#29702;</span>
-            <small class="nav-tag new">NEW</small>
+            <span>信息审核</span>
           </summary>
           <div class="nav-sub">
-            <a class="nav-sub-item" href="/admin/admins">&#31649;&#29702;&#21592;&#31649;&#29702;</a>
-            <a class="nav-sub-item" href="/admin/admin-logs">&#31649;&#29702;&#21592;&#26085;&#24535;</a>
-            <a class="nav-sub-item" href="/admin/roles">&#35282;&#33394;&#32452;</a>
-            <a class="nav-sub-item" href="/admin/rules">&#33756;&#21333;&#35268;&#21017;</a>
+            <a class="nav-sub-item" href="/admin/attachments">附件审核</a>
+            <a class="nav-sub-item" href="/admin/avatar-review">头像审核</a>
+            <a class="nav-sub-item" href="/admin/identity-review">身份审核</a>
+            <a class="nav-sub-item" href="/admin/confession-review">表白墙审核</a>
           </div>
         </details>
         <details class="nav-group">
           <summary class="nav-item">
-            <span>&#21363;&#26102;&#36890;&#20449;&#31649;&#29702;</span>
+            <span>权限管理</span>
           </summary>
           <div class="nav-sub">
-            <a class="nav-sub-item" href="/admin/push">&#25512;&#36865;&#28040;&#24687;</a>
-            <a class="nav-sub-item" href="/admin/service-accounts">&#26381;&#21153;&#36134;&#21495;&#31649;&#29702;</a>
-          </div>
-        </details>
-        <details class="nav-group" open>
-          <summary class="nav-item">
-            <span>&#31036;&#29289;&#31649;&#29702;</span>
-          </summary>
-          <div class="nav-sub">
-            <a class="nav-sub-item" href="/admin/gift-categories">&#31036;&#29289;&#20998;&#31867;</a>
-            <a class="nav-sub-item active" href="/admin/gifts">&#31036;&#29289;&#31649;&#29702;</a>
+            <a class="nav-sub-item" href="/admin/admins">管理员管理</a>
+            <a class="nav-sub-item" href="/admin/admin-logs">管理员日志</a>
+            <a class="nav-sub-item" href="/admin/roles">角色组</a>
+            <a class="nav-sub-item" href="/admin/rules">菜单规则</a>
           </div>
         </details>
         <details class="nav-group">
           <summary class="nav-item">
-            <span>&#20250;&#21592;&#31649;&#29702;</span>
+            <span>即时通信管理</span>
           </summary>
           <div class="nav-sub">
-            <a class="nav-sub-item" href="/admin/members">&#20250;&#21592;&#31649;&#29702;</a>
-            <a class="nav-sub-item" href="/admin/avatar-review">&#22836;&#20687;&#23457;&#26680;</a>
-            <a class="nav-sub-item" href="/admin/customer-service">&#23458;&#26381;&#31649;&#29702;</a>
+            <a class="nav-sub-item" href="/admin/push">推送消息</a>
+            <a class="nav-sub-item" href="/admin/service-accounts">服务账号管理</a>
           </div>
         </details>
-        <a class="nav-item" href="/admin/stickers"><span>&#34920;&#24773;&#36148;&#31649;&#29702;</span></a>
         <details class="nav-group">
           <summary class="nav-item">
-            <span>&#35746;&#21333;&#31649;&#29702;</span>
+            <span>会员管理</span>
           </summary>
           <div class="nav-sub">
-            <a class="nav-sub-item" href="/admin/order-overview">&#24635;&#33829;&#19994;&#39069;</a>
-            <a class="nav-sub-item" href="/admin/recharge-records">&#20805;&#20540;&#35760;&#24405;</a>
-            <a class="nav-sub-item" href="/admin/coin-consumption">&#37329;&#24065;&#28040;&#36153;&#35760;&#24405;</a>
+            <a class="nav-sub-item" href="/admin/members">会员管理</a>
+            <a class="nav-sub-item" href="/admin/customer-service">客服管理</a>
+            <a class="nav-sub-item" href="/admin/member-upgrade">升级会员</a>
           </div>
         </details>
+        <details class="nav-group open">
+          <summary class="nav-item">
+            <span>礼物管理</span>
+          </summary>
+          <div class="nav-sub">
+            <a class="nav-sub-item" href="/admin/gift-categories">礼物分类</a>
+            <a class="nav-sub-item active" href="/admin/gifts">礼物管理</a>
+          </div>
+        </details>
+        <a class="nav-item" href="/admin/stickers">
+          <span>表情贴管理</span>
+        </a>
+        <details class="nav-group">
+          <summary class="nav-item">
+            <span>订单管理</span>
+          </summary>
+          <div class="nav-sub">
+            <a class="nav-sub-item" href="/admin/order-overview">总营业额</a>
+            <a class="nav-sub-item" href="/admin/recharge-records">充值记录</a>
+            <a class="nav-sub-item" href="/admin/coin-consumption">金币消费记录</a>
+            <a class="nav-sub-item" href="/admin/card-review">点卡审核</a>
+          </div>
+        </details>
+        <details class="nav-group">
+          <summary class="nav-item">
+            <span>前端管理</span>
+          </summary>
+          <div class="nav-sub">
+            <a class="nav-sub-item" href="/admin/frontend-terms">使用条款修改</a>
+            <a class="nav-sub-item" href="/admin/frontend-privacy">隐私条款修改</a>
+            <a class="nav-sub-item" href="/admin/frontend-security">交友安全修改</a>
+            <a class="nav-sub-item" href="/admin/frontend-help">帮助中心修改</a>
+            <a class="nav-sub-item" href="/admin/frontend-contact">联系我们修改</a>
+            <a class="nav-sub-item" href="/admin/frontend-user-config">用户参数修改</a>
+            <a class="nav-sub-item" href="/admin/frontend-card-redeem">点卡兑换内容修改</a>
+            <a class="nav-sub-item" href="/admin/frontend-confession-images">表白墙图片修改</a>
+          </div>
+        </details>
+
       </nav>
       <button type="button" class="logout-btn" id="logout-btn">&#36864;&#20986;&#30331;&#24405;</button>
     </aside>
@@ -139,15 +167,13 @@
                 <th><input type="checkbox" id="gift-check-all" /></th>
                 <th>ID</th>
                 <th>&#31036;&#29289;&#21517;&#31216;</th>
-                <th>Image</th>
-                <th>gold_num</th>
-                <th>&#26435;&#37327;</th>
-                <th>&#29366;&#24577;</th>
+                <th>图片</th>
+                <th>价格</th>
                 <th>&#25805;&#20316;</th>
               </tr>
             </thead>
             <tbody>
-              <tr><td colspan="8" class="empty">&#21152;&#36733;&#20013;...</td></tr>
+              <tr><td colspan="6" class="empty">&#21152;&#36733;&#20013;...</td></tr>
             </tbody>
           </table>
         </div>
@@ -173,10 +199,61 @@
       </section>
     </main>
 
-    <script type="module" src="/admin/static/gifts.js"></script>
+    <!-- Gift Modal: 与礼物商城字段对齐（名称、价格、图片） -->
+    <div id="gift-modal" class="modal-mask" style="display:none;">
+      <div class="modal-card">
+        <header class="modal-head">
+          <h3 id="gift-modal-title">添加礼物</h3>
+          <button class="modal-close" id="gift-modal-close" aria-label="关闭">×</button>
+        </header>
+        <div class="modal-body">
+          <form id="gift-form">
+            <label class="modal-field">
+              <span>名称</span>
+              <input id="gift-name" type="text" placeholder="请输入礼物名称" required />
+            </label>
+            <label class="modal-field">
+              <span>价格</span>
+              <input id="gift-price" type="number" min="0" step="1" placeholder="请输入价格（金币）" required />
+            </label>
+            <div class="modal-field">
+              <span>图片</span>
+              <div class="img-row">
+                <input id="gift-img" type="text" placeholder="图片 URL" />
+                <input id="gift-file" type="file" accept="image/*" style="display:none;" />
+                <button type="button" class="panel-btn danger" id="gift-upload">上传</button>
+                <button type="button" class="panel-btn" id="gift-choose-url">选择</button>
+              </div>
+              <div class="img-preview" id="gift-preview" aria-label="预览" title="预览"></div>
+            </div>
+          </form>
+        </div>
+        <footer class="modal-foot">
+          <button class="panel-btn" id="gift-modal-cancel" type="button">取消</button>
+          <button class="panel-btn primary" id="gift-modal-submit" type="button">确定</button>
+        </footer>
+      </div>
+    </div>
+
+    <style>
+      /* 轻量模态样式，仅在本页使用 */
+      .modal-mask{position:fixed;inset:0;background:rgba(15,23,42,.45);display:flex;align-items:center;justify-content:center;z-index:2000;padding:16px}
+      .modal-card{width:min(720px,100%);background:#fff;border:1px solid var(--border);border-radius:14px;box-shadow:0 24px 60px rgba(15,23,42,.18);display:grid;grid-template-rows:auto 1fr auto;max-height:88vh;overflow:hidden}
+      .modal-head{display:flex;align-items:center;justify-content:space-between;padding:14px 16px;border-bottom:1px solid rgba(226,232,240,.8);background:linear-gradient(135deg,rgba(59,130,246,.08),rgba(236,72,153,.06))}
+      .modal-head h3{margin:0;font-weight:400;font-size:14px}
+      .modal-close{border:none;background:transparent;font-size:20px;line-height:1;cursor:pointer;color:#64748b}
+      .modal-body{padding:18px 16px}
+      .modal-field{display:grid;gap:8px;margin:10px 0}
+      .modal-field > span{font-size:12px;color:#1f2937;font-weight:600}
+      .modal-field input{padding:10px 12px;border-radius:12px;border:1px solid rgba(148,163,184,.35);background:rgba(255,255,255,.96)}
+      .img-row{display:flex;gap:8px;align-items:center}
+      .img-row input[type="text"]{flex:1}
+      .img-preview{margin-top:8px;width:72px;height:72px;border-radius:10px;border:1px solid rgba(226,232,240,.75);background:#f1f5f9 center/cover no-repeat}
+      .modal-foot{display:flex;justify-content:flex-end;gap:10px;padding:12px 16px;border-top:1px solid rgba(226,232,240,.8);background:rgba(248,250,252,.85)}
+    </style>
+
+  <script type="module" src="/admin/static/perm-guard.js"></script>
+  <script type="module" src="/admin/gifts.js"></script>
   </body>
 </html>
-
-
-
 

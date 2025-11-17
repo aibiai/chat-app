@@ -3,7 +3,7 @@
   <head>
     <meta charset="UTF-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-    <title>&#25511;&#21046;&#21488;&#19968;&#35270;&#21270;</title>
+    <title>控制台总览</title>
     <link rel="stylesheet" href="/admin/static/styles.css" />
   </head>
   <body class="admin-layout">
@@ -11,205 +11,328 @@
       <div class="sidebar-top">
         <div class="sidebar-logo">
           <span class="logo-dot"></span>
-          <strong>&#25511;&#21046;&#21488;</strong>
+          <strong>控制台</strong>
         </div>
         <div class="sidebar-profile">
           <div class="sidebar-avatar" id="sidebar-avatar">A</div>
           <div>
-            <p id="admin-name" class="sidebar-name">&#31649;&#29702;&#21592;</p>
-            <span class="sidebar-status">&#22312;&#32447;</span>
+            <p id="admin-name" class="sidebar-name">管理员</p>
+            <span class="sidebar-status">在线</span>
           </div>
         </div>
       </div>
       <nav class="admin-nav">
         <a class="nav-item active" href="/admin/dashboard">
-          <span>&#25511;&#21046;&#21488;</span>
+          <span>控制台</span>
           <small class="nav-tag hot">HOT</small>
         </a>
         <details class="nav-group">
           <summary class="nav-item">
-            <span>&#24120;&#35268;&#31649;&#29702;</span>
+            <span>常规管理</span>
           </summary>
           <div class="nav-sub">
-            <a class="nav-sub-item" href="/admin/profile">&#20010;&#20154;&#36164;&#26009;</a>
-            <a class="nav-sub-item" href="/admin/attachments">&#38468;&#20214;&#31649;&#29702;</a>
-            <a class="nav-sub-item" href="#">&#26639;&#30446;&#37197;&#32622;</a>
-            <a class="nav-sub-item" href="#">&#32531;&#23384;&#28165;&#29702;</a>
+            <a class="nav-sub-item" href="/admin/profile">个人资料</a>
+            <a class="nav-sub-item" href="#">栏目配置</a>
+            <a class="nav-sub-item" href="#">缓存清理</a>
           </div>
         </details>
         <details class="nav-group">
           <summary class="nav-item">
-            <span>&#26435;&#38480;&#31649;&#29702;</span>
-            <small class="nav-tag new">NEW</small>
+            <span>信息审核</span>
           </summary>
           <div class="nav-sub">
-            <a class="nav-sub-item" href="/admin/admins">&#31649;&#29702;&#21592;&#31649;&#29702;</a>
-            <a class="nav-sub-item" href="/admin/admin-logs">&#31649;&#29702;&#21592;&#26085;&#24535;</a>
-            <a class="nav-sub-item" href="/admin/roles">&#35282;&#33394;&#32452;</a>
-            <a class="nav-sub-item" href="/admin/rules">&#33756;&#21333;&#35268;&#21017;</a>
+            <a class="nav-sub-item" href="/admin/attachments">附件审核</a>
+            <a class="nav-sub-item" href="/admin/avatar-review">头像审核</a>
+            <a class="nav-sub-item" href="/admin/identity-review">身份审核</a>
+            <a class="nav-sub-item" href="/admin/confession-review">表白墙审核</a>
           </div>
         </details>
         <details class="nav-group">
           <summary class="nav-item">
-            <span>&#21363;&#26102;&#36890;&#20449;&#31649;&#29702;</span>
+            <span>权限管理</span>
           </summary>
           <div class="nav-sub">
-            <a class="nav-sub-item" href="/admin/push">&#25512;&#36865;&#28040;&#24687;</a>
-            <a class="nav-sub-item" href="/admin/service-accounts">&#26381;&#21153;&#36134;&#21495;&#31649;&#29702;</a>
+            <a class="nav-sub-item" href="/admin/admins">管理员管理</a>
+            <a class="nav-sub-item" href="/admin/admin-logs">管理员日志</a>
+            <a class="nav-sub-item" href="/admin/roles">角色组</a>
+            <a class="nav-sub-item" href="/admin/rules">菜单规则</a>
           </div>
         </details>
         <details class="nav-group">
           <summary class="nav-item">
-            <span>&#20250;&#21592;&#31649;&#29702;</span>
+            <span>即时通信管理</span>
           </summary>
           <div class="nav-sub">
-            <a class="nav-sub-item" href="/admin/members">&#20250;&#21592;&#31649;&#29702;</a>
-            <a class="nav-sub-item" href="/admin/avatar-review">&#22836;&#20687;&#23457;&#26680;</a>
-            <a class="nav-sub-item" href="/admin/customer-service">&#23458;&#26381;&#31649;&#29702;</a>
+            <a class="nav-sub-item" href="/admin/push">推送消息</a>
+            <a class="nav-sub-item" href="/admin/service-accounts">服务账号管理</a>
           </div>
         </details>
         <details class="nav-group">
           <summary class="nav-item">
-            <span>&#31036;&#29289;&#31649;&#29702;</span>
+            <span>会员管理</span>
           </summary>
           <div class="nav-sub">
-            <a class="nav-sub-item" href="/admin/gift-categories">&#31036;&#29289;&#20998;&#31867;</a>
-            <a class="nav-sub-item" href="/admin/gifts">&#31036;&#29289;&#31649;&#29702;</a>
+            <a class="nav-sub-item" href="/admin/members">会员管理</a>
+            <a class="nav-sub-item" href="/admin/customer-service">客服管理</a>
           </div>
         </details>
-        <a class="nav-item" href="/admin/stickers"><span>&#34920;&#24773;&#36148;&#31649;&#29702;</span></a>
         <details class="nav-group">
           <summary class="nav-item">
-            <span>&#35746;&#21333;&#31649;&#29702;</span>
+            <span>礼物管理</span>
           </summary>
           <div class="nav-sub">
-            <a class="nav-sub-item" href="/admin/order-overview">&#24635;&#33829;&#19994;&#39069;</a>
-            <a class="nav-sub-item" href="/admin/recharge-records">&#20805;&#20540;&#35760;&#24405;</a>
-            <a class="nav-sub-item" href="/admin/coin-consumption">&#37329;&#24065;&#28040;&#36153;&#35760;&#24405;</a>
+            <a class="nav-sub-item" href="/admin/gift-categories">礼物分类</a>
+            <a class="nav-sub-item" href="/admin/gifts">礼物管理</a>
           </div>
         </details>
+        <a class="nav-item" href="/admin/stickers">
+          <span>表情贴管理</span>
+        </a>
+        <details class="nav-group">
+          <summary class="nav-item">
+            <span>订单管理</span>
+          </summary>
+          <div class="nav-sub">
+            <a class="nav-sub-item" href="/admin/order-overview">总营业额</a>
+            <a class="nav-sub-item" href="/admin/recharge-records">充值记录</a>
+            <a class="nav-sub-item" href="/admin/coin-consumption">金币消费记录</a>
+          </div>
+        </details>
+        <details class="nav-group">
+          <summary class="nav-item">
+            <span>前端管理</span>
+          </summary>
+          <div class="nav-sub">
+            <a class="nav-sub-item" href="/admin/frontend-terms">使用条款修改</a>
+            <a class="nav-sub-item" href="/admin/frontend-privacy">隐私条款修改</a>
+            <a class="nav-sub-item" href="/admin/frontend-security">交友安全修改</a>
+            <a class="nav-sub-item" href="/admin/frontend-help">帮助中心修改</a>
+            <a class="nav-sub-item" href="/admin/frontend-contact">联系我们修改</a>
+            <a class="nav-sub-item" href="/admin/frontend-user-config">用户参数修改</a>
+            <a class="nav-sub-item" href="/admin/frontend-card-redeem">点卡兑换内容修改</a>
+            <a class="nav-sub-item" href="/admin/frontend-confession-images">表白墙图片修改</a>
+          </div>
+        </details>
+
       </nav>
-      <button type="button" class="logout-btn" id="logout-btn">&#36864;&#20986;&#30331;&#24405;</button>
+      <button type="button" class="logout-btn" id="logout-btn">退出登录</button>
     </aside>
 
-    <main class="admin-main">
-      <header class="admin-topbar">
-        <div>
-          <h1>&#25511;&#21046;&#21488;&#19968;&#35270;&#21270;</h1>
-          <p class="topbar-subtitle">
-            &#24555;&#36895;&#26597;&#38405;&#24179;&#21488;&#27969;&#37327;&#21644;&#20851;&#38190;&#25351;&#26631;&#65292;&#30452;&#35266;&#20102;&#35299;&#20250;&#21592;&#8226;&#28040;&#24687;&#21644;&#29575;&#32479;&#24687;&#24773;&#12290;
+        <main class="dashboard-wrapper">
+      <section class="dashboard-toolbar">
+        <div class="toolbar-main">
+          <span class="toolbar-label">控制台</span>
+          <h1>欢迎回来，<span id="hero-admin-name">admin</span></h1>
+          <p class="toolbar-desc">
+            当前版本聚焦系统核心数据，帮助你快速掌握用户活跃度、审核进度以及内容沉淀情况。
           </p>
+          <div class="toolbar-tabs">
+            <button class="toolbar-tab active">控制台</button>
+            <button class="toolbar-tab">会员管理</button>
+            <button class="toolbar-tab">礼物分类</button>
+            <button class="toolbar-tab">礼物管理</button>
+          </div>
         </div>
-        <div class="topbar-actions">
-          <button class="topbar-icon" id="roles-refresh" aria-label="&#21047;&#26032;">
-            <svg viewBox="0 0 24 24" width="18" height="18" fill="currentColor">
-              <path d="M17.65 6.35A7.95 7.95 0 0 0 12 4V1L7 6l5 5V7a5 5 0 1 1-5 5H5a7 7 0 1 0 12.65-5.65Z" />
+        <div class="toolbar-status">
+          <dl>
+            <div>
+              <dt>待审核</dt>
+              <dd id="hero-pending">--</dd>
+            </div>
+            <div>
+              <dt>上次同步</dt>
+              <dd id="hero-updated">--</dd>
+            </div>
+          </dl>
+          <div class="toolbar-actions">
+            <button class="btn primary" id="hero-sync">
+              <svg viewBox="0 0 24 24" width="18" height="18" fill="currentColor">
+                <path d="M17.65 6.35A7.95 7.95 0 0 0 12 4V1L7 6l5 5V7a5 5 0 1 1-5 5H5a7 7 0 1 0 12.65-5.65Z" />
+              </svg>
+              刷新数据
+            </button>
+            <button class="btn ghost" id="hero-export">
+              <svg viewBox="0 0 24 24" width="18" height="18" fill="currentColor">
+                <path d="M5 20h14v-2H5m14-9h-4V3H9v6H5l7 7 7-7Z" />
+              </svg>
+              导出数据
+            </button>
+          </div>
+        </div>
+      </section>
+
+      <section class="metric-cards">
+        <article class="metric-card accent-red">
+          <div class="metric-icon">
+            <svg viewBox="0 0 24 24" fill="currentColor">
+              <path d="M12 12a5 5 0 1 0-5-5 5 5 0 0 0 5 5Zm0 2c-3.33 0-10 1.67-10 5v2h20v-2c0-3.33-6.67-5-10-5Z" />
             </svg>
-          </button>
+          </div>
+          <div class="metric-info">
+            <p>总会员数</p>
+            <strong id="metric-members">--</strong>
+          </div>
+        </article>
+        <article class="metric-card accent-purple">
+          <div class="metric-icon">
+            <svg viewBox="0 0 24 24" fill="currentColor">
+              <path d="M3 6h18v2H3Zm4 5h10v2H7Zm-4 5h18v2H3Z" />
+            </svg>
+          </div>
+          <div class="metric-info">
+            <p>总消息数</p>
+            <strong id="metric-messages">--</strong>
+          </div>
+        </article>
+        <article class="metric-card accent-cyan">
+          <div class="metric-icon">
+            <svg viewBox="0 0 24 24" fill="currentColor">
+              <path d="M12 2a10 10 0 0 0-4 19.2c.63.12.87-.27.87-.6v-2.08c-3.56.78-4.3-1.7-4.3-1.7-.58-1.47-1.42-1.86-1.42-1.86-1.16-.78.09-.76.09-.76 1.28.09 1.95 1.32 1.95 1.32 1.14 1.95 3 1.39 3.73 1.06.11-.83.45-1.39.81-1.71-2.84-.32-5.83-1.42-5.83-6.33a5 5 0 0 1 1.33-3.45 4.68 4.68 0 0 1 .12-3.4s1.07-.34 3.5 1.32a12 12 0 0 1 6.38 0c2.43-1.66 3.5-1.32 3.5-1.32a4.68 4.68 0 0 1 .12 3.4A5 5 0 0 1 20 11.25c0 4.92-3 6-5.84 6.32.46.4.87 1.18.87 2.4v3.56c0 .33.24.72.88.6A10 10 0 0 0 12 2Z" />
+            </svg>
+          </div>
+          <div class="metric-info">
+            <p>总分类数</p>
+            <strong id="metric-gifts">--</strong>
+          </div>
+        </article>
+        <article class="metric-card accent-green">
+          <div class="metric-icon">
+            <svg viewBox="0 0 24 24" fill="currentColor">
+              <path d="m17 10-5-7-5 7a6 6 0 1 0 10 4.58A6 6 0 0 0 17 10Z" />
+            </svg>
+          </div>
+          <div class="metric-info">
+            <p>总管理员数</p>
+            <strong id="metric-vip">--</strong>
+          </div>
+        </article>
+      </section>
+
+      <section class="panel chart-panel">
+        <div class="chart-main">
+          <header class="chart-header">
+            <div>
+              <h2>注册用户趋势</h2>
+              <p>最近 7 日每日活跃发送量</p>
+            </div>
+            <span class="chart-range">近 7 日</span>
+          </header>
+          <div class="chart-canvas">
+            <svg id="trend-svg" viewBox="0 0 640 280" preserveAspectRatio="none">
+              <defs>
+                <linearGradient id="trendGradient" x1="0%" y1="0%" x2="0%" y2="100%">
+                  <stop offset="0%" stop-color="rgba(79, 70, 229, 0.35)" />
+                  <stop offset="100%" stop-color="rgba(79, 70, 229, 0.05)" />
+                </linearGradient>
+              </defs>
+              <path id="trend-area" class="chart-area" d="" fill="url(#trendGradient)" />
+              <path id="trend-line" class="chart-line" d="" fill="none" />
+            </svg>
+            <div class="chart-axis" id="chart-axis"></div>
+          </div>
         </div>
-      </header>
-
-      <section class="metric-grid">
-        <article class="metric-card accent-blue">
-          <div class="metric-icon">
-            <svg viewBox="0 0 24 24" fill="currentColor"><path d="M12 12a5 5 0 1 0-5-5 5 5 0 0 0 5 5Zm0 2c-3.33 0-10 1.67-10 5v2h20v-2c0-3.33-6.67-5-10-5Z"/></svg>
-          </div>
-          <div class="metric-info">
-            <p class="metric-label">&#24635;&#20250;&#21592;&#25968;</p>
-            <strong id="metric-members" class="metric-value">--</strong>
-          </div>
-        </article>
-        <article class="metric-card accent-violet">
-          <div class="metric-icon">
-            <svg viewBox="0 0 24 24" fill="currentColor"><path d="M4 4h16v2H4Zm0 7h16v2H4Zm0 7h16v2H4Z"/></svg>
-          </div>
-          <div class="metric-info">
-            <p class="metric-label">&#27963;&#36291;&#28040;&#24687;</p>
-            <strong id="metric-messages" class="metric-value">--</strong>
-          </div>
-        </article>
-        <article class="metric-card accent-rose">
-          <div class="metric-icon">
-            <svg viewBox="0 0 24 24" fill="currentColor"><path d="M12 21.35 10.55 20C5.4 15.36 2 12.28 2 8.5A4.5 4.5 0 0 1 6.5 4 5 5 0 0 1 12 6.09 5 5 0 0 1 17.5 4 4.5 4.5 0 0 1 22 8.5c0 3.78-3.4 6.86-8.55 11.54Z"/></svg>
-          </div>
-          <div class="metric-info">
-            <p class="metric-label">&#31036;&#29289;&#35843;&#29983;</p>
-            <strong id="metric-gifts" class="metric-value">--</strong>
-          </div>
-        </article>
-        <article class="metric-card accent-amber">
-          <div class="metric-icon">
-            <svg viewBox="0 0 24 24" fill="currentColor"><path d="m17 10-5-7-5 7a6 6 0 1 0 10 4.58A6 6 0 0 0 17 10Z"/></svg>
-          </div>
-          <div class="metric-info">
-            <p class="metric-label">VIP &#20250;&#21592;</p>
-            <strong id="metric-vip" class="metric-value">--</strong>
-          </div>
-        </article>
-      </section>
-
-      <section class="quick-stats">
-        <article>
-          <h3>&#19968;&#33267;&#19977;&#22825;&#25805;&#20316;</h3>
-          <ul class="stat-list">
-            <li><span>&#20170;&#26085;&#28155;&#38271;</span><strong id="stat-today">--</strong></li>
-            <li><span>3 &#22825;&#27963;&#36291;</span><strong id="stat-three">--</strong></li>
-            <li><span>7 &#22825;&#27963;&#36291;</span><strong id="stat-seven">--</strong></li>
-            <li><span>&#24403;&#22825;&#30331;&#24405;</span><strong id="stat-login">--</strong></li>
+        <aside class="chart-side">
+          <h3>实时概览</h3>
+          <ul class="stat-grid">
+            <li>
+              <span>今日注册</span>
+              <strong id="stat-today-register">--</strong>
+            </li>
+            <li>
+              <span>今日登录</span>
+              <strong id="stat-today-login">--</strong>
+            </li>
+            <li>
+              <span>三日新增</span>
+              <strong id="stat-three-increase">--</strong>
+            </li>
+            <li>
+              <span>七日新增</span>
+              <strong id="stat-seven-increase">--</strong>
+            </li>
+            <li>
+              <span>七日活跃</span>
+              <strong id="stat-seven-active">--</strong>
+            </li>
+            <li>
+              <span>月活跃</span>
+              <strong id="stat-month-active">--</strong>
+            </li>
           </ul>
+        </aside>
+      </section>
+
+      <section class="summary-cards">
+        <article class="panel summary-card summary-blue">
+          <header>
+            <h2>分类统计</h2>
+            <span class="tag">实时</span>
+          </header>
+          <div class="summary-value">
+            <strong id="summary-categories">--</strong>
+            <span>当前分类记录数</span>
+          </div>
         </article>
-        <article>
-          <h3>&#20250;&#21592;&#27969;&#37327;</h3>
-          <ul class="stat-list">
-            <li><span>&#26032;&#22686;&#20250;&#21592;</span><strong id="stat-new-members">--</strong></li>
-            <li><span>&#25968;&#25454;&#35745;&#25968;</span><strong id="stat-active-conv">--</strong></li>
-          </ul>
+        <article class="panel summary-card summary-indigo">
+          <header>
+            <h2>数据库统计</h2>
+            <span class="tag">实时</span>
+          </header>
+          <div class="summary-metric">
+            <div>
+              <small>数据表数量</small>
+              <strong id="summary-datasets">--</strong>
+            </div>
+            <div>
+              <small>占用空间</small>
+              <strong id="summary-dataset-size">--</strong>
+            </div>
+          </div>
+        </article>
+        <article class="panel summary-card summary-purple">
+          <header>
+            <h2>附件统计</h2>
+            <span class="tag">实时</span>
+          </header>
+          <div class="summary-metric">
+            <div>
+              <small>附件数量</small>
+              <strong id="summary-attachments">--</strong>
+            </div>
+            <div>
+              <small>附件大小</small>
+              <strong id="summary-attachments-size">--</strong>
+            </div>
+          </div>
+        </article>
+        <article class="panel summary-card summary-teal">
+          <header>
+            <h2>图片统计</h2>
+            <span class="tag">实时</span>
+          </header>
+          <div class="summary-metric">
+            <div>
+              <small>图片数量</small>
+              <strong id="summary-images">--</strong>
+            </div>
+            <div>
+              <small>图片大小</small>
+              <strong id="summary-images-size">--</strong>
+            </div>
+          </div>
         </article>
       </section>
 
-      <section class="summary-grid">
-        <article class="summary-card">
-          <h3>&#25968;&#25454;&#27010;&#35272;</h3>
-          <div class="summary-list">
-            <p><span>&#31867;&#21035;</span><strong id="summary-categories">--</strong></p>
-            <p><span>&#25968;&#25454;&#38598;</span><strong id="summary-datasets">--</strong></p>
-            <p><span>&#25968;&#25454;&#37327;</span><strong id="summary-dataset-size">--</strong></p>
-          </div>
-        </article>
-        <article class="summary-card">
-          <h3>&#38468;&#20214;&#20869;&#23481;</h3>
-          <div class="summary-list">
-            <p><span>&#38468;&#20214;&#25968;</span><strong id="summary-attachments">--</strong></p>
-            <p><span>&#38468;&#20214;&#23481;&#37327;</span><strong id="summary-attachments-size">--</strong></p>
-          </div>
-        </article>
-        <article class="summary-card">
-          <h3>&#22270;&#29255;&#27969;&#37327;</h3>
-          <div class="summary-list">
-            <p><span>&#20849;&#26377;&#25968;</span><strong id="summary-images">--</strong></p>
-            <p><span>&#21512;&#35745;</span><strong id="summary-images-size">--</strong></p>
-          </div>
-        </article>
-      </section>
-
-      <section class="chart-card">
-        <header class="chart-head">
-          <h3>&#21608;&#21021;&#27969;&#37327;&#36235;&#21183;</h3>
+      <section class="panel activity-panel">
+        <header>
+          <h2>待处理提醒</h2>
         </header>
-        <div class="chart-body">
-          <svg id="trend-area" viewBox="0 0 600 240" preserveAspectRatio="none"></svg>
-          <svg id="trend-line" viewBox="0 0 600 240" preserveAspectRatio="none"></svg>
-          <div id="chart-axis" class="chart-axis"></div>
-        </div>
+        <ul class="todo-list" id="activity-list"></ul>
       </section>
     </main>
 
-    <script type="module" src="/admin/static/dashboard.js"></script>
+  <script type="module" src="/admin/static/perm-guard.js"></script>
+  <script type="module" src="/admin/dashboard.js"></script>
   </body>
 </html>
-
-
-
-
-
 

@@ -1,12 +1,15 @@
 <template>
-  <div class="home">
-    <div class="carousel container compact-home">
+  <div class="home relative">
+    <div class="home-overlay absolute inset-0"></div>
+    <div class="carousel container compact-home relative z-10">
       <!-- 舞台区：堆叠/错位卡片 + 内置左右切换按钮 -->
       <div
         class="stage"
         @touchstart.passive="onTouchStart"
         @touchmove.passive="onTouchMove"
         @touchend.passive="onTouchEnd"
+        @mouseenter="pauseAuto"
+        @mouseleave="resumeAuto"
       >
         <!-- 左侧切换按钮（覆盖在图片左侧） -->
         <button
@@ -65,12 +68,34 @@
 </template>
 
 <script setup lang="ts">
-import { onMounted, ref, computed } from 'vue';
+import { onMounted, onUnmounted, ref, computed, watch } from 'vue';
 import { useI18n } from 'vue-i18n';
 import api from '../api';
 import { getSocket } from '../socket';
 import { usePresence } from '../presence';
 import { useAuth } from '../stores';
+
+const HOME_BG = '/images/home-lucky-bg.jpg';
+
+function applyAppBackground(url: string | null) {
+  const el = document.getElementById('app-bg');
+  if (!el) return;
+  if (url) {
+    el.style.backgroundImage = `url('${url}')`;
+    el.style.backgroundSize = 'cover';
+    el.style.backgroundPosition = 'center';
+    el.style.backgroundRepeat = 'no-repeat';
+    el.style.filter = 'brightness(1.05)';
+    el.style.zIndex = '-1';
+  } else {
+    el.style.backgroundImage = '';
+    el.style.backgroundSize = '';
+    el.style.backgroundPosition = '';
+    el.style.backgroundRepeat = '';
+    el.style.filter = '';
+    el.style.removeProperty('z-index');
+  }
+}
 
 interface UserPublic { id: string; nickname: string; gender: 'male'|'female'|'other'; birthday?: string; avatarUrl?: string|null }
 
@@ -144,10 +169,10 @@ const visibleCards = computed(() => {
 });
 
 function next(){
-  const n = slidesReal.value.length; if (!n) return; center.value = (center.value + 1) % n;
+  const n = slidesReal.value.length; if (!n) return; center.value = (center.value + 1) % n; scheduleAuto();
 }
 function prev(){
-  const n = slidesReal.value.length; if (!n) return; center.value = (center.value - 1 + n) % n;
+  const n = slidesReal.value.length; if (!n) return; center.value = (center.value - 1 + n) % n; scheduleAuto();
 }
 
 // 邻近卡片的边缘遮罩类（用于 ::before 渐变）
@@ -188,6 +213,7 @@ const swiping = ref(false);
 function onTouchStart(e: TouchEvent){
   const t = e.touches[0];
   touchX.value = t.clientX; touchY.value = t.clientY; swiping.value = false;
+  pauseAuto();
 }
 function onTouchMove(e: TouchEvent){
   if (touchX.value == null || touchY.value == null) return;
@@ -203,9 +229,25 @@ function onTouchEnd(e: TouchEvent){
   const dx = t.clientX - (touchX.value || 0);
   if (dx < -24) next(); else if (dx > 24) prev();
   touchX.value = touchY.value = null; swiping.value = false;
+  resumeAuto();
 }
 
+// 自动轮播：每 3~5 秒向右切换一张，鼠标悬停/触摸时暂停
+const autoTimer = ref<number | null>(null);
+function clearAuto(){ if (autoTimer.value != null) { window.clearTimeout(autoTimer.value); autoTimer.value = null; } }
+function scheduleAuto(){
+  clearAuto();
+  if (slidesReal.value.length < 2) return;
+  const delay = 6000 + Math.floor(Math.random() * 2000); // 6000~8000ms
+  autoTimer.value = window.setTimeout(() => { next(); scheduleAuto(); }, delay);
+}
+function pauseAuto(){ clearAuto(); }
+function resumeAuto(){ scheduleAuto(); }
+
+// 用户手动切换时，已在 next/prev 内部重置计时
+
 onMounted(async () => {
+  applyAppBackground(HOME_BG);
   try {
     // 简易 60s 缓存，减少首页反复进入产生的请求与抖动
     const cacheKey = 'users.cache.v1'
@@ -241,16 +283,30 @@ onMounted(async () => {
     const s = getSocket();
     s.on('presence', (e: { uid: string; online: boolean }) => presence.setOnline(e.uid, e.online));
   }
+  // 首次进入启动自动轮播
+  scheduleAuto();
 });
+
+onUnmounted(() => {
+  applyAppBackground(null);
+  clearAuto();
+});
+
+// 用户数据加载后，确保自动轮播处于正确状态
+watch(() => slidesReal.value.length, () => { scheduleAuto(); });
 </script>
 
 <style scoped>
-.home{ background:#fff; min-height: calc(100vh - 64px); }
+.home{ min-height: calc(100vh - 64px); display:flex; align-items:center; justify-content:center; }
+.home-overlay{
+  background: transparent;
+  backdrop-filter: none;
+  pointer-events: none;
+}
 .container{ max-width: 1200px; margin: 0 auto; padding: 24px 16px; }
 
 
-
-.carousel{ position: relative; display:flex; align-items:center; justify-content:space-between; gap:16px; margin-top: 28px; }
+.carousel{ position: relative; display:flex; align-items:center; justify-content:center; gap:16px; margin-top: 0; }
 
 /* 舞台内覆盖的左右切换按钮 */
 .arrow-overlay{
@@ -270,11 +326,11 @@ onMounted(async () => {
 .arrow-overlay:active{ transform: translateY(-50%) scale(0.98); }
 .arrow-overlay:disabled{ opacity:.35; cursor:not-allowed; }
 
-  .stage{ position: relative; flex:1; height: min(500px, 56vh); margin: 16px 0; }
+  .stage{ position: relative; width: min(100%, 1200px); height: min(500px, 56vh); margin: 0 auto; }
 .card{
   position: absolute; top:0; left:50%; transform-origin:center bottom;
   width: clamp(240px, 28vw, 360px); height: clamp(240px, 28vw, 360px); margin-left: calc(clamp(240px, 28vw, 360px) / -2);
-  border-radius: 16px; overflow: visible; transition: transform .35s ease, opacity .35s ease; cursor:pointer;
+  border-radius: 16px; overflow: visible; transition: transform 1.5s cubic-bezier(0.22, 1, 0.36, 1), opacity 1.5s ease; cursor:pointer; will-change: transform, opacity;
 }
 .card::before{
   content:""; position:absolute; top:0; bottom:0; width: 96px; pointer-events:none; z-index:2;
@@ -284,8 +340,9 @@ onMounted(async () => {
 .card.edge-right::before{ left:-2px; background: linear-gradient(-90deg, rgba(255,255,255,0.88), rgba(255,255,255,0)); opacity:.85; }
 .card.strong.edge-left::before, .card.strong.edge-right::before{ opacity: 1; }
 .card.center .photo{ box-shadow: 0 18px 42px rgba(0,0,0,.24); }
+.card.center .photo{ animation: center-swap 1.5s cubic-bezier(0.22, 1, 0.36, 1); }
 .card.center{ filter: brightness(1.04); }
-.photo{ width:100%; height:100%; object-fit: cover; object-position: center center; border-radius:18px; box-shadow: 0 10px 24px rgba(0,0,0,.16); border:1px solid rgba(0,0,0,0.06); }
+.photo{ width:100%; height:100%; object-fit: cover; object-position: center center; border-radius:18px; box-shadow: 0 10px 24px rgba(0,0,0,.16); border:1px solid rgba(0,0,0,0.06); will-change: transform, opacity, filter; backface-visibility: hidden; }
 .card.portrait .photo{ object-position: center 32%; }
 .card::after{
   content:""; position:absolute; left:10%; right:10%; bottom:-14px; height:26px;
@@ -303,13 +360,13 @@ onMounted(async () => {
   .card.center .meta{ font-size: clamp(14px, .8vw + .6vh, 16px); filter: brightness(1.06); }
 
 @media (max-width: 1024px){
-  .stage{ height: min(460px, 54vh); }
+  .stage{ height: min(460px, 54vh); width: min(100%, 1200px); }
   .card{ width: clamp(220px, 32vw, 320px); height: clamp(220px, 32vw, 320px); margin-left: calc(clamp(220px, 32vw, 320px) / -2); border-radius:16px; }
   .arrow-overlay{ width:84px; height:84px; }
   .arrow-overlay svg{ width: 62px; height: 62px; }
 }
 @media (max-width: 768px){
-  .stage{ height: min(420px, 52vh); }
+  .stage{ height: min(420px, 52vh); width: min(100%, 1200px); }
   .card{ width: clamp(200px, 38vw, 280px); height: clamp(200px, 38vw, 280px); margin-left: calc(clamp(200px, 38vw, 280px) / -2); border-radius:14px; }
   .arrow-overlay{ width:72px; height:72px; }
   .arrow-overlay svg{ width: 56px; height: 56px; }
@@ -317,7 +374,7 @@ onMounted(async () => {
 @media (max-width: 420px){
   .arrow-overlay{ width:64px; height:64px; }
   .arrow-overlay svg{ width: 48px; height: 48px; }
-  .stage{ height: min(380px, 50vh); }
+  .stage{ height: min(380px, 50vh); width: min(100%, 1200px); }
   .card{ width: clamp(180px, 60vw, 240px); height: clamp(180px, 60vw, 240px); margin-left: calc(clamp(180px, 60vw, 240px) / -2); border-radius:12px; }
 }
 
@@ -326,5 +383,17 @@ onMounted(async () => {
   .compact-home{ padding-top: 12px; padding-bottom: 12px; }
   .arrow-overlay{ width:68px; height:68px; }
   .arrow-overlay svg{ width: 46px; height: 46px; }
+}
+
+/* 切换动效：中心图片更明显的滑入 + 轻微回弹 + 淡入 */
+@keyframes center-swap {
+  0%   { transform: translateX(64px) scale(0.96);  opacity: .75; filter: saturate(.95) contrast(.95); }
+  74%  { transform: translateX(-8px) scale(1.018); opacity: 1;   filter: none; }
+  100% { transform: translateX(0)   scale(1);      opacity: 1;   filter: none; }
+}
+
+@media (prefers-reduced-motion: reduce){
+  .card{ transition: none; }
+  .card.center .photo{ animation: none; }
 }
 </style>

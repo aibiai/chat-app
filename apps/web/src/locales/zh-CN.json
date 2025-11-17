@@ -9,7 +9,11 @@
       "crown": "皇冠会员",
       "none": "普通会员"
     },
-    "expires": "到期："
+    "expires": "到期：",
+    "alerts": {
+      "activated": "VIP 开通成功",
+      "giftSuccess": "已成功为 {name} 升级 VIP"
+    }
   },
   "nav": {
     "home": "首页",
@@ -30,7 +34,8 @@
     "profileCenter": "个人中心",
     "avatarSettings": "头像设置",
     "identityVerify": "身份认证",
-    "systemSettings": "系统设置"
+    "systemSettings": "系统设置",
+    "cardRedeem": "点卡兑换"
   },
   "common": {
     "loading": "加载中…",
@@ -45,7 +50,10 @@
     "noData": "没有符合条件的信息",
     "unknownUser": "未知用户",
     "reason": "原因：",
-    "pagination": { "prev": "上一页", "next": "下一页" },
+    "pagination": {
+      "prev": "上一页",
+      "next": "下一页"
+    },
     "edit": "编辑",
     "delete": "删除",
     "loadFailed": "加载失败",
@@ -55,7 +63,10 @@
   },
   "home": {
     "discover": "发现用户",
-    "age": { "yearsCn": "岁", "yearsEn": "y" },
+    "age": {
+      "yearsCn": "岁",
+      "yearsEn": "y"
+    },
     "loadError": "加载用户失败"
   },
   "chat": {
@@ -99,7 +110,9 @@
       }
     },
     "gift": {
-      "modal": { "title": "礼物商城" },
+      "modal": {
+        "title": "礼物商城"
+      },
       "send": "送出",
       "openMall": "打开礼物商城"
     },
@@ -109,11 +122,18 @@
       "sendFailed": "发送失败，请稍后重试",
       "notUnlocked": "未解锁"
     },
+    "limit": {
+      "upgradeToUnlock": "升级会员，解锁无限消息",
+      "cta": "立即升级",
+      "hint": "普通会员每位用户仅可发送 3 条消息"
+    },
     "time": {
       "today": "今天",
       "yesterday": "昨天"
     },
-    "actions": { "message": "发消息" }
+    "actions": {
+      "message": "发消息"
+    }
   },
   "login": {
     "heroTitle": "遇见更合拍的人",
@@ -155,7 +175,8 @@
     "genderTab": {
       "male": "男士",
       "female": "女士"
-    }
+    },
+    "nickname": "昵称"
   },
   "form": {
     "placeholder": {
@@ -196,12 +217,17 @@
       "editProfile": "编辑资料",
       "settings": "设置"
     },
-    "actions": { "editProfile": "修改资料" },
-    "balance": { "title": "余额金币", "unit": "金币" },
+    "actions": {
+      "editProfile": "修改资料"
+    },
+    "balance": {
+      "title": "余额金币",
+      "unit": "金币"
+    },
     "page": {
       "title": "我的设置",
       "profileTitle": "个人资料",
-      "profileDesc": "个人隐私开启后，他(她)将无法查看您的相册和个人资料"
+  "profileDesc": "个人隐私开启后，他（她）将无法查看您的个人资料"
     },
     "password": {
       "title": "修改密码",
@@ -254,10 +280,15 @@
       "submitted": "认证资料已提交，请等待审核",
       "need3Photos": "请上传三张认证照片"
     },
-    "conversations": { "title": "消息中心" },
+    "conversations": {
+      "title": "消息中心"
+    },
     "alerts": {
       "vipFailed": "开通失败，请稍后重试",
       "saveFailed": "保存失败，请稍后重试"
+    },
+    "upgrade": {
+      "useBalanceConfirm": "检测到您账户余额为 {balance} 金币，本次升级需要 {amount} 金币。是否使用余额完成升级？"
     }
   },
   "register": {
@@ -276,17 +307,25 @@
     "height": "身高 (cm)",
     "weight": "体重 (kg)",
     "identity": "实名认证",
-    "tabs": { "basic": "基本资料", "verify": "认证" },
+    "tabs": {
+      "basic": "基本资料",
+      "verify": "认证"
+    },
     "zodiac": "星座",
     "education": "学历",
     "marital": "婚姻状况",
     "realName": "姓名",
-  "submit": "提交",
-  "skipVerify": "暂不认证",
-  "status": { "pending": "审核中", "approved": "已认证", "rejected": "审核未通过" },
-  "submittedNotice": "您的信息已提交审核",
-  "rejectedHint": "审核未通过，请重新提交",
-  "avatarRejectedHint": "头像审核不通过，请重新上传",
+    "submit": "提交",
+    "skipVerify": "暂不认证",
+    "status": {
+      "pending": "审核中",
+      "approved": "已认证",
+      "rejected": "审核未通过",
+      "localPending": "待审核"
+    },
+    "submittedNotice": "您的信息已提交审核",
+    "rejectedHint": "审核未通过，请重新提交",
+    "avatarRejectedHint": "头像审核不通过，请重新上传",
     "zodiacOptions": {
       "aries": "白羊座",
       "taurus": "金牛座",
@@ -325,7 +364,7 @@
       "tooLarge": "文件过大，最大 {max} MB",
       "invalidType": "文件类型不被支持"
     },
-  "weightRangeLabel": "{min}-{max}kg",
+    "weightRangeLabel": "{min}-{max}kg",
     "region": "地区",
     "bio": "个人简介",
     "interests": "兴趣标签",
@@ -463,8 +502,7 @@
         ]
       }
     }
-  }
-  ,
+  },
   "admin": {
     "content": {
       "title": "内容管理",
@@ -525,18 +563,36 @@
     "subtitle": "选择一张新的头像并提交审核",
     "hint": "建议尺寸 256x256 以上，JPG/PNG",
     "submit": "提交审核",
-    "submitted": "头像已提交审核"
+    "submitted": "头像已提交审核",
+    "status": {
+      "approved": "已审核"
+    }
+  },
+  "profile": {
+    "notFilled": "未填写",
+    "popularity": "人气：",
+    "ageUnit": "岁",
+    "basic": { "title": "基本资料" },
+    "fields": { "age": "年龄" },
+    "like": { "liked": "已喜欢", "like": "喜欢" },
+    "matching": { "title": "择偶条件", "weightRange": "体重范围：{min}-{max} kg" },
+    "confession": { "title": "告白墙", "empty": "暂未发布" },
+    "image": { "viewLarge": "点击查看大图" }
   },
   "confession": {
     "sweetMoments": "甜蜜时刻",
     "themeSwitch": "主题切换",
-    "theme": { "sakura": "樱花", "sunset": "落日", "starry": "星空" },
+    "theme": {
+      "sakura": "樱花",
+      "sunset": "落日",
+      "starry": "星空"
+    },
     "loading": "正在加载甜蜜瞬间…",
     "captionDefault": "我们的第 {index} 次心动",
     "bubbleNote": "可在右侧“我的告白”中更换宣言",
     "myConfession": "我的告白",
     "maxChars": "最多 {n} 字",
-  "formDesc": "上传一张甜蜜照片。审核通过后将展示在左侧「甜蜜时刻」。",
+    "formDesc": "上传一张甜蜜照片。审核通过后将展示在左侧「甜蜜时刻」。",
     "image": "图片",
     "dropHere": "拖拽图片到此，或点击选择",
     "uploading": "上传中…",
@@ -553,6 +609,11 @@
     "errOnlyImage": "仅支持图片文件",
     "errTooLarge": "图片大小不能超过 8MB",
     "submitted": "已提交审核，审核通过后将展示在左侧。",
+    "status": {
+      "pending": "待审核",
+      "approved": "已审核上传",
+      "rejected": "审核失败，请重新提交"
+    },
     "places": {
       "sea": "海边",
       "cafe": "咖啡馆",
@@ -564,8 +625,7 @@
       "surprise": "小惊喜",
       "travel": "旅行照"
     }
-  }
-  ,
+  },
   "giftsMall": {
     "title": "礼物商城",
     "subtitle": "用一份心意拉近彼此距离",
@@ -574,11 +634,43 @@
     "tipsDesc": "选择一份能代表你的礼物，表达诚意，让关系更进一步。",
     "alertChooseTarget": "请选择要送礼物的对象后再尝试（URL 需带 ?to=<用户ID>）",
     "sentTo": "已向 {id} 送出「{name}」",
-    "sendFailed": "发送失败，请稍后重试"
-  }
-  ,
+    "sendFailed": "发送失败，请稍后重试",
+    "modal": {
+      "toHim": "送给他",
+      "toHer": "送给她",
+      "toUser": "送礼对象",
+      "nickname": "对方昵称",
+      "nicknamePlaceholder": "请输入对方昵称",
+      "userNotFound": "未找到该昵称用户",
+      "submit": "送出礼物",
+      "sentSuccess": "送礼成功"
+    }
+  },
   "topup": {
-    "amountLabel": "储值金额"
+    "amountLabel": "储值金额",
+    "redeemPlaceholder": "输入点卡卡密",
+    "redeem": "兑换",
+    "alerts": {
+      "invalidAmount": "金额不正确",
+      "success": "储值成功",
+      "failed": "储值失败，请稍后重试"
+    }
+  },
+  "cardRedeemModal": {
+    "title": "点卡兑换",
+    "message": "<strong class=\"highlight\">提交说明：</strong> 请上传点卡照片或订单截图，确保卡密清晰可见。最多支持 4 张 JPG/PNG 图片。提交后我们会尽快审核并完成兑换。",
+    "uploadEmpty": "点击上传图片",
+    "uploadReplace": "重新选择",
+    "confirm": "提交",
+    
+    "uploadAria": "上传第 {index} 张图片",
+    "needImage": "请至少上传一张图片",
+    "submittedSuccess": "已提交兑换申请，请等待审核",
+    "pending": "审核中",
+    "failed": "兑换失败，请重新提交",
+    "retry": "兑换失败，请重新提交",
+  "approved": "兑换成功，可继续提交",
+    "waiting": "等待审核..."
   },
   "vipModal": {
     "title": "VIP会员套餐",
@@ -603,6 +695,16 @@
       "likedMe": "查看喜爱我的",
       "viewedMe": "查看谁看我",
       "advancedSearch": "高级搜索"
+    },
+    "gift": {
+      "upgradeForOthers": "为他人升级",
+      "nicknameLabel": "昵称",
+      "nicknamePlaceholder": "请输入昵称",
+      "nicknameRequired": "请输入昵称"
     }
+  }
+  ,
+  "lucky": {
+    "value": "幸运值"
   }
 }

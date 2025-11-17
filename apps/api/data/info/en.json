@@ -95,6 +95,12 @@
         "E-mail: Lookinglove@outlook.com",
         "Find answers to common questions here. For ideas, issues, or support, email us; replies may be delayed during busy periods. Working hours: Mon–Sun 09:00–18:00."
       ]
+    },
+    "cardRedeem": {
+      "title": "",
+      "content": [
+        "<strong class=\"highlight\">How it works:</strong> Upload photos of the gift card or payment receipt. Make sure the code is readable. You can upload up to 4 JPG/PNG images. We will review and process your request shortly."
+      ]
     }
   }
 }

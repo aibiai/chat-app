@@ -1,0 +1,175 @@
+{
+  "logs": [
+    {
+      "id": 1,
+      "createdAt": "2025-11-12 00:34:28",
+      "username": "admin",
+      "title": "管理员登出",
+      "url": "/admin/api/logout",
+      "ip": "127.0.0.1",
+      "browser": "Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/142.0.0.0 Safari/537.36"
+    },
+    {
+      "id": 2,
+      "createdAt": "2025-11-12 00:34:30",
+      "username": "admin",
+      "title": "管理员登录",
+      "url": "/admin/api/login",
+      "ip": "127.0.0.1",
+      "browser": "Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/142.0.0.0 Safari/537.36"
+    },
+    {
+      "id": 3,
+      "createdAt": "2025-11-12 00:40:00",
+      "username": "admin",
+      "title": "管理员登录",
+      "url": "/admin/api/login",
+      "ip": "127.0.0.1",
+      "browser": "Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/142.0.0.0 Safari/537.36"
+    },
+    {
+      "id": 4,
+      "createdAt": "2025-11-12 00:55:36",
+      "username": "admin",
+      "title": "管理员登录",
+      "url": "/admin/api/login",
+      "ip": "127.0.0.1",
+      "browser": "Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/142.0.0.0 Safari/537.36"
+    },
+    {
+      "id": 5,
+      "createdAt": "2025-11-12 00:56:48",
+      "username": "测试admin",
+      "title": "管理员登录",
+      "url": "/admin/api/login",
+      "ip": "127.0.0.1",
+      "browser": "Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/142.0.0.0 Safari/537.36"
+    },
+    {
+      "id": 6,
+      "createdAt": "2025-11-12 00:58:45",
+      "username": "测试admin",
+      "title": "管理员登录",
+      "url": "/admin/api/login",
+      "ip": "127.0.0.1",
+      "browser": "Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/142.0.0.0 Safari/537.36"
+    },
+    {
+      "id": 7,
+      "createdAt": "2025-11-12 00:59:13",
+      "username": "admin",
+      "title": "管理员登录",
+      "url": "/admin/api/login",
+      "ip": "127.0.0.1",
+      "browser": "Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/142.0.0.0 Safari/537.36"
+    },
+    {
+      "id": 8,
+      "createdAt": "2025-11-12 01:00:36",
+      "username": "admin",
+      "title": "创建角色:总监管理组#2",
+      "url": "/admin/api/roles",
+      "ip": "127.0.0.1",
+      "browser": "Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/142.0.0.0 Safari/537.36"
+    },
+    {
+      "id": 9,
+      "createdAt": "2025-11-12 01:01:08",
+      "username": "admin",
+      "title": "更新管理员:测试admin",
+      "url": "/admin/api/admins/%E6%B5%8B%E8%AF%95admin",
+      "ip": "127.0.0.1",
+      "browser": "Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/142.0.0.0 Safari/537.36"
+    },
+    {
+      "id": 10,
+      "createdAt": "2025-11-12 01:01:17",
+      "username": "admin",
+      "title": "管理员登出",
+      "url": "/admin/api/logout",
+      "ip": "127.0.0.1",
+      "browser": "Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/142.0.0.0 Safari/537.36"
+    },
+    {
+      "id": 11,
+      "createdAt": "2025-11-12 01:01:19",
+      "username": "测试admin",
+      "title": "管理员登录",
+      "url": "/admin/api/login",
+      "ip": "127.0.0.1",
+      "browser": "Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/142.0.0.0 Safari/537.36"
+    },
+    {
+      "id": 12,
+      "createdAt": "2025-11-12 01:01:39",
+      "username": "admin",
+      "title": "管理员登录",
+      "url": "/admin/api/login",
+      "ip": "127.0.0.1",
+      "browser": "Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/142.0.0.0 Safari/537.36"
+    },
+    {
+      "id": 13,
+      "createdAt": "2025-11-12 01:02:10",
+      "username": "admin",
+      "title": "更新角色:#2",
+      "url": "/admin/api/roles/2",
+      "ip": "127.0.0.1",
+      "browser": "Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/142.0.0.0 Safari/537.36"
+    },
+    {
+      "id": 14,
+      "createdAt": "2025-11-12 01:02:25",
+      "username": "admin",
+      "title": "管理员登出",
+      "url": "/admin/api/logout",
+      "ip": "127.0.0.1",
+      "browser": "Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/142.0.0.0 Safari/537.36"
+    },
+    {
+      "id": 15,
+      "createdAt": "2025-11-12 01:02:30",
+      "username": "测试admin",
+      "title": "管理员登录",
+      "url": "/admin/api/login",
+      "ip": "127.0.0.1",
+      "browser": "Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/142.0.0.0 Safari/537.36"
+    },
+    {
+      "id": 16,
+      "createdAt": "2025-11-12 01:02:54",
+      "username": "admin",
+      "title": "管理员登录",
+      "url": "/admin/api/login",
+      "ip": "127.0.0.1",
+      "browser": "Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/142.0.0.0 Safari/537.36"
+    },
+    {
+      "id": 17,
+      "createdAt": "2025-11-12 20:52:16",
+      "username": "admin",
+      "title": "管理员登录",
+      "url": "/admin/api/login",
+      "ip": "127.0.0.1",
+      "browser": "Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/142.0.0.0 Safari/537.36"
+    },
+    {
+      "id": 18,
+      "createdAt": "2025-11-12 21:41:59",
+      "username": "admin",
+      "title": "审核删除:z90ZIxLmRpGhO7yrnduqB条",
+      "url": "/admin/api/reviews/delete",
+      "ip": "127.0.0.1",
+      "browser": "Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/142.0.0.0 Safari/537.36"
+    },
+    {
+      "id": 19,
+      "createdAt": "2025-11-12 22:05:05",
+      "username": "admin",
+      "title": "点卡审核驳回:34OBKfa-TGkyJC21lj1PY",
+      "url": "/admin/api/cards/34OBKfa-TGkyJC21lj1PY/reject",
+      "ip": "127.0.0.1",
+      "browser": "Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/142.0.0.0 Safari/537.36"
+    }
+  ]
+}

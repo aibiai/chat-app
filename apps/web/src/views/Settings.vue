@@ -148,7 +148,8 @@
             </div>
           </div>
           <div class="divider"></div>
-          <div v-if="visitList.length" class="likes-grid">
+          <!-- 访客列表：仅 VIP 可查看；非 VIP 显示开通提示 -->
+          <div v-if="isVip && visitList.length" class="likes-grid">
             <div v-for="it in visitList" :key="it.user.id + '-' + it.createdAt" class="likes-card">
               <AvatarImg :src="it.user.avatarUrl || ''" :gender="(it.user.gender as any)" :size="54" />
               <div class="lc-meta">
@@ -161,11 +162,16 @@
             </div>
           </div>
           <div v-else class="visit-empty">
-            <div class="icon">📝</div>
-            <div class="text">{{ t('common.noData') }}</div>
-            <button v-if="!isVip" class="visit-btn" type="button" @click="openVip">{{ t('settings.visitors.openVipHint') }}</button>
+            <div class="icon" v-if="isVip">📝</div>
+            <div class="text" v-if="isVip">{{ t('common.noData') }}</div>
+            <!-- 非 VIP：统一显示升级提示，不展示占位数据 -->
+            <template v-if="!isVip">
+              <div class="icon">🔒</div>
+              <div class="text">{{ t('settings.visitors.openVipHint') }}</div>
+              <button class="visit-btn" type="button" @click="openVip">{{ t('settings.visitors.openVipHint') }}</button>
+            </template>
           </div>
-          <div class="pager" v-if="visitTotalPages>1 || visitPage>1">
+          <div class="pager" v-if="isVip && (visitTotalPages>1 || visitPage>1)">
             <button class="pg btn" :disabled="visitPage<=1" @click="setVisitPage(visitPage-1)" :aria-label="t('common.pagination.prev')">‹</button>
             <button class="pg cur">{{ visitPage }}</button>
             <button class="pg btn" :disabled="visitPage>=visitTotalPages" @click="setVisitPage(visitPage+1)" :aria-label="t('common.pagination.next')">›</button>
@@ -179,8 +185,21 @@
             <!-- 头像与上传 -->
             <div class="md:col-span-2">
               <div class="flex items-center gap-4">
-                <img :src="avatarPreview || me?.avatarUrl || defaultAvatar" alt="avatar" class="w-16 h-16 rounded-full object-cover border shadow-sm" />
-                <FileUpload accept="image/*" :showPreview="false" @change="onAvatarChangeFile" />
+                <!-- 使用统一 AvatarImg 组件：src 为空时按性别兜底 (/avatars/IMG_0820.PNG 男 /avatars/IMG_0819.PNG 女) -->
+                <div
+                  class="relative group cursor-pointer select-none"
+                  @click="triggerAvatarPick"
+                  @keydown.enter.prevent="triggerAvatarPick"
+                  @keydown.space.prevent="triggerAvatarPick"
+                  tabindex="0"
+                  role="button"
+                  :aria-label="t('avatar.choose')"
+                >
+                  <AvatarImg :src="avatarPreview || me?.avatarUrl || ''" :gender="(pf.gender as any)" :size="64" />
+                  <div class="absolute inset-0 rounded-full bg-black/0 group-hover:bg-black/10 transition" aria-hidden="true"></div>
+                </div>
+                <span v-if="avatarPreview || me?.avatarUrl" class="inline-flex items-center gap-1 mt-1 text-xs px-2 py-0.5 rounded-full bg-green-50 text-green-700 border border-green-200">{{ t('avatar.status.approved') }}</span>
+                <FileUpload ref="avatarUploadRef" accept="image/*" :showPreview="false" @change="onAvatarChangeFile" />
               </div>
             </div>
             <FormField :label="t('onboarding.nickname')">
@@ -388,29 +407,40 @@
             </div>
 
             <FormField :label="t('onboarding.realName')">
-              <BaseInput v-model="realName" :placeholder="t('form.placeholder.realName')" :floatLabel="false" />
+              <BaseInput v-model="realName" :placeholder="t('form.placeholder.realName')" :floatLabel="false" :disabled="identityDisabled" />
             </FormField>
 
             <FormField :label="t('settings.verify.upload')">
               <div class="grid grid-cols-1 md:grid-cols-3 gap-3">
                 <div>
                   <label class="block text-sm mb-1">{{ t('onboarding.idFront') }}</label>
-                  <FileUpload accept="image/*" v-model="idFiles.front" :showPreview="true" :previewSize="52" />
+                  <FileUpload accept="image/*" v-model="idFiles.front" :showPreview="true" :previewSize="52" :disabled="identityDisabled" />
                 </div>
                 <div>
                   <label class="block text-sm mb-1">{{ t('onboarding.idBack') }}</label>
-                  <FileUpload accept="image/*" v-model="idFiles.back" :showPreview="true" :previewSize="52" />
+                  <FileUpload accept="image/*" v-model="idFiles.back" :showPreview="true" :previewSize="52" :disabled="identityDisabled" />
                 </div>
                 <div>
                   <label class="block text-sm mb-1">{{ t('onboarding.selfie') }}</label>
-                  <FileUpload accept="image/*" v-model="idFiles.selfie" :showPreview="true" :previewSize="52" />
+                  <FileUpload accept="image/*" v-model="idFiles.selfie" :showPreview="true" :previewSize="52" :disabled="identityDisabled" />
                 </div>
               </div>
             </FormField>
 
             <div class="flex gap-3">
               <button type="button" class="btn" @click="rightTab='settings'">{{ t('common.back') }}</button>
-              <button type="submit" class="btn primary" :disabled="idLoading">{{ idLoading ? t('common.submitting') : t('settings.verify.submit') }}</button>
+              <button type="submit" class="btn primary" :disabled="idLoading || identityStatus==='pending' || identityStatus==='approved'">
+                {{ idLoading
+                  ? t('common.submitting')
+                  : identityStatus==='pending'
+                    ? t('onboarding.status.pending')
+                    : identityStatus==='approved'
+                      ? t('onboarding.status.approved')
+                      : identityStatus==='rejected'
+                        ? t('settings.verify.resubmit')
+                        : t('settings.verify.submit')
+                }}
+              </button>
             </div>
           </form>
         </div>
@@ -526,21 +556,47 @@ const isVip = computed(() => {
 // 开通/续费 VIP：与后端打通
 async function onVipConfirm(payload: any){
   try{
-    const level = (payload && (payload.level === 'crown' || payload.level === 'purple'))
-      ? payload.level
-      : ((me.value?.membershipLevel && me.value.membershipLevel !== 'none') ? (me.value!.membershipLevel as any) : 'purple')
-    const days = payload?.days ? Number(payload.days) : (payload?.months ? Number(payload.months) * 30 : 30)
-    const base = Math.max(Date.now(), (me.value?.membershipUntil || 0))
-    const until = base + Math.max(1, days) * 24 * 60 * 60 * 1000
-    const { data } = await api.put('/api/users/me', { membershipLevel: level, membershipUntil: until })
-    me.value = data
+    const nickname = String(payload?.giftNickname || '').trim()
+    const tier = payload?.tier === 'crown' ? 'crown' : 'purple'
+    let months = Number(payload?.months)
+    if (!Number.isFinite(months) || months <= 0){
+      const days = Number(payload?.days)
+      if (Number.isFinite(days) && days > 0){
+        months = Math.max(1, Math.floor(days / 30))
+      }else{
+        months = 1
+      }
+    }else{
+      months = Math.max(1, Math.floor(months))
+    }
+    const rawAmount = Number(payload?.usd ?? payload?.amount)
+    const amount = Math.max(1, Math.floor(Number.isFinite(rawAmount) && rawAmount > 0 ? rawAmount : months * 60))
+    // 默认在线支付；若余额充足弹窗确认，取消则不下单
+    let method: 'online' | 'balance' = 'online'
+    const myBalance = Number(me.value?.balance || 0)
+    if (myBalance >= amount) {
+      const ok = window.confirm(t('settings.upgrade.useBalanceConfirm', { balance: myBalance.toFixed(2), amount: amount }))
+      if (!ok) return
+      method = 'balance'
+    }
+    const body: any = { tier, months, amount, method }
+    if (nickname) body.giftNickname = nickname
+  await api.post('/api/orders/upgrade', body)
+  await fetchMe()
+  // 通知其它页面（如幸运星）刷新会员等级
+  window.dispatchEvent(new CustomEvent('vip-updated'))
     vipOpen.value = false
+    if (nickname){
+      alert(t('vip.alerts.giftSuccess', { name: nickname }))
+      return
+    }
+    alert(t('vip.alerts.activated'))
     if (rightTab.value === 'likes') fetchLikes()
-  }catch{
-    alert(t('settings.alerts.vipFailed'))
+  }catch(err: any){
+    const msg = err?.response?.data?.error
+    alert(msg ? String(msg) : t('settings.alerts.vipFailed'))
   }
 }
-
 // 设置：私密资料开关与修改密码
 const privateProfile = ref(false)
 watchEffect(() => { privateProfile.value = !!me.value?.privateProfile })
@@ -648,6 +704,8 @@ const visitPageSize = ref(12)
 const visitTotal = ref(0)
 const visitTotalPages = computed(()=> Math.max(1, Math.ceil(visitTotal.value / visitPageSize.value)))
 async function fetchVisits(){
+  // 非 VIP 不请求，保持列表为空；当用户升级后 watcher 会触发重新拉取
+  if (!isVip.value) { visitList.value = []; visitTotal.value = 0; return }
   try{
     const type = subTab.value === 'meSeeWho' ? 'meSeeWho' : 'whoSeeMe'
     const { data } = await api.get('/api/visits/list', { params: { type, page: visitPage.value, pageSize: visitPageSize.value } })
@@ -657,16 +715,21 @@ async function fetchVisits(){
 }
 function setVisitPage(p:number){ if (p>=1 && p<=visitTotalPages.value){ visitPage.value=p; fetchVisits() } }
 watchEffect(()=>{ if (rightTab.value==='visitors') fetchVisits() })
+// VIP 状态变化：升级后自动加载访客数据
+watch(() => isVip.value, (nv) => { if (nv && rightTab.value==='visitors') fetchVisits() })
 watch(() => subTab.value, () => { visitPage.value = 1; if (rightTab.value==='visitors') fetchVisits() })
 
 // 基本资料表单状态
-const defaultAvatar = '/avatars/IMG_0819.PNG'
+// 移除单一默认头像，改由 AvatarImg 根据性别自动选择默认图片
 const pf = ref<{ nickname: string; gender: 'male'|'female'|'other'; zodiac: string; education: string; marital: string }>({ nickname: '', gender: 'male', zodiac: '', education: '', marital: '' })
 const avatarPreview = ref('')
 function onAvatarChangeFile(file: File | null){
   if (!file) { avatarPreview.value=''; return }
   const r = new FileReader(); r.onload = () => avatarPreview.value = String(r.result||''); r.readAsDataURL(file)
 }
+// 头像上传组件引用 & 触发函数（点击现有头像打开文件选择框）
+const avatarUploadRef = ref<any|null>(null)
+function triggerAvatarPick(){ avatarUploadRef.value?.open?.() }
 // 生日相关
 const now = new Date(); const currentYear = now.getFullYear()
 const years = Array.from({ length: 100 }, (_, i) => currentYear - i)
@@ -751,6 +814,8 @@ const identityReason = ref('')
 const realName = ref('')
 const idFiles = reactive<{ front: File | null; back: File | null; selfie: File | null }>({ front: null, back: null, selfie: null })
 const idLoading = ref(false)
+let idStatusTimer: number | null = null
+const identityDisabled = computed(() => identityStatus.value==='pending' || identityStatus.value==='approved')
 
 async function loadIdentityStatus(){
   try{
@@ -765,6 +830,24 @@ async function loadIdentityStatus(){
 
 watchEffect(() => { if (rightTab.value === 'verify') loadIdentityStatus() })
 
+// 若停留在认证页且处于待审核状态，开启轻量轮询，自动刷新“已审核”状态
+watch([rightTab, identityStatus], ([tab, st]) => {
+  if (tab === 'verify' && st === 'pending') {
+    if (!idStatusTimer) {
+      idStatusTimer = window.setInterval(loadIdentityStatus, 15000) as unknown as number
+    }
+  } else {
+    if (idStatusTimer) { clearInterval(idStatusTimer); idStatusTimer = null }
+  }
+})
+// 被驳回后清空上次预览，便于重新选择
+watch(identityStatus, (st) => {
+  if (st === 'rejected') {
+    idFiles.front = null; idFiles.back = null; idFiles.selfie = null
+  }
+})
+onUnmounted(() => { if (idStatusTimer) { clearInterval(idStatusTimer); idStatusTimer = null } })
+
 function toB64(f: File){ return new Promise<string>(resolve => { const r = new FileReader(); r.onload=()=>resolve(String(r.result||'')); r.readAsDataURL(f) }) }
 async function onSubmitIdentity(){
   if (!realName.value.trim()) { alert(t('form.error.required')); return }
@@ -775,7 +858,10 @@ async function onSubmitIdentity(){
     await api.post('/api/review/identity', { idFrontPath, idBackPath, selfiePath, realName: realName.value.trim() })
     identityStatus.value = 'pending'
     alert(t('settings.verify.submitted'))
-    rightTab.value = 'settings'
+    // 提交后留在本页，按钮文案切换为“待审核”；由轮询或再次进入页面自动更新为“已审核”
+  } catch(e:any){
+    const msg = e?.response?.data?.error || t('common.submitFailed')
+    alert(String(msg))
   } finally { idLoading.value = false }
 }
 

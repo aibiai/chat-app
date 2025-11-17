@@ -11,6 +11,7 @@ export interface User extends UserPublic {
   resetExpires?: number;
   // social metrics
   popularity?: number; // 人气值，默认 0
+  luckyStars?: number; // 幸运星数值，默认 0（可由后台覆盖；若缺省按礼物记录统计）
   // wallet
   balance?: number; // 账户余额（金币），默认 0
   // membership
@@ -126,4 +127,59 @@ export interface ConfessionPost {
   text: string;
   createdAt: number;
   approvedAt?: number;
+}
+
+export type OrderType = 'recharge' | 'upgrade';
+
+export interface OrderRecord {
+  id: string;
+  orderNo: string;
+  userId: string;
+  email: string;
+  account: string;
+  owner: string;
+  amount: number;
+  paidAmount: number;
+  type: OrderType;
+  method: string;
+  status: 'pending' | 'success' | 'failed';
+  note?: string;
+  createdAt: number;
+  paidAt?: number;
+  metadata?: Record<string, unknown>;
+}
+
+export type CardRedeemStatus = 'pending' | 'approved' | 'rejected';
+
+export interface CardRedeemRecord {
+  id: string;
+  userId: string;
+  username: string;
+  email: string;
+  gender?: User['gender'];
+  balance: number;
+  // 兼容字段：早期仅保存单图
+  imageUrl: string;
+  // 新增：最多四张图片（取代旧的 imageUrl；但保留 imageUrl 以兼容旧数据）
+  images?: string[];
+  uploadedAt: number;
+  status: CardRedeemStatus;
+  reviewedAt?: number;
+  reviewerId?: string;
+  note?: string;
+}
+
+export interface CoinConsumptionRecord {
+  id: string;
+  orderNo: string;
+  userId: string;
+  account: string;
+  owner: string;
+  target?: string;
+  item: string;
+  amount: number;
+  status: 'pending' | 'success' | 'failed';
+  note?: string;
+  createdAt: number;
+  metadata?: Record<string, unknown>;
 }

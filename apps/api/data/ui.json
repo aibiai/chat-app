@@ -1,3 +1,13 @@
 {
-  "chatBackground": "/static/backgrounds_1920_1080.jpg"
+  "chatBackground": "/static/backgrounds_1920_1080.jpg",
+  "chatBackgrounds": [
+    {
+      "id": "default",
+      "url": "/static/backgrounds_1920_1080.jpg",
+      "createdAt": "2025-11-13T13:03:56.647Z",
+      "name": "默认背景",
+      "active": true
+    }
+  ],
+  "chatBackgroundActiveId": "default"
 }

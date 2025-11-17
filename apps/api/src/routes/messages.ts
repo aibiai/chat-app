@@ -77,11 +77,16 @@ messagesRouter.get('/:peerId', (req: Request, res: Response) => {
 // 游客发送客服消息（HTTP fallback）
 messagesRouter.post('/guest/support', (req: Request, res: Response) => {
   const { guestId, content } = req.body as { guestId: string; content: string };
-  const clean = typeof content === 'string' ? content.replace(/[ \u3000]+/g, '') : '';
-  if (!guestId || !clean) return res.status(400).json({ error: 'Missing fields' });
+  const edgeTrimmed = typeof content === 'string'
+    ? content.replace(/^[\u0009-\u000D\u0020\u00A0]+|[\u0009-\u000D\u0020\u00A0]+$/g, '')
+    : '';
+  const asciiOnly = edgeTrimmed.replace(/[\u0009-\u000D\u0020\u00A0]/g, '').length === 0;
+  if (!guestId || !edgeTrimmed || asciiOnly) return res.status(400).json({ error: 'Missing fields' });
+  const sanitized = edgeTrimmed.replace(/ /g, '');
+  if (!sanitized) return res.status(400).json({ error: 'Missing fields' });
   const uid = `guest:${guestId}`;
   const messages = db.getMessages();
-  const msg = { id: nanoid(), fromUserId: uid, toUserId: 'support', content: clean, createdAt: Date.now() };
+  const msg = { id: nanoid(), fromUserId: uid, toUserId: 'support', content: sanitized, createdAt: Date.now() };
   messages.push(msg);
   db.saveMessages(messages);
   res.json(msg);
@@ -93,10 +98,15 @@ messagesRouter.post('/', (req: Request, res: Response) => {
   const payload = verifyToken(token);
   if (!payload) return res.status(401).json({ error: 'Unauthorized' });
   const { toUserId, content } = req.body as { toUserId: string; content: string };
-  const clean = typeof content === 'string' ? content.replace(/[ \u3000]+/g, '') : '';
-  if (!toUserId || !clean) return res.status(400).json({ error: 'Missing fields' });
+  const edgeTrimmed = typeof content === 'string'
+    ? content.replace(/^[\u0009-\u000D\u0020\u00A0]+|[\u0009-\u000D\u0020\u00A0]+$/g, '')
+    : '';
+  const asciiOnly = edgeTrimmed.replace(/[\u0009-\u000D\u0020\u00A0]/g, '').length === 0;
+  if (!toUserId || !edgeTrimmed || asciiOnly) return res.status(400).json({ error: 'Missing fields' });
+  const sanitized = edgeTrimmed.replace(/ /g, '');
+  if (!sanitized) return res.status(400).json({ error: 'Missing fields' });
   const messages = db.getMessages();
-  const msg = { id: nanoid(), fromUserId: payload.uid, toUserId, content: clean, createdAt: Date.now() };
+  const msg = { id: nanoid(), fromUserId: payload.uid, toUserId, content: sanitized, createdAt: Date.now() };
   messages.push(msg);
   db.saveMessages(messages);
   res.json(msg);

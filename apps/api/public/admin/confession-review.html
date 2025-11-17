@@ -1,0 +1,206 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>表白墙审核 - 信息审核</title>
+    <link rel="stylesheet" href="/admin/static/styles.css" />
+  </head>
+  <body class="admin-layout">
+    <aside class="admin-sidebar">
+      <div class="sidebar-top">
+        <div class="sidebar-logo">
+          <span class="logo-dot"></span>
+          <strong>控制台</strong>
+        </div>
+        <div class="sidebar-profile">
+          <div class="sidebar-avatar" id="sidebar-avatar">A</div>
+          <div>
+            <p id="admin-name" class="sidebar-name">管理员</p>
+            <span class="sidebar-status">在线</span>
+          </div>
+        </div>
+      </div>
+      <nav class="admin-nav">
+        <a class="nav-item" href="/admin/dashboard">
+          <span>控制台</span>
+          <small class="nav-tag hot">HOT</small>
+        </a>
+        <details class="nav-group">
+          <summary class="nav-item">
+            <span>常规管理</span>
+          </summary>
+          <div class="nav-sub">
+            <a class="nav-sub-item" href="/admin/profile">个人资料</a>
+            <a class="nav-sub-item" href="#">栏目配置</a>
+            <a class="nav-sub-item" href="#">缓存清理</a>
+          </div>
+        </details>
+        <details class="nav-group open">
+          <summary class="nav-item">
+            <span>信息审核</span>
+          </summary>
+          <div class="nav-sub">
+            <a class="nav-sub-item" href="/admin/attachments">附件审核</a>
+            <a class="nav-sub-item" href="/admin/avatar-review">头像审核</a>
+            <a class="nav-sub-item" href="/admin/identity-review">身份审核</a>
+            <a class="nav-sub-item active" href="/admin/confession-review">表白墙审核</a>
+          </div>
+        </details>
+        <details class="nav-group">
+          <summary class="nav-item">
+            <span>权限管理</span>
+          </summary>
+          <div class="nav-sub">
+            <a class="nav-sub-item" href="/admin/admins">管理员管理</a>
+            <a class="nav-sub-item" href="/admin/admin-logs">管理员日志</a>
+            <a class="nav-sub-item" href="/admin/roles">角色组</a>
+            <a class="nav-sub-item" href="/admin/rules">菜单规则</a>
+          </div>
+        </details>
+        <details class="nav-group">
+          <summary class="nav-item">
+            <span>即时通信管理</span>
+          </summary>
+          <div class="nav-sub">
+            <a class="nav-sub-item" href="/admin/push">推送消息</a>
+            <a class="nav-sub-item" href="/admin/service-accounts">服务账号管理</a>
+          </div>
+        </details>
+        <details class="nav-group">
+          <summary class="nav-item">
+            <span>会员管理</span>
+          </summary>
+          <div class="nav-sub">
+            <a class="nav-sub-item" href="/admin/members">会员管理</a>
+            <a class="nav-sub-item" href="/admin/customer-service">客服管理</a>
+          </div>
+        </details>
+        <details class="nav-group">
+          <summary class="nav-item">
+            <span>礼物管理</span>
+          </summary>
+          <div class="nav-sub">
+            <a class="nav-sub-item" href="/admin/gift-categories">礼物分类</a>
+            <a class="nav-sub-item" href="/admin/gifts">礼物管理</a>
+          </div>
+        </details>
+        <a class="nav-item" href="/admin/stickers">
+          <span>表情贴管理</span>
+        </a>
+        <details class="nav-group">
+          <summary class="nav-item">
+            <span>订单管理</span>
+          </summary>
+          <div class="nav-sub">
+            <a class="nav-sub-item" href="/admin/order-overview">总营业额</a>
+            <a class="nav-sub-item" href="/admin/recharge-records">充值记录</a>
+            <a class="nav-sub-item" href="/admin/coin-consumption">金币消费记录</a>
+            <a class="nav-sub-item" href="/admin/card-review">点卡审核</a>
+          </div>
+        </details>
+        <details class="nav-group">
+          <summary class="nav-item">
+            <span>前端管理</span>
+          </summary>
+          <div class="nav-sub">
+            <a class="nav-sub-item" href="/admin/frontend-terms">使用条款修改</a>
+            <a class="nav-sub-item" href="/admin/frontend-privacy">隐私条款修改</a>
+            <a class="nav-sub-item" href="/admin/frontend-security">交友安全修改</a>
+            <a class="nav-sub-item" href="/admin/frontend-help">帮助中心修改</a>
+            <a class="nav-sub-item" href="/admin/frontend-contact">联系我们修改</a>
+            <a class="nav-sub-item" href="/admin/frontend-user-config">用户参数修改</a>
+            <a class="nav-sub-item" href="/admin/frontend-card-redeem">点卡兑换内容修改</a>
+            <a class="nav-sub-item" href="/admin/frontend-confession-images">表白墙图片修改</a>
+          </div>
+        </details>
+
+      </nav>
+      <button type="button" class="logout-btn" id="logout-btn">退出登录</button>
+    </aside>
+
+    <main class="admin-main members-compact">
+      <header class="admin-topbar">
+        <div>
+          <h1>表白墙审核</h1>
+          <p class="topbar-subtitle">
+            审核用户提交的表白图片与文字，确保内容符合平台规范后再对外展示。
+          </p>
+        </div>
+        <div class="topbar-actions">
+          <label class="search-box">
+            <svg viewBox="0 0 24 24" width="18" height="18" aria-hidden="true">
+              <path
+                fill="currentColor"
+                d="M15.5 14h-.79l-.28-.27A6.5 6.5 0 1 0 9.5 16a6.48 6.48 0 0 0 4.23-1.57l.27.28v.79l5 5L20.5 19l-5-5Zm-6 0A4.5 4.5 0 1 1 14 9.5 4.5 4.5 0 0 1 9.5 14Z"
+              />
+            </svg>
+            <input type="search" id="confession-search" placeholder="搜索用户名 / Email / 文案内容" />
+          </label>
+          <div class="view-switch">
+            <button class="topbar-icon" id="confession-refresh" aria-label="刷新">
+              <svg viewBox="0 0 24 24" width="18" height="18" fill="currentColor">
+                <path d="M17.65 6.35A7.95 7.95 0 0 0 12 4V1L7 6l5 5V7a5 5 0 1 1-5 5H5a7 7 0 1 0 12.65-5.65Z" />
+              </svg>
+            </button>
+            <button class="topbar-icon" id="confession-export" aria-label="导出">
+              <svg viewBox="0 0 24 24" width="18" height="18" fill="currentColor">
+                <path d="M5 20h14v-2H5m14-9h-4V3H9v6H5l7 7 7-7Z" />
+              </svg>
+            </button>
+          </div>
+        </div>
+      </header>
+
+      <section class="panel members-compact">
+        <header class="panel-head">
+          <div class="panel-actions">
+            <button class="panel-btn danger" id="confession-delete">删除</button>
+            <button class="panel-btn" id="confession-more">更多</button>
+          </div>
+        </header>
+
+        <div class="table-wrapper">
+          <table class="data-table" id="confession-table">
+            <thead>
+              <tr>
+                <th><input type="checkbox" id="confession-check-all" /></th>
+                <th>ID</th>
+                <th>用户</th>
+                <th>图片</th>
+                <th>表白文案</th>
+                <th>状态</th>
+                <th>操作</th>
+              </tr>
+            </thead>
+            <tbody>
+              <tr><td colspan="7" class="empty">加载中...</td></tr>
+            </tbody>
+          </table>
+        </div>
+
+        <footer class="table-foot">
+          <div class="table-info" id="confession-info">
+            显示第&nbsp;1&nbsp;页&nbsp;/&nbsp;共&nbsp;1&nbsp;页，总计&nbsp;0&nbsp;条记录
+          </div>
+          <div class="table-pager">
+            <button class="pager-btn" data-page="prev">上一页</button>
+            <div id="confession-pager"></div>
+            <button class="pager-btn" data-page="next">下一页</button>
+            <label class="pager-size">
+              每页展示
+              <select id="confession-page-size">
+                <option value="10">10 条</option>
+                <option value="20">20 条</option>
+                <option value="50">50 条</option>
+              </select>
+            </label>
+          </div>
+        </footer>
+      </section>
+    </main>
+
+  <script type="module" src="/admin/static/perm-guard.js"></script>
+  <script type="module" src="/admin/confession-review.js"></script>
+  </body>
+</html>

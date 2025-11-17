@@ -2,6 +2,8 @@ import { Router, Request, Response } from 'express';
 import { existsSync, mkdirSync, readFileSync, writeFileSync } from 'fs';
 import { join, extname } from 'path';
 import multer from 'multer';
+import { verifyAdminToken } from '../adminAuth';
+import { collectAdminPermissions, findAdminByUsername } from '../adminStore';
 
 // 内容存储目录：data/info/{locale}.json
 const DATA_DIR = join(process.cwd(), 'data');
@@ -37,24 +39,77 @@ function writeLocale(locale: string, data: any) {
 }
 
 // UI 配置（例如聊天背景图）
-type UiConfig = { chatBackground?: string };
+interface ChatBackgroundItem { id: string; url: string; name?: string; createdAt: string; size?: number; active?: boolean; }
+interface UiConfig {
+  chatBackground?: string; // 兼容旧字段：当前启用背景 URL
+  chatBackgrounds?: ChatBackgroundItem[]; // 历史背景列表
+  chatBackgroundActiveId?: string; // 当前启用背景 id
+}
+function migrateUiConfig(raw: any): UiConfig {
+  const cfg: UiConfig = {
+    chatBackground: raw?.chatBackground || '/static/chat-bg.jpg',
+    chatBackgrounds: Array.isArray(raw?.chatBackgrounds) ? raw.chatBackgrounds : [],
+    chatBackgroundActiveId: raw?.chatBackgroundActiveId || ''
+  };
+  // 若列表为空但存在单个 chatBackground，迁移成一条记录
+  if ((!cfg.chatBackgrounds || cfg.chatBackgrounds.length === 0) && cfg.chatBackground) {
+    const id = 'default';
+    cfg.chatBackgrounds = [{ id, url: cfg.chatBackground, createdAt: new Date().toISOString(), name: '默认背景', active: true }];
+    cfg.chatBackgroundActiveId = id;
+  }
+  // 标记 active
+  if (cfg.chatBackgrounds && cfg.chatBackgrounds.length) {
+    cfg.chatBackgrounds = cfg.chatBackgrounds.map(it => ({ ...it, active: it.id === cfg.chatBackgroundActiveId }));
+    const act = cfg.chatBackgrounds.find(it => it.id === cfg.chatBackgroundActiveId) || cfg.chatBackgrounds[0];
+    cfg.chatBackground = act.url;
+    cfg.chatBackgroundActiveId = act.id;
+  } else {
+    cfg.chatBackground = '/static/chat-bg.jpg';
+  }
+  return cfg;
+}
 function readUiConfig(): UiConfig {
   try {
-    if (!existsSync(UI_CFG_PATH)) return { chatBackground: '/static/chat-bg.jpg' };
-    const raw = readFileSync(UI_CFG_PATH, 'utf-8');
-    const data = JSON.parse(raw);
-    return { chatBackground: data.chatBackground || '/static/chat-bg.jpg' };
+    if (!existsSync(UI_CFG_PATH)) return migrateUiConfig({ chatBackground: '/static/chat-bg.jpg' });
+    const raw = JSON.parse(readFileSync(UI_CFG_PATH, 'utf-8'));
+    return migrateUiConfig(raw);
   } catch {
-    return { chatBackground: '/static/chat-bg.jpg' };
+    return migrateUiConfig(null);
   }
 }
 function writeUiConfig(cfg: UiConfig) {
-  const next = { chatBackground: cfg.chatBackground || '/static/chat-bg.jpg' };
-  writeFileSync(UI_CFG_PATH, JSON.stringify(next, null, 2), 'utf-8');
+  const norm = migrateUiConfig(cfg);
+  writeFileSync(UI_CFG_PATH, JSON.stringify(norm, null, 2), 'utf-8');
 }
 
 // 简单的 schema：{ sections: { [key]: { title: string, content: string[] } } }
-const DEFAULT_KEYS = ['about','terms','privacy','security','help','contact'];
+// 新增 cardRedeem：用于前端“点卡兑换”弹窗说明文案动态配置（content[0] 为 HTML 字符串）
+const DEFAULT_KEYS = ['about','terms','privacy','security','help','contact','cardRedeem'];
+
+const CARD_REDEEM_DEFAULTS: Record<string, string> = {
+  'zh-CN': '<strong class="highlight">提交说明：</strong> 请上传点卡照片或订单截图，确保卡密清晰可见。最多支持 4 张 JPG/PNG 图片。提交后我们会尽快审核并完成兑换。',
+  'zh-TW': '<strong class="highlight">提交說明：</strong> 請上傳點卡照片或訂單截圖，確保卡密清晰可見。最多支援 4 張 JPG/PNG 圖片。提交後我們會儘快審核並完成兌換。',
+  'en': '<strong class="highlight">How it works:</strong> Upload photos of the gift card or payment receipt. Make sure the code is readable. You can upload up to 4 JPG/PNG images. We will review and process your request shortly.',
+  'ja': '<strong class="highlight">提出方法：</strong> ギフトカードの写真または決済画面のスクリーンショットをアップロードしてください。コードが判読できるようにしてください。JPG/PNG 画像を最大4枚まで送信できます。送信後は順次審査して処理します。',
+  'ko': '<strong class="highlight">제출 안내:</strong> 상품권 사진 또는 결제 영수증 화면을 업로드해주세요. 핀 번호가 잘 보이도록 확인해주세요. JPG/PNG 이미지를 최대 4장까지 등록할 수 있습니다. 제출 후 차례로 검수하여 처리해 드립니다.'
+};
+
+function ensureCardRedeemDefault(locale: string, data: any): boolean {
+  if (!data.sections) data.sections = {};
+  if (!data.sections.cardRedeem) data.sections.cardRedeem = { title: '', content: [] };
+  const sec = data.sections.cardRedeem;
+  const hasContent =
+    Array.isArray(sec.content) && sec.content.some((item: unknown) => typeof item === 'string' && item.trim());
+  if (hasContent) return false;
+  const fallback =
+    CARD_REDEEM_DEFAULTS[locale] ||
+    CARD_REDEEM_DEFAULTS['zh-CN'] ||
+    CARD_REDEEM_DEFAULTS['en'] ||
+    '<strong class="highlight">Card redeem:</strong> Please upload your card screenshot.';
+  sec.content = [fallback];
+  if (typeof sec.title !== 'string') sec.title = '';
+  return true;
+}
 
 export const contentRouter = Router();
 
@@ -64,7 +119,23 @@ contentRouter.get('/theme', (_req: Request, res: Response) => {
   const cfg = readUiConfig();
   res.json({ ok: true, data: cfg });
 });
-contentRouter.put('/theme', (req: Request, res: Response) => {
+// 管理权限中间件（仅用于 content 路由下的后台维护接口）
+function requireAdminFrontendPerm(req: Request, res: Response, next: Function){
+  const header = String(req.headers.authorization || req.headers['x-admin-token'] || '').trim();
+  const token = header.startsWith('Bearer ') ? header.slice(7) : header;
+  const payload = verifyAdminToken(token);
+  if (!payload) return res.status(401).json({ error: 'UNAUTHORIZED' });
+  const admin = findAdminByUsername(payload.username);
+  if (!admin) return res.status(401).json({ error: 'UNAUTHORIZED' });
+  const perms = collectAdminPermissions(admin);
+  if (!perms.includes('frontend/frontend-chat-backgrounds') && !perms.includes('frontend')){
+    return res.status(403).json({ error: 'FORBIDDEN', need: 'frontend/frontend-chat-backgrounds' });
+  }
+  (req as any).admin = payload;
+  next();
+}
+
+contentRouter.put('/theme', requireAdminFrontendPerm, (req: Request, res: Response) => {
   const body: UiConfig = req.body || {};
   writeUiConfig(body);
   res.json({ ok: true });
@@ -88,22 +159,105 @@ const upload = multer({
   }
 });
 
-contentRouter.post('/theme/upload', upload.single('file'), (req: Request, res: Response) => {
+contentRouter.post('/theme/upload', requireAdminFrontendPerm, upload.single('file'), (req: Request, res: Response) => {
   const file = (req as any).file as Express.Multer.File | undefined;
   if (!file) return res.status(400).json({ ok: false, error: 'No file' });
   const url = `/static/${file.filename}`;
-  writeUiConfig({ chatBackground: url });
-  res.json({ ok: true, data: { chatBackground: url } });
+  const prev = readUiConfig();
+  // 上传覆盖默认 chat-bg.* 文件，作为一个新条目或更新 default
+  const id = 'default';
+  let list = prev.chatBackgrounds || [];
+  const idx = list.findIndex(it => it.id === id);
+  const item: ChatBackgroundItem = { id, url, name: '默认背景', createdAt: new Date().toISOString(), active: true };
+  if (idx >= 0) list[idx] = { ...list[idx], url, active: true, createdAt: item.createdAt }; else list.unshift(item);
+  list = list.map(it => ({ ...it, active: it.id === id }));
+  writeUiConfig({ ...prev, chatBackground: url, chatBackgroundActiveId: id, chatBackgrounds: list });
+  res.json({ ok: true, data: { chatBackground: url, item } });
+});
+
+// 管理端：列出所有聊天背景
+contentRouter.get('/theme/chat-backgrounds', requireAdminFrontendPerm, (_req: Request, res: Response) => {
+  const cfg = readUiConfig();
+  res.json({ ok: true, list: cfg.chatBackgrounds || [], activeId: cfg.chatBackgroundActiveId });
+});
+
+// 管理端：新增（上传）聊天背景（允许自定义文件名，避免覆盖默认）
+const dynamicStorage = multer.diskStorage({
+  destination: (_req: Request, _file: Express.Multer.File, cb) => { ensureDir(); cb(null, STATIC_DIR); },
+  filename: (_req: Request, file: Express.Multer.File, cb) => {
+    const ext = extname(file.originalname || '') || '.jpg';
+    const stamp = Date.now().toString(36);
+    cb(null, `chat-bg-${stamp}${ext}`);
+  }
+});
+const dynamicUpload = multer({ storage: dynamicStorage, limits: { fileSize: 15 * 1024 * 1024 }, fileFilter: (_req, file, cb) => {
+  if ((file.mimetype || '').startsWith('image/')) return cb(null, true); return cb(new Error('Only image files are allowed'));
+} });
+
+contentRouter.post('/theme/chat-backgrounds/upload', requireAdminFrontendPerm, dynamicUpload.single('file'), (req: Request, res: Response) => {
+  const file = (req as any).file as Express.Multer.File | undefined;
+  if (!file) return res.status(400).json({ ok: false, error: 'No file' });
+  const prev = readUiConfig();
+  const url = `/static/${file.filename}`;
+  const id = file.filename.replace(/\.[^.]+$/, '');
+  const item: ChatBackgroundItem = { id, url, name: file.originalname || id, createdAt: new Date().toISOString(), size: file.size, active: false };
+  const list = [item, ...(prev.chatBackgrounds || []).filter(it => it.id !== id)].slice(0, 200); // 限制最多 200 条
+  writeUiConfig({ ...prev, chatBackgrounds: list });
+  res.json({ ok: true, item });
+});
+
+// 管理端：激活指定背景
+contentRouter.post('/theme/chat-backgrounds/activate', requireAdminFrontendPerm, (req: Request, res: Response) => {
+  const { id } = (req.body || {}) as { id?: string };
+  const targetId = String(id || '').trim();
+  if (!targetId) return res.status(400).json({ ok: false, error: 'MISSING_ID' });
+  const prev = readUiConfig();
+  const list = prev.chatBackgrounds || [];
+  const found = list.find(it => it.id === targetId);
+  if (!found) return res.status(404).json({ ok: false, error: 'NOT_FOUND' });
+  const nextList = list.map(it => ({ ...it, active: it.id === targetId }));
+  writeUiConfig({ ...prev, chatBackground: found.url, chatBackgroundActiveId: targetId, chatBackgrounds: nextList });
+  res.json({ ok: true, activeId: targetId, chatBackground: found.url });
+});
+
+// 管理端：删除背景（不能删除当前启用）
+contentRouter.post('/theme/chat-backgrounds/delete', requireAdminFrontendPerm, (req: Request, res: Response) => {
+  const { ids } = (req.body || {}) as { ids?: unknown };
+  const normalized = Array.isArray(ids) ? ids.map(i => String(i || '').trim()).filter(Boolean) : [];
+  if (!normalized.length) return res.status(400).json({ ok: false, error: 'INVALID_IDS' });
+  const prev = readUiConfig();
+  const list = prev.chatBackgrounds || [];
+  const remained = list.filter(it => !normalized.includes(it.id));
+  // 保护当前启用背景
+  if (!remained.find(it => it.id === prev.chatBackgroundActiveId)) {
+    // 如果当前启用被删除，则回退到第一条
+    const fallback = list.find(it => it.id === prev.chatBackgroundActiveId);
+    if (fallback) remained.push(fallback);
+  }
+  writeUiConfig({ ...prev, chatBackgrounds: remained });
+  res.json({ ok: true, deleted: normalized });
+});
+
+// Public lightweight endpoint: 当前启用聊天背景（用于前端 Chat.vue 拉取）
+contentRouter.get('/chat-background', (_req: Request, res: Response) => {
+  const cfg = readUiConfig();
+  res.json({ ok: true, data: { chatBackground: cfg.chatBackground, id: cfg.chatBackgroundActiveId } });
 });
 
 // 获取某语言的内容
 contentRouter.get('/:locale', (req: Request, res: Response) => {
   const { locale } = req.params;
   const data = readLocale(locale) || { sections: {} };
+  let mutated = false;
   for (const k of DEFAULT_KEYS) {
     if (!data.sections[k]) {
       data.sections[k] = { title: '', content: [] };
+      mutated = true;
     }
+  }
+  if (ensureCardRedeemDefault(locale, data)) mutated = true;
+  if (mutated) {
+    writeLocale(locale, data);
   }
   res.json({ ok: true, data });
 });

@@ -41,8 +41,8 @@ import { useRoute } from 'vue-router'
 import { useI18n } from 'vue-i18n'
 const { t } = useI18n()
 const route = useRoute()
-// 在聊天页（/chat、/chat/:id）隐藏支付品牌图标，以免干扰页面背景与内容
-const hidePayments = computed(() => route.path.startsWith('/chat'))
+// 统一与首页一致：所有页面均显示支付品牌标识（不再在聊天页隐藏）
+const hidePayments = computed(() => false)
 </script>
 
 <style scoped>

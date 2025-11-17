@@ -26,24 +26,36 @@
         <FormField :label="t('onboarding.avatar')" class="md:col-span-2">
           <div class="grid grid-cols-1 md:grid-cols-2 items-center gap-3 sm:gap-2">
             <div class="flex flex-col items-start md:justify-start py-0.5 gap-1">
-              <img
+              <!-- 使用统一 AvatarImg 组件以获得性别默认头像与缓存版本控制 -->
+              <AvatarImg
                 :src="avatarDisplaySrc"
+                :gender="form.gender"
+                :size="64"
                 alt="avatar"
-                class="w-12 h-12 sm:w-14 sm:h-14 md:w-16 md:h-16 rounded-full object-cover border shadow-sm"
-                @error="onAvatarImgError"
               />
-              <!-- 头像审核状态提示 -->
-              <div v-if="avatarStatus !== 'none'" class="mt-1">
+              <!-- 头像审核状态提示：
+                   状态区分：
+                   1) 用户选择了新文件但尚未提交 -> 显示“待审核”（localPending）粉色
+                   2) 提交后等待审核 -> 服务器返回 pending，显示“审核中”黄色
+                   3) 已通过/被驳回 -> 绿色 / 红色
+              -->
+              <div v-if="avatarStatus !== 'none' || previewAvatar" class="mt-1">
                 <span
                   class="inline-flex items-center gap-2 text-xs px-2.5 py-0.5 rounded-full"
                   :class="{
+                    // 服务器审核中
                     'bg-yellow-50 text-yellow-700 border border-yellow-200': avatarStatus==='pending',
-                    'bg-green-50 text-green-700 border border-green-200': avatarStatus==='approved',
+                    // 本地待提交（只在已审核状态下选择了新文件才显示粉色待审核）
+                    'bg-pink-50 text-pink-700 border border-pink-200': previewAvatar && avatarStatus==='approved',
+                    // 已审核（且未选择新文件）
+                    'bg-green-50 text-green-700 border border-green-200': avatarStatus==='approved' && !previewAvatar,
+                    // 被驳回
                     'bg-red-50 text-red-700 border border-red-200': avatarStatus==='rejected',
                   }"
                 >
                   <span v-if="avatarStatus==='pending'">{{ t('onboarding.status.pending') }}</span>
-                  <span v-else-if="avatarStatus==='approved'">{{ t('onboarding.status.approved') }}</span>
+                  <span v-else-if="previewAvatar && avatarStatus==='approved'">{{ t('onboarding.status.localPending') }}</span>
+                  <span v-else-if="avatarStatus==='approved'">{{ t('avatar.status.approved') }}</span>
                   <span v-else>{{ t('onboarding.status.rejected') }}</span>
                 </span>
                 <p v-if="avatarStatus==='rejected' && avatarReason" class="text-[11px] leading-4 text-red-500 mt-1">{{ t('onboarding.avatarRejectedHint') }}: {{ avatarReason }}</p>
@@ -186,11 +198,8 @@ import FormField from '../components/FormField.vue'
 import FloatingSelect from '../components/FloatingSelect.vue'
 import FileUpload from '../components/FileUpload.vue'
 import api from '../api'
-// 头像默认占位
-const defaultAvatarGeneric = 'https://placehold.co/128x128/png'
-// 使用已放置的默认头像（public 目录静态资源）
-const defaultAvatarFemale = '/avatars/IMG_0819.PNG'
-const defaultAvatarMale = '/avatars/IMG_0820.PNG'
+import AvatarImg from '../components/AvatarImg.vue'
+// 使用 AvatarImg 内部默认性别头像，不再额外定义 generic/female/male 路径
 const router = useRouter()
 const route = useRoute()
 const { t } = useI18n()
@@ -206,19 +215,8 @@ const activeTab = ref<'basic'|'verify'>(route.query.tab === 'verify' ? 'verify' 
 watch(() => route.query.tab, (val) => {
   activeTab.value = val === 'verify' ? 'verify' : 'basic'
 })
-// 头像显示：优先预览 > 用户头像 > 性别默认
-const avatarDisplaySrc = computed(() => {
-  if (previewAvatar.value) return previewAvatar.value
-  if (avatarUrl.value) return avatarUrl.value
-  if (form.gender === 'female') return defaultAvatarFemale
-  if (form.gender === 'male') return defaultAvatarMale
-  return defaultAvatarGeneric
-})
-function onAvatarImgError(e: Event) {
-  const el = e.target as HTMLImageElement
-  if (!el) return
-  el.src = defaultAvatarGeneric
-}
+// 头像显示：只决定“用户或预览”源；若为空交由 AvatarImg 做性别兜底
+const avatarDisplaySrc = computed(() => previewAvatar.value || avatarUrl.value || '')
 
 // 身高/体重下拉选择
 const heightOptions = Array.from({ length: Math.floor((200 - 150) / 5) + 1 }, (_, i) => 150 + i * 5)
@@ -387,7 +385,7 @@ async function onSubmitBasic() {
   } catch (e: any) {
     console.error('Profile review submit failed:', e)
     // 提示用户失败原因（简单兜底）
-    alert(String(e?.message || 'Failed to submit. Please try again.'))
+    alert(String(e?.message || t('common.submitFailed')))
   } finally { loading.value = false }
 }
 

@@ -8,96 +8,7 @@ const pageSizeSelect = document.querySelector('#gift-page-size');
 const searchInput = document.querySelector('#gift-search');
 const checkAllEl = document.querySelector('#gift-check-all');
 
-const gifts = [
-  {
-    id: 11,
-    name: '\u7231\u7684\u5fc3\u5f39',
-    image: 'https://images.unsplash.com/photo-1520975698519-59c05f8aec57?auto=format&fit=crop&w=64&q=60',
-    price: 200,
-    weight: 0,
-    status: 'active'
-  },
-  {
-    id: 10,
-    name: '\u4e00\u751f\u4e00\u4e16',
-    image: 'https://images.unsplash.com/photo-1500530855697-b586d89ba3ee?auto=format&fit=crop&w=64&q=60',
-    price: 98,
-    weight: 0,
-    status: 'active'
-  },
-  {
-    id: 9,
-    name: '\u544a\u767d\u6ce8\u91cd',
-    image: 'https://images.unsplash.com/photo-1487412720507-e7ab37603c6f?auto=format&fit=crop&w=64&q=60',
-    price: 68,
-    weight: 0,
-    status: 'active'
-  },
-  {
-    id: 8,
-    name: '\u6bd4\u7ffc\u76f8\u4f34',
-    image: 'https://images.unsplash.com/photo-1511988617509-a57c8a288659?auto=format&fit=crop&w=64&q=60',
-    price: 128,
-    weight: 0,
-    status: 'active'
-  },
-  {
-    id: 7,
-    name: '\u540c\u5fc3\u4e4b\u5251',
-    image: 'https://images.unsplash.com/photo-1545239351-1141bd82e8a6?auto=format&fit=crop&w=64&q=60',
-    price: 80,
-    weight: 0,
-    status: 'active'
-  },
-  {
-    id: 6,
-    name: '\u7231\u7684\u6c14\u7403',
-    image: 'https://images.unsplash.com/photo-1531927557220-a9e23c1e4790?auto=format&fit=crop&w=64&q=60',
-    price: 40,
-    weight: 0,
-    status: 'active'
-  },
-  {
-    id: 5,
-    name: '\u538b\u529b\u767d\u4ed9\u5251',
-    image: 'https://images.unsplash.com/photo-1522312346375-d1a52e2b99b3?auto=format&fit=crop&w=64&q=60',
-    price: 199,
-    weight: 0,
-    status: 'active'
-  },
-  {
-    id: 4,
-    name: '\u68a6\u60f3\u70df\u82b1',
-    image: 'https://images.unsplash.com/photo-1492684223066-81342ee5ff30?auto=format&fit=crop&w=64&q=60',
-    price: 30,
-    weight: 0,
-    status: 'active'
-  },
-  {
-    id: 3,
-    name: '\u4f73\u8282\u82b1\u7f8e',
-    image: 'https://images.unsplash.com/photo-1500534314209-a25ddb2bd429?auto=format&fit=crop&w=64&q=60',
-    price: 52,
-    weight: 0,
-    status: 'active'
-  },
-  {
-    id: 2,
-    name: '\u5185\u8499\u53e4\u7ea2\u5609\u7ea2',
-    image: 'https://images.unsplash.com/photo-1529101091764-c3526daf38fe?auto=format&fit=crop&w=64&q=60',
-    price: 25,
-    weight: 0,
-    status: 'active'
-  },
-  {
-    id: 1,
-    name: '\u544a\u767d\u767d\u73ab',
-    image: 'https://images.unsplash.com/photo-1464965911861-746a04b4bca6?auto=format&fit=crop&w=64&q=60',
-    price: 68,
-    weight: 0,
-    status: 'active'
-  }
-];
+let gifts = [];
 
 const state = {
   page: 1,
@@ -123,6 +34,22 @@ function ensureToken() {
   return token;
 }
 
+function headers() {
+  const x = ensureToken();
+  return x ? { 'x-admin-token': x } : {};
+}
+
+async function fetchCatalog() {
+  try {
+    const res = await fetch('/api/gifts/catalog', { headers: { 'content-type': 'application/json' } });
+    const data = await res.json();
+    gifts = Array.isArray(data?.list) ? data.list : [];
+  } catch (e) {
+    console.error('load catalog failed', e);
+    gifts = [];
+  }
+}
+
 function renderProfile() {
   const profile = readProfile() || {};
   const displayName = profile.nickname || profile.username || '\u7ba1\u7406\u5458';
@@ -133,7 +60,7 @@ function renderProfile() {
 function filterData() {
   const keyword = state.keyword.trim().toLowerCase();
   if (!keyword) return gifts;
-  return gifts.filter((item) => item.name.toLowerCase().includes(keyword) || String(item.id).includes(keyword));
+  return gifts.filter((item) => String(item.name || '').toLowerCase().includes(keyword) || String(item.id).includes(keyword));
 }
 
 function paginate(data) {
@@ -157,14 +84,8 @@ function renderTable() {
           <td><input type="checkbox" data-id="${item.id}" /></td>
           <td>${item.id}</td>
           <td>${item.name}</td>
-          <td><img src="${item.image}" alt="${item.name}" class="gift-thumb" /></td>
-          <td>${item.price.toFixed(2)}</td>
-          <td>${item.weight}</td>
-          <td>
-            <span class="status-pill ${item.status === 'active' ? 'active' : 'disabled'}">
-              ${item.status === 'active' ? '\u542f\u7528' : '\u505c\u7528'}
-            </span>
-          </td>
+          <td><img src="${item.img}" alt="${item.name}" class="gift-thumb" width="48" height="48" style="width:48px;height:48px;object-fit:cover;border-radius:10px;border:1px solid rgba(226,232,240,0.75);background:#f1f5f9;" /></td>
+          <td>${Number(item.price || 0).toFixed(2)}</td>
           <td>
             <div class="table-actions">
               <button class="action-btn edit" data-action="edit" data-id="${item.id}" title="\u7f16\u8f91">
@@ -198,7 +119,8 @@ function renderTable() {
 }
 
 function getSelectedIds() {
-  return Array.from(tableBody.querySelectorAll('input[type="checkbox"]:checked')).map((item) => Number(item.dataset.id));
+  // 注意：礼物 id 可能为字符串（如 g1、g2），因此不要强制转换为数字
+  return Array.from(tableBody.querySelectorAll('input[type="checkbox"]:checked')).map((item) => String(item.dataset.id));
 }
 
 function bindEvents() {
@@ -238,36 +160,156 @@ function bindEvents() {
     });
   });
 
-  document.querySelector('#gift-refresh')?.addEventListener('click', () => {
+  document.querySelector('#gift-refresh')?.addEventListener('click', async () => {
+    await fetchCatalog();
     renderTable();
-    alert('\u5df2\u66f4\u65b0\u793c\u7269\u6570\u636e\uff08\u6f14\u793a\uff09\u3002');
   });
 
   document.querySelector('#gift-export')?.addEventListener('click', () => {
     alert('\u5bfc\u51fa\u793c\u7269\u7edf\u8ba1\uff08\u6f14\u793a\uff09\u3002');
   });
 
-  document.querySelector('#gift-add')?.addEventListener('click', () => {
-    alert('\u6f14\u793a\u73af\u5883\uff1a\u4e0d\u5b9e\u9645\u65b0\u589e\u793c\u7269\u3002');
+  // —— 模态框：添加/编辑 ——
+  const modal = document.querySelector('#gift-modal');
+  const modalTitle = document.querySelector('#gift-modal-title');
+  const modalClose = document.querySelector('#gift-modal-close');
+  const modalCancel = document.querySelector('#gift-modal-cancel');
+  const modalSubmit = document.querySelector('#gift-modal-submit');
+  const inputName = document.querySelector('#gift-name');
+  const inputPrice = document.querySelector('#gift-price');
+  const inputImg = document.querySelector('#gift-img');
+  const preview = document.querySelector('#gift-preview');
+  const fileInput = document.querySelector('#gift-file');
+  const uploadBtn = document.querySelector('#gift-upload');
+  const chooseUrlBtn = document.querySelector('#gift-choose-url');
+
+  function showModal(mode = 'create', item = null){
+    modal.dataset.mode = mode;
+    modal.dataset.id = item?.id ?? '';
+    modalTitle.textContent = mode === 'edit' ? '编辑礼物' : '添加礼物';
+    inputName.value = item?.name ?? '';
+    inputPrice.value = Number(item?.price ?? '').toString();
+    inputImg.value = item?.img ?? '';
+    if (item?.img) preview.style.backgroundImage = `url(${item.img})`; else preview.style.backgroundImage = 'none';
+    modal.style.display = 'flex';
+  }
+
+  function hideModal(){
+    modal.style.display = 'none';
+    inputName.value = '';
+    inputPrice.value = '';
+    inputImg.value = '';
+    preview.style.backgroundImage = 'none';
+    modal.dataset.mode = '';
+    modal.dataset.id = '';
+  }
+
+  document.querySelector('#gift-add')?.addEventListener('click', () => showModal('create'));
+
+  modalClose?.addEventListener('click', hideModal);
+  modalCancel?.addEventListener('click', hideModal);
+
+  // 选择 URL
+  chooseUrlBtn?.addEventListener('click', () => {
+    const url = prompt('请输入图片 URL', inputImg.value || '/static/gifts/star.png') || '';
+    if (url){
+      inputImg.value = url; preview.style.backgroundImage = `url(${url})`;
+    }
   });
 
-  document.querySelector('#gift-edit')?.addEventListener('click', () => {
+  // 上传图片 -> 立即上传并回填 URL
+  uploadBtn?.addEventListener('click', () => fileInput?.click());
+  fileInput?.addEventListener('change', async () => {
+    const f = fileInput.files?.[0];
+    if (!f) return;
+    try{
+      uploadBtn.disabled = true; uploadBtn.textContent = '上传中...';
+      const fd = new FormData(); fd.append('file', f);
+      const res = await fetch('/api/gifts/upload', { method: 'POST', body: fd, headers: headers() });
+      const data = await res.json();
+      if (!data?.ok || !data?.url) throw new Error(data?.error || '上传失败');
+      inputImg.value = data.url; preview.style.backgroundImage = `url(${data.url})`;
+    }catch(e){ alert(String(e?.message || e)) }
+    finally{ uploadBtn.disabled = false; uploadBtn.textContent = '上传'; fileInput.value = '' }
+  });
+
+  // 提交
+  modalSubmit?.addEventListener('click', async () => {
+    const name = inputName.value.trim();
+    const price = Number(inputPrice.value || '0');
+    const img = inputImg.value.trim();
+    if (!name) return alert('请填写名称');
+    if (!Number.isFinite(price) || price < 0) return alert('价格不合法');
+    if (!img) return alert('请提供图片 URL 或上传图片');
+
+    const mode = modal.dataset.mode;
+    const id = modal.dataset.id;
+    try{
+      if (mode === 'edit' && id){
+        const res = await fetch(`/api/gifts/catalog/${id}`, {
+          method: 'PUT',
+          headers: { 'content-type': 'application/json', ...headers() },
+          body: JSON.stringify({ name, price: Number(price), img })
+        });
+        const data = await res.json();
+        if (!data?.ok) throw new Error(data?.error || '更新失败');
+      } else {
+        const res = await fetch('/api/gifts/catalog', {
+          method: 'POST',
+          headers: { 'content-type': 'application/json', ...headers() },
+          body: JSON.stringify({ name, price: Number(price), img })
+        });
+        const data = await res.json();
+        if (!data?.ok) throw new Error(data?.error || '创建失败');
+      }
+      await fetchCatalog();
+      state.page = 1; renderTable();
+      hideModal();
+    }catch(e){ alert(String(e?.message || e)) }
+  });
+
+  async function createGift(name, price, img){
+    try{
+      const res = await fetch('/api/gifts/catalog', {
+        method: 'POST',
+        headers: { 'content-type': 'application/json', ...headers() },
+        body: JSON.stringify({ name, price: Number(price), img })
+      });
+      const data = await res.json();
+      if (!data?.ok) throw new Error(data?.error || '创建失败');
+      await fetchCatalog();
+      state.page = 1;
+      renderTable();
+      alert('已新增礼物');
+    }catch(e){ alert(String(e?.message || e)) }
+  }
+
+  document.querySelector('#gift-edit')?.addEventListener('click', async () => {
     const ids = getSelectedIds();
     if (ids.length !== 1) {
       alert('\u8bf7\u9009\u4e2d\u5355\u4e2a\u793c\u7269\u8fdb\u884c\u7f16\u8f91\u3002');
       return;
     }
-    alert(`\u7f16\u8f91\u793c\u7269 #${ids[0]} (\u6f14\u793a)\u3002`);
+    const current = gifts.find(g => String(g.id) === String(ids[0]));
+    if (!current) return alert('未找到该礼物');
+    showModal('edit', current);
   });
 
-  document.querySelector('#gift-delete')?.addEventListener('click', () => {
+  document.querySelector('#gift-delete')?.addEventListener('click', async () => {
     const ids = getSelectedIds();
     if (ids.length === 0) {
       alert('\u8bf7\u5148\u9009\u62e9\u793c\u7269\u8bb0\u5f55\u3002');
       return;
     }
     const confirmed = confirm(`\u786e\u5b9a\u5220\u9664 ${ids.length} \u4e2a\u793c\u7269\u5417\uff1f`);
-    if (confirmed) alert('\u6f14\u793a\u73af\u5883\uff1a\u4e0d\u4f1a\u6267\u884c\u5b9e\u9645\u5220\u9664\u3002');
+    if (!confirmed) return;
+    try{
+      for (const id of ids){
+        await fetch(`/api/gifts/catalog/${id}`, { method: 'DELETE', headers: headers() });
+      }
+      await fetchCatalog();
+      state.page = 1; renderTable();
+    }catch(e){ alert('删除失败') }
   });
 
   document.querySelector('#gift-more')?.addEventListener('click', () => {
@@ -278,19 +320,31 @@ function bindEvents() {
     const actionBtn = event.target.closest('.action-btn');
     if (!actionBtn) return;
     const action = actionBtn.dataset.action;
-    const id = Number(actionBtn.dataset.id);
+    const id = String(actionBtn.dataset.id);
     if (action === 'edit') {
-      alert(`\u7f16\u8f91\u793c\u7269 #${id} (\u6f14\u793a)\u3002`);
+      const current = gifts.find(g => String(g.id) === String(id));
+      if (current) showModal('edit', current);
     } else if (action === 'delete') {
       const confirmed = confirm(`\u662f\u5426\u5220\u9664\u793c\u7269 #${id}\uff1f`);
-      if (confirmed) alert('\u6f14\u793a\u73af\u5883\uff1a\u4e0d\u6267\u884c\u5b9e\u9645\u64cd\u4f5c\u3002');
+      if (!confirmed) return;
+      (async () => {
+        try{
+          const res = await fetch(`/api/gifts/catalog/${id}`, { method: 'DELETE', headers: headers() });
+          const data = await res.json();
+          if (!data?.ok) throw new Error(data?.error || '删除失败');
+          await fetchCatalog();
+          renderTable();
+        }catch(e){
+          alert(String(e?.message || e));
+        }
+      })();
     }
   });
 }
 
 ensureToken();
 renderProfile();
-renderTable();
+(async () => { await fetchCatalog(); renderTable(); })();
 bindEvents();
 
 logoutBtn?.addEventListener('click', () => {

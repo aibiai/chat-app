@@ -1,5 +1,17 @@
 [
   {
+    "id": "uDarHeF37s",
+    "name": "水球",
+    "price": 52,
+    "img": "/static/gifts/6X1KYy2J.png"
+  },
+  {
+    "id": "_skdduujMs",
+    "name": "钻石",
+    "price": 520,
+    "img": "/static/gifts/gIbgY-So.png"
+  },
+  {
     "id": "g1",
     "name": "心动礼盒",
     "price": 29,
@@ -16,11 +28,5 @@
     "name": "巧克力",
     "price": 19,
     "img": "/static/gifts/chocolate.png"
-  },
-  {
-    "id": "g4",
-    "name": "幸运星",
-    "price": 9,
-    "img": "/static/gifts/star.png"
   }
 ]

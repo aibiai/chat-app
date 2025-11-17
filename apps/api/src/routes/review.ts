@@ -2,7 +2,8 @@ import { Router } from 'express'
 import { nanoid } from 'nanoid'
 import { db } from '../store'
 import { verifyToken } from '../auth'
-import type { ReviewRequest, AvatarReviewRequest, ProfileReviewRequest, IdentityReviewRequest, User } from '../types'
+import { approveReview, rejectReview } from '../services/reviewService'
+import type { AvatarReviewRequest, ProfileReviewRequest, IdentityReviewRequest } from '../types'
 
 export const reviewRouter = Router()
 
@@ -15,7 +16,7 @@ function auth(req: any, res: any, next: any) {
   next()
 }
 
-// 提交头像审核（此处仅保存一个占位 filePath，真实项目需用 multer 处理文件上传）
+// 提交头像审核（此处仅保存一个占�?filePath，真实项目需�?multer 处理文件上传�?
 reviewRouter.post('/avatar', auth, (req, res) => {
   const { filePath } = req.body as { filePath: string }
   if (!filePath) return res.status(400).json({ error: 'Missing fields' })
@@ -42,7 +43,7 @@ reviewRouter.post('/profile', auth, (req, res) => {
   if (maritalStatus) (item.payload.maritalStatus = maritalStatus)
   list.push(item)
   db.saveReviews(list)
-  // 将提交的资料作为草稿立即保存在用户对象中，便于前端立即展示
+  // 将提交的资料作为草稿立即保存在用户对象中，便于前端立即展�?
   try {
     const users = db.getUsers()
     const uidx = users.findIndex(u => u.id === (req as any).uid)
@@ -70,10 +71,11 @@ reviewRouter.post('/identity', auth, (req, res) => {
   res.json({ ok: true, requestId: item.id, status: item.status })
 })
 
-// 查询当前用户指定类型的最新审核状态
+// 查询当前用户指定类型的最新审核状�?
 reviewRouter.get('/status', auth, (req, res) => {
   const type = String((req.query.type || '').toString() as any)
-  if (!type || !['avatar','profile','identity'].includes(type)) {
+  // 支持 avatar/profile/identity/confession 四类
+  if (!type || !['avatar','profile','identity','confession'].includes(type)) {
     return res.status(400).json({ error: 'Invalid type' })
   }
   const list = db.getReviews()
@@ -84,53 +86,18 @@ reviewRouter.get('/status', auth, (req, res) => {
   res.json({ status: latest.status, reviewedAt: latest.reviewedAt || null, reason: (latest as any).reason || '' })
 })
 
-// 下面是管理员审核模拟接口：approve 或 reject
+// 管理员模拟接口（demo 环境保留以便测试）
 reviewRouter.post('/:id/approve', (req, res) => {
   const id = req.params.id
-  const list = db.getReviews()
-  const idx = list.findIndex(r => r.id === id)
-  if (idx === -1) return res.status(404).json({ error: 'Not found' })
-  const item = list[idx]
-  item.status = 'approved'
-  item.reviewedAt = Date.now()
-  // 同步用户数据
-  const users = db.getUsers()
-  const uidx = users.findIndex(u => u.id === item.userId)
-  if (uidx !== -1) {
-    const user = users[uidx]
-    if (item.type === 'avatar') {
-      (user as User).avatarUrl = (item as any).filePath
-    } else if (item.type === 'profile') {
-      const p = (item as any).payload || {}
-      if (p.height != null) (user as any).height = p.height
-      if (p.weight != null) (user as any).weight = p.weight
-      if (p.weightRange && Array.isArray(p.weightRange) && p.weightRange.length === 2) (user as any).weightRange = p.weightRange
-      if (p.nickname) (user as any).nickname = p.nickname
-      if (p.birthday) (user as any).birthday = p.birthday
-      if (p.zodiac) (user as any).zodiac = p.zodiac
-      if (p.education) (user as any).education = p.education
-      if (p.maritalStatus) (user as any).maritalStatus = p.maritalStatus
-      // 审核通过后清除草稿
-      if ((user as any).profileDraft) delete (user as any).profileDraft
-    } else if (item.type === 'identity') {
-      (user as any).identityVerified = true
-      if ((item as any).realName) (user as any).realName = (item as any).realName
-    }
-    db.saveUsers(users)
-  }
-  db.saveReviews(list)
+  const result = approveReview(id)
+  if (!result) return res.status(404).json({ error: 'Not found' })
   res.json({ ok: true })
 })
 
 reviewRouter.post('/:id/reject', (req, res) => {
   const id = req.params.id
   const { reason } = req.body as { reason?: string }
-  const list = db.getReviews()
-  const idx = list.findIndex(r => r.id === id)
-  if (idx === -1) return res.status(404).json({ error: 'Not found' })
-  list[idx].status = 'rejected'
-  list[idx].reviewedAt = Date.now()
-  list[idx].reason = reason || 'Rejected'
-  db.saveReviews(list)
+  const result = rejectReview(id, reason)
+  if (!result) return res.status(404).json({ error: 'Not found' })
   res.json({ ok: true })
 })

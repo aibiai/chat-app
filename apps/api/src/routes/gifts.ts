@@ -4,8 +4,11 @@ import multer from 'multer';
 import { join, extname } from 'path';
 import { existsSync, mkdirSync } from 'fs';
 import { verifyToken } from '../auth';
+import { verifyAdminToken } from '../adminAuth';
 import { db } from '../store';
 import { GiftCatalogItem, GiftRecord, User } from '../types';
+import { generateOrderNo } from '../services/orderService';
+import { appendCoinConsumption } from '../services/coinConsumptionService';
 
 export const giftsRouter = Router();
 
@@ -39,6 +42,58 @@ giftsRouter.post('/send', (req, res) => {
   const catalog = getCatalog();
   const gift = catalog.find(g => g.id === giftId);
   if (!gift) return res.status(400).json({ error: 'Invalid giftId' });
+  const users = db.getUsers();
+  const senderIdx = users.findIndex((u) => u.id === payload.uid);
+  if (senderIdx === -1) return res.status(404).json({ error: 'SENDER_NOT_FOUND' });
+  const targetUser = users.find((u) => u.id === toUserId);
+  if (!targetUser) return res.status(404).json({ error: 'TARGET_NOT_FOUND' });
+
+  const sender = users[senderIdx] as User & { balance?: number };
+  const balance = Number(sender.balance || 0);
+  const now = Date.now();
+  const orderNo = generateOrderNo(now);
+  const targetLabel = targetUser.nickname || targetUser.email || targetUser.id;
+  const senderLabel = sender.nickname || sender.email || sender.id;
+
+  if (balance < gift.price) {
+    appendCoinConsumption({
+      userId: sender.id,
+      account: senderLabel,
+      owner: senderLabel,
+      target: targetLabel,
+      item: gift.name,
+      amount: gift.price,
+      status: 'failed',
+      note: 'INSUFFICIENT_BALANCE',
+      createdAt: now,
+      metadata: {
+        giftId: gift.id,
+        toUserId,
+        orderNo
+      }
+    });
+    return res.status(400).json({ error: 'INSUFFICIENT_BALANCE', balance });
+  }
+
+  (sender as any).balance = balance - gift.price;
+  db.saveUsers(users);
+
+  appendCoinConsumption({
+    userId: sender.id,
+    account: senderLabel,
+    owner: senderLabel,
+    target: targetLabel,
+    item: gift.name,
+    amount: gift.price,
+    status: 'success',
+    createdAt: now,
+    metadata: {
+      giftId: gift.id,
+      toUserId,
+      orderNo
+    }
+  });
+
   const gifts = db.getGifts();
   const record: GiftRecord = {
     id: nanoid(),
@@ -48,11 +103,11 @@ giftsRouter.post('/send', (req, res) => {
     giftName: gift.name,
     giftImg: gift.img,
     price: gift.price,
-    createdAt: Date.now(),
+    createdAt: now,
   };
   gifts.push(record);
   db.saveGifts(gifts);
-  res.json({ ok: true, record });
+  res.json({ ok: true, record, balance: (sender as any).balance });
 });
 
 // GET /api/gifts/records?type=received|sent&page=1&pageSize=10
@@ -90,6 +145,22 @@ function isAdminUser(u: User | undefined | null){
   return !!u && typeof u.email === 'string' && /^admin@/i.test(u.email);
 }
 
+// 兼容管理后台的 x-admin-token 与普通用户 Bearer Token
+function ensureAdmin(req: import('express').Request): boolean {
+  // 1) 首选：来自管理后台的 Admin Token
+  const adminHeader = String(req.headers['x-admin-token'] || '').trim();
+  const adminPayload = verifyAdminToken(adminHeader || undefined);
+  if (adminPayload) return true;
+
+  // 2) 其次：普通用户 Token，且邮箱为 admin@
+  const auth = req.headers.authorization?.replace('Bearer ', '');
+  const payload = verifyToken(auth);
+  if (!payload) return false;
+  const users = db.getUsers();
+  const me = users.find((u) => u.id === payload.uid);
+  return isAdminUser(me);
+}
+
 // 上传目录：data/static/gifts
 const GIFTS_DIR = join(process.cwd(), 'data', 'static', 'gifts');
 if (!existsSync(GIFTS_DIR)) mkdirSync(GIFTS_DIR, { recursive: true });
@@ -112,11 +183,7 @@ const upload = multer({
 // POST /api/gifts/upload  (admin)
 // returns { ok, url }
 giftsRouter.post('/upload', upload.single('file'), (req, res) => {
-  const auth = req.headers.authorization?.replace('Bearer ', '');
-  const payload = verifyToken(auth);
-  const users = db.getUsers();
-  const me = users.find(u => u.id === payload?.uid);
-  if (!payload || !isAdminUser(me)) return res.status(401).json({ error: 'Unauthorized' });
+  if (!ensureAdmin(req)) return res.status(401).json({ error: 'Unauthorized' });
   const file = (req as any).file as Express.Multer.File | undefined;
   if (!file) return res.status(400).json({ error: 'No file' });
   const url = `/static/gifts/${file.filename}`;
@@ -125,11 +192,7 @@ giftsRouter.post('/upload', upload.single('file'), (req, res) => {
 
 // POST /api/gifts/catalog  (admin) body: { name, price, img }
 giftsRouter.post('/catalog', (req, res) => {
-  const auth = req.headers.authorization?.replace('Bearer ', '');
-  const payload = verifyToken(auth);
-  const users = db.getUsers();
-  const me = users.find(u => u.id === payload?.uid);
-  if (!payload || !isAdminUser(me)) return res.status(401).json({ error: 'Unauthorized' });
+  if (!ensureAdmin(req)) return res.status(401).json({ error: 'Unauthorized' });
   const { name, price, img } = req.body as Partial<GiftCatalogItem>;
   if (!name || typeof price !== 'number' || price < 0 || !img) return res.status(400).json({ error: 'Invalid fields' });
   const list = getCatalog();
@@ -140,11 +203,7 @@ giftsRouter.post('/catalog', (req, res) => {
 
 // PUT /api/gifts/catalog/:id  (admin) body: { name?, price?, img? }
 giftsRouter.put('/catalog/:id', (req, res) => {
-  const auth = req.headers.authorization?.replace('Bearer ', '');
-  const payload = verifyToken(auth);
-  const users = db.getUsers();
-  const me = users.find(u => u.id === payload?.uid);
-  if (!payload || !isAdminUser(me)) return res.status(401).json({ error: 'Unauthorized' });
+  if (!ensureAdmin(req)) return res.status(401).json({ error: 'Unauthorized' });
   const id = req.params.id;
   const list = getCatalog();
   const idx = list.findIndex(g => g.id === id);
@@ -161,11 +220,7 @@ giftsRouter.put('/catalog/:id', (req, res) => {
 
 // DELETE /api/gifts/catalog/:id (admin)
 giftsRouter.delete('/catalog/:id', (req, res) => {
-  const auth = req.headers.authorization?.replace('Bearer ', '');
-  const payload = verifyToken(auth);
-  const users = db.getUsers();
-  const me = users.find(u => u.id === payload?.uid);
-  if (!payload || !isAdminUser(me)) return res.status(401).json({ error: 'Unauthorized' });
+  if (!ensureAdmin(req)) return res.status(401).json({ error: 'Unauthorized' });
   const id = req.params.id;
   const list = getCatalog();
   const next = list.filter(g => g.id !== id);

@@ -184,6 +184,11 @@ watch(() => props.modelValue, (f) => {
     fileUrl.value = ''
   }
 })
+
+// 供父组件调用以主动打开文件选择框（用于点击头像触发）
+defineExpose({
+  open: () => { fileEl.value?.click() }
+})
 </script>
 
 <style scoped>

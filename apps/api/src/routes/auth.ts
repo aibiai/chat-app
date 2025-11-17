@@ -6,6 +6,10 @@ import { nanoid } from 'nanoid';
 import { signToken, verifyToken } from '../auth';
 
 export const registerRouter = Router();
+// 默认头像路径：性别区分 + 其他/未知兜底
+const DEFAULT_AVATAR_FEMALE = '/web-avatars/IMG_0819.PNG';
+const DEFAULT_AVATAR_MALE = '/web-avatars/IMG_0820.PNG';
+const DEFAULT_AVATAR_OTHER = '/static/defaults/avatar-default.svg';
 
 registerRouter.post('/register', (req, res) => {
   const { email, password, nickname, gender } = req.body as {
@@ -16,6 +20,9 @@ registerRouter.post('/register', (req, res) => {
   if (users.find(u => u.email === email)) return res.status(409).json({ error: 'Email exists' });
   const passwordHash = bcrypt.hashSync(password, 10);
   const user: User = { id: nanoid(), email, passwordHash, nickname, gender };
+  // 性别默认头像赋值：保证所有新用户都有 avatarUrl
+  const avatarUrl = gender === 'male' ? DEFAULT_AVATAR_MALE : gender === 'female' ? DEFAULT_AVATAR_FEMALE : DEFAULT_AVATAR_OTHER;
+  (user as any).avatarUrl = avatarUrl;
   users.push(user);
   db.saveUsers(users);
   const token = signToken(user.id);
