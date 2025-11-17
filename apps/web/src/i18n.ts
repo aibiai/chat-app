@@ -42,3 +42,9 @@ export function setLocale(code: LocaleCode) {
   i18n.global.locale.value = code
   localStorage.setItem('locale', code)
 }
+
+// 为了在其它模块中类型安全获取当前 locale
+export function currentLocale(): LocaleCode {
+  return i18n.global.locale.value as LocaleCode
+}
+

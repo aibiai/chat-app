@@ -5,8 +5,8 @@
   <div class="col-span-12 lg:col-span-4">
         <div class="bg-white rounded border p-2 media-card" :class="{ 'skeleton': loading }">
           <div class="relative portrait-box" v-if="!loading">
-            <img class="photo-portrait" :src="photoSrc" :alt="user?.nickname || 'photo'" @click="openLightbox" title="点击查看大图" />
-            <div class="pop-badge">人气：{{ popularity }}</div>
+            <img class="photo-portrait" :src="photoSrc" :alt="user?.nickname || 'photo'" @click="openLightbox" :title="t('profile.image.viewLarge')" />
+            <div class="pop-badge">{{ t('profile.popularity') }}{{ popularity }}</div>
           </div>
           <div v-else class="portrait-skeleton"></div>
         </div>
@@ -33,10 +33,10 @@
               <div class="flex items-center gap-2 flex-wrap">
                 <span class="inline-flex w-3 h-3 rounded-full" :class="presence.isOnline(uid) ? 'bg-emerald-500' : 'bg-gray-300'"></span>
                 <h1 class="font-extrabold name-fluid truncate">{{ user?.nickname || '——' }}</h1>
-                <span v-if="user?.gender==='female'" class="badge female">女</span>
-                <span v-else-if="user?.gender==='male'" class="badge male">男</span>
-                <span v-else class="badge neutral">保密</span>
-                <span v-if="age!==null" class="age-text">{{ age }} 岁</span>
+                <span v-if="user?.gender==='female'" class="badge female">{{ t('auth.gender.female') }}</span>
+                <span v-else-if="user?.gender==='male'" class="badge male">{{ t('auth.gender.male') }}</span>
+                <span v-else class="badge neutral">{{ t('auth.gender.other') }}</span>
+                <span v-if="age!==null" class="age-text">{{ age }} {{ t('profile.ageUnit') }}</span>
               </div>
               <div class="mt-2 flex items-center gap-2 text-xs text-gray-600 flex-wrap">
                 <span v-if="user?.region" class="chip">📍 {{ user.region }}</span>
@@ -47,10 +47,10 @@
           </div>
 
           <div class="mt-4 flex items-center gap-2 flex-wrap btns" v-if="!loading">
-            <button class="btn-outline-gold" @click="goChat">✉ 发私信</button>
+            <button class="btn-outline-gold" @click="goChat">✉ {{ t('chat.actions.message') }}</button>
             <button class="btn-solid-pink like-btn" :class="{ active: liked }" @click="toggleLike">
               <svg class="heart" viewBox="0 0 24 24" width="16" height="16" aria-hidden="true" fill="currentColor"><path d="M12 21s-6.716-4.58-9.193-9.193C1.33 8.194 3.46 5 6.807 5c1.86 0 3.41 1.08 4.193 2.64C11.783 6.08 13.333 5 15.193 5 18.54 5 20.67 8.194 21.193 11.807 18.716 16.42 12 21 12 21z"/></svg>
-              <span>{{ liked ? '已喜欢' : '喜欢' }}</span>
+              <span>{{ liked ? t('profile.like.liked') : t('profile.like.like') }}</span>
             </button>
           </div>
         </div>
@@ -61,40 +61,40 @@
         <div class="bg-white rounded border p-3 mt-4 info-card" :class="{ 'skeleton': loading }">
           <div class="flex items-center gap-2 mb-2">
             <span class="inline-flex w-6 h-6 items-center justify-center rounded bg-cyan-100 text-cyan-600">👤</span>
-            <h2 class="font-semibold h2-fluid">基本资料</h2>
+            <h2 class="font-semibold h2-fluid">{{ t('profile.basic.title') }}</h2>
           </div>
           <dl v-if="!loading" class="grid grid-cols-2 gap-x-4 gap-y-2 text-gray-700 text-sm info-grid">
             <div>
-              <dt class="text-gray-500">身高</dt>
-              <dd>{{ user?.height ? user.height + ' cm' : '未填写' }}</dd>
+              <dt class="text-gray-500">{{ t('onboarding.height') }}</dt>
+              <dd>{{ user?.height ? user.height + ' cm' : t('profile.notFilled') }}</dd>
             </div>
             <div>
-              <dt class="text-gray-500">体重</dt>
-              <dd>{{ user?.weight ? user.weight + ' kg' : '未填写' }}</dd>
+              <dt class="text-gray-500">{{ t('onboarding.weight') }}</dt>
+              <dd>{{ user?.weight ? user.weight + ' kg' : t('profile.notFilled') }}</dd>
             </div>
             <div>
-              <dt class="text-gray-500">婚况</dt>
+              <dt class="text-gray-500">{{ t('onboarding.marital') }}</dt>
               <dd>{{ maritalText }}</dd>
             </div>
             <div>
-              <dt class="text-gray-500">性别</dt>
+              <dt class="text-gray-500">{{ t('onboarding.gender') }}</dt>
               <dd>{{ genderText }}</dd>
             </div>
             <div>
-              <dt class="text-gray-500">年龄</dt>
-              <dd>{{ age !== null ? age + ' 岁' : '未填写' }}</dd>
+              <dt class="text-gray-500">{{ t('profile.fields.age') }}</dt>
+              <dd>{{ age !== null ? (age + ' ' + t('profile.ageUnit')) : t('profile.notFilled') }}</dd>
             </div>
             <div>
-              <dt class="text-gray-500">地区</dt>
-              <dd>{{ user?.region || '未填写' }}</dd>
+              <dt class="text-gray-500">{{ t('onboarding.region') }}</dt>
+              <dd>{{ user?.region || t('profile.notFilled') }}</dd>
             </div>
             <div>
-              <dt class="text-gray-500">学历</dt>
-              <dd>{{ user?.education || '未填写' }}</dd>
+              <dt class="text-gray-500">{{ t('onboarding.education') }}</dt>
+              <dd>{{ user?.education || t('profile.notFilled') }}</dd>
             </div>
             <div>
-              <dt class="text-gray-500">星座</dt>
-              <dd>{{ user?.zodiac || '未填写' }}</dd>
+              <dt class="text-gray-500">{{ t('onboarding.zodiac') }}</dt>
+              <dd>{{ user?.zodiac || t('profile.notFilled') }}</dd>
             </div>
           </dl>
           <div v-else class="skeleton-lines">
@@ -108,10 +108,10 @@
         <div class="bg-white rounded border p-3 mt-3 info-card" :class="{ 'skeleton': loading }">
           <div class="flex items-center gap-2 mb-2">
             <span class="inline-flex w-6 h-6 items-center justify-center rounded bg-violet-100 text-violet-600">💌</span>
-            <h2 class="font-semibold h2-fluid">告白墙</h2>
+            <h2 class="font-semibold h2-fluid">{{ t('profile.confession.title') }}</h2>
           </div>
           <div v-if="!loading" class="confess-empty">
-            <div class="confess-empty-box">暂未发布</div>
+            <div class="confess-empty-box">{{ t('profile.confession.empty') }}</div>
           </div>
           <div v-else class="skeleton-lines">
             <div class="line"></div>
@@ -123,23 +123,23 @@
       <!-- 右列：侧边卡片（礼物/会员） -->
   <div class="col-span-12 lg:col-span-3">
         <div class="bg-white rounded border p-3 side-card sticky" :class="{ 'skeleton': loading }">
-          <h3 class="font-semibold h3-fluid mb-2">送礼物</h3>
+          <h3 class="font-semibold h3-fluid mb-2">{{ t('chat.side.gift.title') }}</h3>
           <div class="flex items-start gap-2">
             <div class="text-2xl">🎁</div>
-            <p class="text-gray-600 leading-snug text-sm">成为第一个送礼物的人，给 TA 一个好印象。</p>
+            <p class="text-gray-600 leading-snug text-sm">{{ t('chat.side.gift.desc') }}</p>
           </div>
-          <button class="mt-2 w-full rounded bg-main text-white py-2 hover:brightness-105" @click="goChat">点我送礼物</button>
+          <button class="mt-2 w-full rounded bg-main text-white py-2 hover:brightness-105" @click="goChat">{{ t('chat.side.gift.cta') }}</button>
         </div>
 
         <div class="bg-white rounded border p-3 mt-4 side-card sticky" :class="{ 'skeleton': loading }">
-          <h3 class="font-semibold h3-fluid mb-2">会员交友特权</h3>
+          <h3 class="font-semibold h3-fluid mb-2">{{ t('chat.side.vip.title') }}</h3>
           <ul class="space-y-2 text-gray-700 text-sm leading-snug">
-            <li class="flex gap-2"><span class="text-xl">👑</span><div>醒目会员标识，展示专属徽章</div></li>
-            <li class="flex gap-2"><span class="text-xl">👀</span><div>查看谁看过我，掌握有缘人</div></li>
-            <li class="flex gap-2"><span class="text-xl">✉️</span><div>畅聊更顺畅，不再受限</div></li>
-            <li class="flex gap-2"><span class="text-xl">💗</span><div>查看喜欢我的人，加速配对</div></li>
+            <li class="flex gap-2"><span class="text-xl">👑</span><div>{{ t('chat.side.vip.benefit1') }}</div></li>
+            <li class="flex gap-2"><span class="text-xl">👀</span><div>{{ t('chat.side.vip.benefit2') }}</div></li>
+            <li class="flex gap-2"><span class="text-xl">✉️</span><div>{{ t('chat.side.vip.benefit3') }}</div></li>
+            <li class="flex gap-2"><span class="text-xl">💗</span><div>{{ t('chat.side.vip.benefit4') }}</div></li>
           </ul>
-          <button class="mt-3 w-full rounded bg-amber-400 text-white py-2 hover:brightness-105">立即开通 VIP</button>
+          <button class="mt-3 w-full rounded bg-amber-400 text-white py-2 hover:brightness-105">{{ t('vipModal.openNow') }}</button>
         </div>
       </div>
     </div>
@@ -155,6 +155,7 @@
 
 <script setup lang="ts">
 import { computed, onMounted, ref } from 'vue'
+import { useI18n } from 'vue-i18n'
 import { useRoute, useRouter } from 'vue-router'
 import api from '../api'
 import { usePresence } from '../presence'
@@ -182,6 +183,7 @@ const route = useRoute()
 const router = useRouter()
 const uid = route.params.id as string
 const presence = usePresence()
+const { t } = useI18n()
 const user = ref<User | null>(null)
 const liked = ref<boolean>(false)
 const loading = ref<boolean>(true)
@@ -201,8 +203,8 @@ function calcAge(b?: string): number|null {
 }
 
 const age = computed(() => calcAge(user.value?.birthday))
-const genderText = computed(() => user.value?.gender === 'female' ? '女' : user.value?.gender === 'male' ? '男' : '保密')
-const maritalText = computed(() => user.value?.maritalStatus === 'married' ? '已婚' : user.value?.maritalStatus === 'single' ? '未婚' : '未填写')
+const genderText = computed(() => user.value?.gender === 'female' ? t('auth.gender.female') : user.value?.gender === 'male' ? t('auth.gender.male') : t('auth.gender.other'))
+const maritalText = computed(() => user.value?.maritalStatus === 'married' ? t('onboarding.maritalOptions.married') : user.value?.maritalStatus === 'single' ? t('onboarding.maritalOptions.single') : t('profile.notFilled'))
 const hasPreference = computed(() => !!user.value?.weightRange && user.value!.weightRange!.length === 2)
 
 const fallbackFemale = '/avatars/IMG_0819.PNG'
@@ -232,7 +234,7 @@ async function toggleLike(){
   }catch(e:any){
     const status = e?.response?.status
     if (status === 401){ router.push('/login'); return }
-    alert(e?.response?.data?.error || '操作失败，请稍后重试')
+    alert(e?.response?.data?.error || t('common.submitFailed'))
   }
 }
 
@@ -240,12 +242,18 @@ function openLightbox(){ lightbox.value = true }
 function closeLightbox(){ lightbox.value = false }
 
 onMounted(async () => {
-  // 从公开列表中取到该用户（后端已做异性过滤，未登录返回全部）
+  // 优先从公开详情接口获取（不受异性过滤影响，包含 popularity 与 luckyStars）
   try{
-    const { data } = await api.get('/api/users')
-    const list: User[] = Array.isArray(data) ? data : []
-    user.value = list.find(u => u.id === uid) || null
-  }catch{}
+    const { data } = await api.get(`/api/users/${encodeURIComponent(uid)}/public`)
+    user.value = (data || null) as any
+  }catch{
+    // 回退：仍尝试从列表中匹配（保留旧逻辑）
+    try{
+      const { data } = await api.get('/api/users')
+      const list: User[] = Array.isArray(data) ? data : []
+      user.value = list.find(u => u.id === uid) || null
+    }catch{}
+  }
   // 初始喜欢状态：查询后端
   try{
     const { data } = await api.get(`/api/likes/status/${uid}`)

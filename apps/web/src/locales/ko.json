@@ -9,10 +9,14 @@
       "crown": "크라운 회원",
       "none": "일반 회원"
     },
-    "expires": "만료:"
+    "expires": "만료:",
+    "alerts": {
+      "activated": "VIP가 활성화되었습니다",
+      "giftSuccess": "{name}님의 VIP를 성공적으로 업그레이드했습니다"
+    }
   },
   "nav": {
-    "home": "홈",
+    "home": "홈페이지",
     "lucky": "럭키",
     "confession": "고백 게시판",
     "gifts": "선물 몰",
@@ -30,7 +34,8 @@
     "profileCenter": "개인 센터",
     "avatarSettings": "아바타 설정",
     "identityVerify": "신원 인증",
-    "systemSettings": "시스템 설정"
+    "systemSettings": "시스템 설정",
+    "cardRedeem": "카드 교환"
   },
   "common": {
     "loading": "로딩 중…",
@@ -45,7 +50,10 @@
     "noData": "표시할 데이터가 없습니다",
     "unknownUser": "알 수 없는 사용자",
     "reason": "사유: ",
-    "pagination": { "prev": "이전", "next": "다음" },
+    "pagination": {
+      "prev": "이전",
+      "next": "다음"
+    },
     "edit": "편집",
     "delete": "삭제",
     "loadFailed": "불러오기 실패",
@@ -55,7 +63,10 @@
   },
   "home": {
     "discover": "사용자 발견",
-    "age": { "yearsCn": "岁", "yearsEn": "y" },
+    "age": {
+      "yearsCn": "岁",
+      "yearsEn": "y"
+    },
     "loadError": "사용자 불러오기 실패"
   },
   "chat": {
@@ -99,7 +110,9 @@
       }
     },
     "gift": {
-      "modal": { "title": "선물 몰" },
+      "modal": {
+        "title": "선물 몰"
+      },
       "send": "보내기",
       "openMall": "선물 몰 열기"
     },
@@ -113,7 +126,9 @@
       "today": "오늘",
       "yesterday": "어제"
     },
-    "actions": { "message": "메시지" }
+    "actions": {
+      "message": "메시지"
+    }
   },
   "login": {
     "heroTitle": "더 잘 맞는 사람을 만나보세요",
@@ -155,7 +170,8 @@
     "sendReset": "재설정 링크 보내기",
     "token": "재설정 토큰",
     "newPassword": "새 비밀번호",
-    "confirmPassword": "비밀번호 확인"
+    "confirmPassword": "비밀번호 확인",
+    "nickname": "닉네임"
   },
   "form": {
     "placeholder": {
@@ -196,12 +212,17 @@
       "editProfile": "프로필 편집",
       "settings": "설정"
     },
-    "actions": { "editProfile": "프로필 수정" },
-    "balance": { "title": "잔액", "unit": "코인" },
+    "actions": {
+      "editProfile": "프로필 수정"
+    },
+    "balance": {
+      "title": "잔액",
+      "unit": "코인"
+    },
     "page": {
       "title": "내 설정",
       "profileTitle": "프로필 공개",
-      "profileDesc": "비공개로 전환 시 상대는 앨범과 프로필을 볼 수 없습니다"
+  "profileDesc": "프라이버시를 활성화하면 상대는 당신의 프로필을 볼 수 없습니다"
     },
     "password": {
       "title": "비밀번호 변경",
@@ -254,10 +275,15 @@
       "submitted": "인증 자료가 제출되었습니다. 심사 결과를 기다려 주세요",
       "need3Photos": "인증 사진 3장을 업로드해 주세요"
     },
-    "conversations": { "title": "메시지" },
+    "conversations": {
+      "title": "메시지"
+    },
     "alerts": {
       "vipFailed": "VIP 활성화 실패, 잠시 후 다시 시도하세요",
       "saveFailed": "저장 실패, 잠시 후 다시 시도하세요"
+    },
+    "upgrade": {
+      "useBalanceConfirm": "계정 잔액은 {balance} 코인, 이번 업그레이드에는 {amount} 코인이 필요합니다. 잔액으로 업그레이드하시겠어요?"
     }
   },
   "register": {
@@ -276,17 +302,29 @@
     "height": "키 (cm)",
     "weight": "몸무게 (kg)",
     "identity": "실명 인증",
-    "tabs": { "basic": "기본 정보", "verify": "인증" },
+    "tabs": {
+      "basic": "기본 정보",
+      "verify": "인증"
+    },
     "zodiac": "별자리",
     "education": "학력",
+    "limit": {
+      "upgradeToUnlock": "업그레이드하여 무제한 메시지 해제",
+      "cta": "지금 업그레이드",
+      "hint": "일반 회원은 상대당 3개의 메시지만 보낼 수 있습니다"
+    },
     "marital": "혼인 여부",
     "realName": "성명",
-  "submit": "제출",
-  "skipVerify": "나중에 할게요",
-  "status": { "pending": "심사 중", "approved": "인증 완료", "rejected": "심사 거절" },
-  "submittedNotice": "정보가 심사에 제출되었습니다",
-  "rejectedHint": "심사가 통과되지 않았습니다. 다시 제출해 주세요",
-  "avatarRejectedHint": "아바타 심사에 통과하지 못했습니다. 다시 업로드해 주세요",
+    "submit": "제출",
+    "skipVerify": "나중에 할게요",
+    "status": {
+      "pending": "심사 중",
+      "approved": "인증 완료",
+      "rejected": "심사 거절"
+    },
+    "submittedNotice": "정보가 심사에 제출되었습니다",
+    "rejectedHint": "심사가 통과되지 않았습니다. 다시 제출해 주세요",
+    "avatarRejectedHint": "아바타 심사에 통과하지 못했습니다. 다시 업로드해 주세요",
     "zodiacOptions": {
       "aries": "양자리",
       "taurus": "황소자리",
@@ -460,8 +498,7 @@
         ]
       }
     }
-  }
-  ,
+  },
   "admin": {
     "content": {
       "title": "콘텐츠 관리",
@@ -522,18 +559,36 @@
     "subtitle": "새 아바타를 선택하고 심사에 제출",
     "hint": "권장 256x256 이상, JPG/PNG",
     "submit": "심사 제출",
-    "submitted": "아바타가 심사에 제출되었습니다"
+    "submitted": "아바타가 심사에 제출되었습니다",
+    "status": {
+      "approved": "승인됨"
+    }
+  },
+  "profile": {
+    "notFilled": "미입력",
+    "popularity": "인기:",
+    "ageUnit": "세",
+    "basic": { "title": "기본 정보" },
+    "fields": { "age": "나이" },
+    "like": { "liked": "좋아요됨", "like": "좋아요" },
+    "matching": { "title": "선호 조건", "weightRange": "체중 범위: {min}-{max} kg" },
+    "confession": { "title": "고백 게시판", "empty": "아직 게시물이 없습니다" },
+    "image": { "viewLarge": "이미지 크게 보기" }
   },
   "confession": {
     "sweetMoments": "달콤한 순간",
     "themeSwitch": "테마 전환",
-    "theme": { "sakura": "사쿠라", "sunset": "선셋", "starry": "스타리" },
+    "theme": {
+      "sakura": "사쿠라",
+      "sunset": "선셋",
+      "starry": "스타리"
+    },
     "loading": "로딩 중…",
     "captionDefault": "우리의 {index}번째 설렘",
     "bubbleNote": "오른쪽 '나의 고백'에서 선언을 변경할 수 있습니다",
     "myConfession": "나의 고백",
     "maxChars": "최대 {n}자",
-  "formDesc": "달콤한 사진을 업로드하세요. 승인 후 왼쪽에 표시됩니다.",
+    "formDesc": "달콤한 사진을 업로드하세요. 승인 후 왼쪽에 표시됩니다.",
     "image": "이미지",
     "dropHere": "이미지를 여기로 끌어다 놓거나 클릭해서 선택",
     "uploading": "업로드 중…",
@@ -550,6 +605,11 @@
     "errOnlyImage": "이미지 파일만 허용",
     "errTooLarge": "이미지는 8MB 이하여야 합니다",
     "submitted": "심사에 제출되었습니다. 승인 후 왼쪽에 표시됩니다.",
+    "status": {
+      "pending": "심사 중",
+      "approved": "승인됨(업로드 완료)",
+      "rejected": "심사 실패, 다시 제출해 주세요"
+    },
     "places": {
       "sea": "바닷가",
       "cafe": "카페",
@@ -561,8 +621,7 @@
       "surprise": "깜짝 선물",
       "travel": "여행 사진"
     }
-  }
-  ,
+  },
   "giftsMall": {
     "title": "선물 몰",
     "subtitle": "정성 어린 선물로 마음의 거리를 좁혀보세요",
@@ -571,11 +630,43 @@
     "tipsDesc": "당신을 잘 보여줄 선물을 골라 진심을 전하세요.",
     "alertChooseTarget": "먼저 받는 사람을 선택해 주세요(URL 은 ?to=<userId>)",
     "sentTo": "{id}님께 \"{name}\" 선물을 보냈어요",
-    "sendFailed": "전송에 실패했습니다. 잠시 후 다시 시도해 주세요"
-  }
-  ,
+    "sendFailed": "전송에 실패했습니다. 잠시 후 다시 시도해 주세요",
+    "modal": {
+      "toHim": "그에게 선물하기",
+      "toHer": "그녀에게 선물하기",
+      "toUser": "선물 대상",
+      "nickname": "상대 닉네임",
+      "nicknamePlaceholder": "상대 닉네임을 입력하세요",
+      "userNotFound": "해당 닉네임의 사용자를 찾을 수 없습니다",
+      "submit": "선물 보내기",
+      "sentSuccess": "선물이 전송되었습니다"
+    }
+  },
   "topup": {
-    "amountLabel": "충전 금액"
+    "amountLabel": "충전 금액",
+    "redeemPlaceholder": "카드 코드 입력",
+    "redeem": "교환",
+    "alerts": {
+      "invalidAmount": "유효하지 않은 금액입니다",
+      "success": "충전이 완료되었습니다",
+      "failed": "충전에 실패했습니다. 잠시 후 다시 시도해 주세요"
+    }
+  },
+  "cardRedeemModal": {
+    "title": "카드 교환 신청",
+    "message": "<strong class=\"highlight\">제출 안내:</strong> 상품권 사진 또는 결제 영수증 화면을 업로드해주세요. 핀 번호가 잘 보이도록 확인해주세요. JPG/PNG 이미지를 최대 4장까지 등록할 수 있습니다. 제출 후 차례로 검수하여 처리해 드립니다.",
+    "uploadEmpty": "이미지 업로드",
+    "uploadReplace": "다시 선택",
+    "confirm": "제출",
+    
+    "uploadAria": "{index}번째 이미지를 업로드",
+    "needImage": "이미지를 최소 한 장 업로드해 주세요",
+    "submittedSuccess": "교환 신청이 제출되었습니다. 검토를 기다려 주세요",
+    "pending": "심사 중",
+    "failed": "교환 실패, 다시 제출해 주세요",
+    "retry": "다시 제출",
+    "approved": "교환 완료, 다시 제출 가능",
+    "waiting": "검토 대기 중..."
   },
   "vipModal": {
     "title": "VIP 회원 플랜",
@@ -600,6 +691,16 @@
       "likedMe": "나를 좋아한 사람 보기",
       "viewedMe": "나를 본 사람 보기",
       "advancedSearch": "고급 검색"
+    },
+    "gift": {
+      "upgradeForOthers": "다른 사람을 위해 업그레이드",
+      "nicknameLabel": "닉네임",
+      "nicknamePlaceholder": "닉네임을 입력하세요",
+      "nicknameRequired": "닉네임을 입력하세요"
     }
+  }
+  ,
+  "lucky": {
+    "value": "행운치"
   }
 }

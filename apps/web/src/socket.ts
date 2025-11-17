@@ -1,22 +1,24 @@
 import { io, Socket } from 'socket.io-client';
+import { API_ORIGIN } from './api';
 
 let socket: Socket | null = null;
 
 export function getSocket(): Socket {
   if (socket && socket.connected) return socket;
   const token = localStorage.getItem('token') || '';
-  // 游客模式：无 token 时也允许连接（用于联系客服）
   const guest = !token;
   const guestId = (() => {
     const key = 'guestId';
     let id = localStorage.getItem(key);
-    if (!id) { id = Math.random().toString(36).slice(2); localStorage.setItem(key, id); }
+    if (!id) {
+      id = Math.random().toString(36).slice(2);
+      localStorage.setItem(key, id);
+    }
     return id;
   })();
-  // 统一使用与 API 相同的基址：开发环境一律走相对路径并由 Vite 代理，生产可用 VITE_API_URL
-  const isDev = (import.meta as any).env?.DEV;
-  const base = isDev ? '/' : ((import.meta as any).env?.VITE_API_URL || '/');
-  socket = io(base, {
+  // 默认后端端口已更新为 3004；在无浏览器环境时使用该端口作为回退
+  const baseOrigin = API_ORIGIN || (typeof window !== 'undefined' ? window.location.origin : 'http://localhost:3004');
+  socket = io(baseOrigin, {
     path: '/socket.io',
     transports: ['websocket', 'polling'],
     auth: guest ? { guest: true, guestId } : { token },

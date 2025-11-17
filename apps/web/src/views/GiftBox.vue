@@ -1,5 +1,5 @@
 <template>
-  <div class="container mx-auto px-3 py-4 giftbox-page">
+  <div class="container mx-auto px-3 py-4 giftbox-page min-h-[calc(100vh-72px)]">
     <div class="bg-white rounded-2xl border p-4 md:p-5 mb-4 header shadow-sm">
       <div class="flex items-start justify-between gap-3">
         <div>

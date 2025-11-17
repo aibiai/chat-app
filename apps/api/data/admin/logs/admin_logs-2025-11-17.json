@@ -1,0 +1,265 @@
+{
+  "logs": [
+    {
+      "id": 1,
+      "createdAt": "2025-11-17 21:24:44",
+      "username": "admin",
+      "title": "客服批量翻译:22条->ZH-CN providers(multi)",
+      "url": "/admin/api/messages/translate/batch",
+      "ip": "127.0.0.1",
+      "browser": "Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/142.0.0.0 Safari/537.36"
+    },
+    {
+      "id": 2,
+      "createdAt": "2025-11-17 21:24:44",
+      "username": "admin",
+      "title": "客服标记已读:jY9HaUUSxfZUt76FP_mPR",
+      "url": "/admin/api/messages/read",
+      "ip": "127.0.0.1",
+      "browser": "Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/142.0.0.0 Safari/537.36"
+    },
+    {
+      "id": 3,
+      "createdAt": "2025-11-17 21:38:22",
+      "username": "admin",
+      "title": "客服批量翻译:22条->ZH-CN providers(multi)",
+      "url": "/admin/api/messages/translate/batch",
+      "ip": "127.0.0.1",
+      "browser": "Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/142.0.0.0 Safari/537.36"
+    },
+    {
+      "id": 4,
+      "createdAt": "2025-11-17 21:38:22",
+      "username": "admin",
+      "title": "客服标记已读:jY9HaUUSxfZUt76FP_mPR",
+      "url": "/admin/api/messages/read",
+      "ip": "127.0.0.1",
+      "browser": "Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/142.0.0.0 Safari/537.36"
+    },
+    {
+      "id": 5,
+      "createdAt": "2025-11-17 21:43:30",
+      "username": "admin",
+      "title": "客服批量翻译:22条->ZH-CN providers(multi)",
+      "url": "/admin/api/messages/translate/batch",
+      "ip": "127.0.0.1",
+      "browser": "Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/142.0.0.0 Safari/537.36"
+    },
+    {
+      "id": 6,
+      "createdAt": "2025-11-17 21:43:30",
+      "username": "admin",
+      "title": "客服标记已读:jY9HaUUSxfZUt76FP_mPR",
+      "url": "/admin/api/messages/read",
+      "ip": "127.0.0.1",
+      "browser": "Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/142.0.0.0 Safari/537.36"
+    },
+    {
+      "id": 7,
+      "createdAt": "2025-11-17 21:43:36",
+      "username": "admin",
+      "title": "客服批量翻译:6条->ZH-CN providers(multi)",
+      "url": "/admin/api/messages/translate/batch",
+      "ip": "127.0.0.1",
+      "browser": "Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/142.0.0.0 Safari/537.36"
+    },
+    {
+      "id": 8,
+      "createdAt": "2025-11-17 21:43:36",
+      "username": "admin",
+      "title": "客服标记已读:qW2aOCGlSnov4nJ4xxCX_",
+      "url": "/admin/api/messages/read",
+      "ip": "127.0.0.1",
+      "browser": "Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/142.0.0.0 Safari/537.36"
+    },
+    {
+      "id": 9,
+      "createdAt": "2025-11-17 21:43:37",
+      "username": "admin",
+      "title": "客服批量翻译:22条->ZH-CN providers(multi)",
+      "url": "/admin/api/messages/translate/batch",
+      "ip": "127.0.0.1",
+      "browser": "Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/142.0.0.0 Safari/537.36"
+    },
+    {
+      "id": 10,
+      "createdAt": "2025-11-17 21:43:37",
+      "username": "admin",
+      "title": "客服标记已读:jY9HaUUSxfZUt76FP_mPR",
+      "url": "/admin/api/messages/read",
+      "ip": "127.0.0.1",
+      "browser": "Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/142.0.0.0 Safari/537.36"
+    },
+    {
+      "id": 11,
+      "createdAt": "2025-11-17 21:43:38",
+      "username": "admin",
+      "title": "客服批量翻译:1条->ZH-CN providers(multi)",
+      "url": "/admin/api/messages/translate/batch",
+      "ip": "127.0.0.1",
+      "browser": "Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/142.0.0.0 Safari/537.36"
+    },
+    {
+      "id": 12,
+      "createdAt": "2025-11-17 21:43:38",
+      "username": "admin",
+      "title": "客服标记已读:ohgScmdfvBD0q5L0EQDNf",
+      "url": "/admin/api/messages/read",
+      "ip": "127.0.0.1",
+      "browser": "Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/142.0.0.0 Safari/537.36"
+    },
+    {
+      "id": 13,
+      "createdAt": "2025-11-17 21:43:38",
+      "username": "admin",
+      "title": "客服批量翻译:6条->ZH-CN providers(multi)",
+      "url": "/admin/api/messages/translate/batch",
+      "ip": "127.0.0.1",
+      "browser": "Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/142.0.0.0 Safari/537.36"
+    },
+    {
+      "id": 14,
+      "createdAt": "2025-11-17 21:43:38",
+      "username": "admin",
+      "title": "客服标记已读:qW2aOCGlSnov4nJ4xxCX_",
+      "url": "/admin/api/messages/read",
+      "ip": "127.0.0.1",
+      "browser": "Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/142.0.0.0 Safari/537.36"
+    },
+    {
+      "id": 15,
+      "createdAt": "2025-11-17 21:43:39",
+      "username": "admin",
+      "title": "客服批量翻译:22条->ZH-CN providers(multi)",
+      "url": "/admin/api/messages/translate/batch",
+      "ip": "127.0.0.1",
+      "browser": "Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/142.0.0.0 Safari/537.36"
+    },
+    {
+      "id": 16,
+      "createdAt": "2025-11-17 21:43:39",
+      "username": "admin",
+      "title": "客服标记已读:jY9HaUUSxfZUt76FP_mPR",
+      "url": "/admin/api/messages/read",
+      "ip": "127.0.0.1",
+      "browser": "Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/142.0.0.0 Safari/537.36"
+    },
+    {
+      "id": 17,
+      "createdAt": "2025-11-17 21:49:29",
+      "username": "admin",
+      "title": "客服批量翻译:22条->ZH-CN providers(multi)",
+      "url": "/admin/api/messages/translate/batch",
+      "ip": "127.0.0.1",
+      "browser": "Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/142.0.0.0 Safari/537.36"
+    },
+    {
+      "id": 18,
+      "createdAt": "2025-11-17 21:49:29",
+      "username": "admin",
+      "title": "客服标记已读:jY9HaUUSxfZUt76FP_mPR",
+      "url": "/admin/api/messages/read",
+      "ip": "127.0.0.1",
+      "browser": "Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/142.0.0.0 Safari/537.36"
+    },
+    {
+      "id": 19,
+      "createdAt": "2025-11-17 21:49:41",
+      "username": "admin",
+      "title": "管理员登录",
+      "url": "/admin/api/login",
+      "ip": "127.0.0.1",
+      "browser": "Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/142.0.0.0 Safari/537.36"
+    },
+    {
+      "id": 20,
+      "createdAt": "2025-11-17 21:49:45",
+      "username": "admin",
+      "title": "客服批量翻译:22条->ZH-CN providers(multi)",
+      "url": "/admin/api/messages/translate/batch",
+      "ip": "127.0.0.1",
+      "browser": "Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/142.0.0.0 Safari/537.36"
+    },
+    {
+      "id": 21,
+      "createdAt": "2025-11-17 21:49:45",
+      "username": "admin",
+      "title": "客服标记已读:jY9HaUUSxfZUt76FP_mPR",
+      "url": "/admin/api/messages/read",
+      "ip": "127.0.0.1",
+      "browser": "Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/142.0.0.0 Safari/537.36"
+    },
+    {
+      "id": 22,
+      "createdAt": "2025-11-17 21:55:48",
+      "username": "admin",
+      "title": "客服批量翻译:22条->ZH-CN providers(multi)",
+      "url": "/admin/api/messages/translate/batch",
+      "ip": "127.0.0.1",
+      "browser": "Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/142.0.0.0 Safari/537.36"
+    },
+    {
+      "id": 23,
+      "createdAt": "2025-11-17 21:55:48",
+      "username": "admin",
+      "title": "客服标记已读:jY9HaUUSxfZUt76FP_mPR",
+      "url": "/admin/api/messages/read",
+      "ip": "127.0.0.1",
+      "browser": "Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/142.0.0.0 Safari/537.36"
+    },
+    {
+      "id": 24,
+      "createdAt": "2025-11-17 21:56:44",
+      "username": "admin",
+      "title": "客服批量翻译:22条->ZH-CN providers(multi)",
+      "url": "/admin/api/messages/translate/batch",
+      "ip": "127.0.0.1",
+      "browser": "Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/142.0.0.0 Safari/537.36"
+    },
+    {
+      "id": 25,
+      "createdAt": "2025-11-17 21:56:44",
+      "username": "admin",
+      "title": "客服标记已读:jY9HaUUSxfZUt76FP_mPR",
+      "url": "/admin/api/messages/read",
+      "ip": "127.0.0.1",
+      "browser": "Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/142.0.0.0 Safari/537.36"
+    },
+    {
+      "id": 26,
+      "createdAt": "2025-11-17 21:59:35",
+      "username": "admin",
+      "title": "客服批量翻译:22条->ZH-CN providers(multi)",
+      "url": "/admin/api/messages/translate/batch",
+      "ip": "127.0.0.1",
+      "browser": "Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/142.0.0.0 Safari/537.36"
+    },
+    {
+      "id": 27,
+      "createdAt": "2025-11-17 21:59:35",
+      "username": "admin",
+      "title": "客服标记已读:jY9HaUUSxfZUt76FP_mPR",
+      "url": "/admin/api/messages/read",
+      "ip": "127.0.0.1",
+      "browser": "Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/142.0.0.0 Safari/537.36"
+    },
+    {
+      "id": 28,
+      "createdAt": "2025-11-17 22:05:28",
+      "username": "admin",
+      "title": "客服批量翻译:22条->ZH-CN providers(multi)",
+      "url": "/admin/api/messages/translate/batch",
+      "ip": "127.0.0.1",
+      "browser": "Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/142.0.0.0 Safari/537.36"
+    },
+    {
+      "id": 29,
+      "createdAt": "2025-11-17 22:05:28",
+      "username": "admin",
+      "title": "客服标记已读:jY9HaUUSxfZUt76FP_mPR",
+      "url": "/admin/api/messages/read",
+      "ip": "127.0.0.1",
+      "browser": "Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/142.0.0.0 Safari/537.36"
+    }
+  ]
+}

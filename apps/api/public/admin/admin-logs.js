@@ -12,103 +12,16 @@ const filterBtn = document.querySelector('#logs-filter');
 const deleteBtn = document.querySelector('#logs-delete');
 const exportBtn = document.querySelector('#logs-export');
 
-const logs = [
-  {
-    id: 34851,
-    username: 'admin',
-    title: '登录',
-    url: '/admin/index/login?uri=%2Fadmin',
-    ip: '61.183.188.26',
-    browser: 'Mozilla/5.0',
-    createdAt: '2025-10-07 02:08:44'
-  },
-  {
-    id: 34850,
-    username: 'Alex005',
-    title: '登录',
-    url: '/admin/index/login?uri=%2Fadmin',
-    ip: '39.183.178.90',
-    browser: 'Mozilla/5.0',
-    createdAt: '2025-10-06 20:45:10'
-  },
-  {
-    id: 34849,
-    username: 'Alex005',
-    title: '登录',
-    url: '/admin/index/login?uri=%2Fadmin%2Fcontent',
-    ip: '117.39.35.16',
-    browser: 'Mozilla/5.0',
-    createdAt: '2025-10-06 20:29:42'
-  },
-  {
-    id: 34848,
-    username: 'Alex005',
-    title: '登录',
-    url: '/admin/index/login?uri=%2Fadmin%2Frole',
-    ip: '223.104.205.140',
-    browser: 'Mozilla/5.0',
-    createdAt: '2025-10-06 20:29:12'
-  },
-  {
-    id: 34853,
-    username: 'admin',
-    title: '会员管理 / 会员管理 / 编辑',
-    url: '/admin/user/user/edit?id=11387&dialog=1',
-    ip: '36.142.63.55',
-    browser: 'Mozilla/5.0',
-    createdAt: '2025-10-01 16:09:50'
-  },
-  {
-    id: 34852,
-    username: 'admin',
-    title: '会员管理 / 失物招领 / 替换',
-    url: '/admin/user/avatar/muti',
-    ip: '103.170.20.60',
-    browser: 'Mozilla/5.0',
-    createdAt: '2025-10-01 16:08:54'
-  },
-  {
-    id: 34847,
-    username: 'Alex005',
-    title: '会员管理 / 会员管理 / 分配',
-    url: '/admin/user/user/assignUser',
-    ip: '103.170.20.88',
-    browser: 'Mozilla/5.0',
-    createdAt: '2025-09-30 21:53:30'
-  },
-  {
-    id: 34846,
-    username: 'Alex005',
-    title: '登录',
-    url: '/admin/index/login?uri=%2Fadmin',
-    ip: '103.170.20.88',
-    browser: 'Mozilla/5.0',
-    createdAt: '2025-09-30 20:42:41'
-  },
-  {
-    id: 34845,
-    username: 'Alex005',
-    title: '登录',
-    url: '/admin/index/login?uri=%2Fadmin',
-    ip: '103.170.20.60',
-    browser: 'Mozilla/5.0',
-    createdAt: '2025-09-30 19:42:10'
-  },
-  {
-    id: 34844,
-    username: 'Alex005',
-    title: '登录',
-    url: '/admin/index/login?uri=%2Fadmin',
-    ip: '223.88.169.178',
-    browser: 'Mozilla/5.0',
-    createdAt: '2025-09-30 19:39:32'
-  }
-];
+let logs = [];
 
 const state = {
   page: 1,
   pageSize: 10,
-  keyword: ''
+  keyword: '',
+  username: '',
+  start: '',
+  end: '',
+  total: 0
 };
 
 function readProfile() {
@@ -135,28 +48,8 @@ function renderProfile() {
   if (avatarEl) avatarEl.textContent = (profile.nickname || profile.username || 'A').slice(0, 1).toUpperCase();
 }
 
-function filterData() {
-  const keyword = state.keyword.trim().toLowerCase();
-  if (!keyword) return logs;
-  return logs.filter((item) => {
-    return (
-      item.username.toLowerCase().includes(keyword) ||
-      item.title.toLowerCase().includes(keyword) ||
-      item.url.toLowerCase().includes(keyword) ||
-      item.ip.toLowerCase().includes(keyword) ||
-      item.browser.toLowerCase().includes(keyword)
-    );
-  });
-}
-
-function paginate(data) {
-  const start = (state.page - 1) * state.pageSize;
-  return data.slice(start, start + state.pageSize);
-}
-
 function renderTable() {
-  const filtered = filterData();
-  const pageData = paginate(filtered);
+  const pageData = logs;
 
   if (checkAllEl) checkAllEl.checked = false;
 
@@ -185,9 +78,6 @@ function renderTable() {
               <button class="action-btn edit" data-action="detail" data-id="${item.id}" title="详情">
                 <svg viewBox="0 0 24 24" width="14" height="14" fill="currentColor"><path d="M12 5c-7.63 0-10 7-10 7s2.37 7 10 7 10-7 10-7-2.37-7-10-7Zm0 12a5 5 0 1 1 5-5 5.006 5.006 0 0 1-5 5Zm0-8a3 3 0 1 0 3 3 3.009 3.009 0 0 0-3-3Z"/></svg>
               </button>
-              <button class="action-btn delete" data-action="delete" data-id="${item.id}" title="删除">
-                <svg viewBox="0 0 24 24" width="14" height="14" fill="currentColor"><path d="M6 7h12v13a2 2 0 0 1-2 2H8a2 2 0 0 1-2-2Zm9-5 1 1h4v2H4V3h4l1-1Zm3 5H6v13h12Z"/></svg>
-              </button>
             </div>
           </td>
         </tr>`
@@ -195,9 +85,9 @@ function renderTable() {
       .join('');
   }
 
-  const totalPages = Math.max(1, Math.ceil(filtered.length / state.pageSize));
+  const totalPages = Math.max(1, Math.ceil(state.total / state.pageSize));
   state.page = Math.min(state.page, totalPages);
-  infoEl.textContent = `显示第 ${state.page} 页 / 共 ${totalPages} 页，总计 ${filtered.length} 条记录`;
+  infoEl.textContent = `显示第 ${state.page} 页 / 共 ${totalPages} 页，总计 ${state.total} 条记录`;
 
   const buttons = [];
   const startPage = Math.max(1, state.page - 2);
@@ -206,6 +96,34 @@ function renderTable() {
     buttons.push(`<button data-page="${i}" class="${i === state.page ? 'active' : ''}">${i}</button>`);
   }
   pagerContainer.innerHTML = buttons.join('');
+}
+
+async function fetchLogsFromServer() {
+  const token = ensureToken();
+  if (!token) return;
+  const params = new URLSearchParams({
+    page: String(state.page),
+    pageSize: String(state.pageSize),
+    keyword: String(state.keyword || ''),
+    username: String(state.username || ''),
+    start: String(state.start || ''),
+    end: String(state.end || '')
+  });
+  try {
+    const resp = await fetch(`/admin/api/admin-logs?${params.toString()}`, { headers: { Authorization: `Bearer ${token}` } });
+    if (!resp.ok) {
+      if (resp.status === 403) alert('权限不足：需要 auth/admin-logs 权限');
+      return;
+    }
+    const data = await resp.json();
+    if (data && Array.isArray(data.list)) {
+      logs = data.list;
+      state.total = Number(data.total || logs.length);
+      renderTable();
+    }
+  } catch (e) {
+    console.error(e);
+  }
 }
 
 function copyToClipboard(text) {
@@ -232,29 +150,29 @@ function bindEvents() {
   searchInput?.addEventListener('input', (event) => {
     state.keyword = event.target.value;
     state.page = 1;
-    renderTable();
+    fetchLogsFromServer();
   });
 
   pageSizeSelect?.addEventListener('change', (event) => {
     state.pageSize = Number(event.target.value);
     state.page = 1;
-    renderTable();
+    fetchLogsFromServer();
   });
 
   pagerContainer?.addEventListener('click', (event) => {
     const button = event.target.closest('button');
     if (!button) return;
     state.page = Number(button.dataset.page);
-    renderTable();
+    fetchLogsFromServer();
   });
 
   document.querySelectorAll('.table-pager .pager-btn').forEach((btn) =>
     btn.addEventListener('click', (event) => {
       const type = event.currentTarget.dataset.page;
-      const totalPages = Math.max(1, Math.ceil(filterData().length / state.pageSize));
+      const totalPages = Math.max(1, Math.ceil(state.total / state.pageSize));
       if (type === 'prev') state.page = Math.max(1, state.page - 1);
       if (type === 'next') state.page = Math.min(totalPages, state.page + 1);
-      renderTable();
+      fetchLogsFromServer();
     })
   );
 
@@ -281,45 +199,47 @@ function bindEvents() {
     if (action === 'detail') {
       alert(`查看管理员日志 #${id} 的详细信息（演示功能）`);
     }
-    if (action === 'delete') {
-      const confirmed = confirm(`确定要删除日志 #${id} 吗？`);
-      if (confirmed) {
-        alert('演示环境：不会真正删除日志记录。');
-      }
-    }
   });
 
   refreshBtn?.addEventListener('click', () => {
-    alert('日志数据已刷新（示例）。');
+    fetchLogsFromServer();
   });
 
   filterBtn?.addEventListener('click', () => {
-    alert('正式环境可在此弹出筛选条件面板。');
+    const start = prompt('开始日期(YYYY-MM-DD)，留空不过滤：', state.start || '') || '';
+    const end = prompt('结束日期(YYYY-MM-DD)，留空不过滤：', state.end || '') || '';
+    const username = prompt('操作者用户名，留空不过滤：', state.username || '') || '';
+    state.start = start.trim();
+    state.end = end.trim();
+    state.username = username.trim();
+    state.page = 1;
+    fetchLogsFromServer();
   });
 
-  deleteBtn?.addEventListener('click', () => {
-    const ids = getSelectedIds();
-    if (ids.length === 0) {
-      alert('请先选择要删除的日志。');
-      return;
-    }
-    const confirmed = confirm(`确定批量删除选中的 ${ids.length} 条日志吗？`);
-    if (confirmed) {
-      alert('演示环境：不会真正删除所选日志。');
-    }
-  });
+  if (deleteBtn) {
+    deleteBtn.style.display = 'none';
+  }
 
   exportBtn?.addEventListener('click', () => {
-    alert('演示环境：导出功能尚未接入后台接口。');
+    const params = new URLSearchParams({
+      keyword: String(state.keyword || ''),
+      username: String(state.username || ''),
+      start: String(state.start || ''),
+      end: String(state.end || '')
+    });
+    const url = `/admin/api/admin-logs/export?${params.toString()}`;
+    window.open(url, '_blank');
   });
 }
 
 ensureToken();
 renderProfile();
-renderTable();
 bindEvents();
+fetchLogsFromServer();
 
-logoutBtn?.addEventListener('click', () => {
+logoutBtn?.addEventListener('click', async () => {
+  const token = localStorage.getItem('admin_token') || '';
+  try { await fetch('/admin/api/logout', { method: 'POST', headers: { Authorization: `Bearer ${token}` } }); } catch {}
   localStorage.removeItem('admin_token');
   localStorage.removeItem('admin_profile');
   window.location.replace('/admin/login');

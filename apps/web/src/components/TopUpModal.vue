@@ -4,8 +4,11 @@
       <div class="topup-modal" role="dialog" aria-modal="true" :aria-label="t('nav.topup')">
         <button class="close" :aria-label="t('common.close')" @click="close">×</button>
 
-        <!-- 余额 -->
-        <h2 class="title">{{ t('settings.balance.title') }}：<span class="amount">{{ balance.toFixed(2) }}</span></h2>
+        <!-- 顶部一行：余额 + 点卡兑换按钮（与标题水平对齐） -->
+        <div class="topline">
+          <h2 class="title">{{ t('settings.balance.title') }}：<span class="amount">{{ balance.toFixed(2) }}</span></h2>
+          <button type="button" class="redeem-btn" @click="openRedeem">{{ t('nav.cardRedeem') }}</button>
+        </div>
 
         <!--（上移）储值金额输入：放在标题下方，作为全局金额显示/输入入口 -->
         <div class="amount-row amount-row--top">
@@ -52,6 +55,7 @@ const props = defineProps<{ modelValue: boolean; balance?: number; defaultAmount
 const emit = defineEmits<{
   (e: 'update:modelValue', v: boolean): void
   (e: 'confirm', amount: number): void
+  (e: 'openRedeem'): void
 }>()
 
 const balance = computed(() => props.balance ?? 0)
@@ -67,6 +71,7 @@ function confirm(){
   emit('confirm', Math.floor(v))
   close()
 }
+function openRedeem(){ emit('openRedeem') }
 function selectPreset(v: number){ selected.value = v; amount.value = v }
 function onTopAmountTyped(){
   const v = Number(amount.value || 0)
@@ -96,8 +101,12 @@ onMounted(() => {})
 .topup-modal{ position:relative; width: min(90vw, 560px); border-radius:12px; background:#fff; padding:20px; box-shadow:0 20px 60px rgba(0,0,0,.18); }
 .close{ position:absolute; right:14px; top:10px; border:0; background:transparent; font-size:22px; line-height:1; color:#999; cursor:pointer; }
 .close:hover{ color:#666; }
-.title{ font-size:22px; font-weight:800; letter-spacing:.4px; color:#333; margin:4px 0 18px; }
+.topline{ display:flex; align-items:baseline; justify-content:space-between; gap:12px; margin:4px 0 12px; flex-wrap:wrap; }
+.title{ font-size:22px; font-weight:800; letter-spacing:.4px; color:#333; margin:0; }
 .title .amount{ margin-left:6px; }
+
+.redeem-btn{ height:38px; padding:0 12px; border-radius:8px; border:0; background: var(--brand-pink, #f17384); color:#fff; font-weight:800; cursor:pointer; transform: translateX(-50%); }
+.redeem-btn:hover{ filter:brightness(0.95); }
 
 .grid{ display:grid; grid-template-columns: repeat(2, minmax(0,1fr)); gap:16px; margin-bottom:18px; }
 .card{ border:1px solid #e5e7eb; border-radius:10px; padding:16px; background:#fff; color:#333; text-align:left; cursor:pointer; display:flex; flex-direction:column; align-items:flex-start; justify-content:center; }
@@ -121,5 +130,6 @@ onMounted(() => {})
 
 @media (max-width: 480px){
   .topup-modal{ width: min(94vw, 420px); padding:18px; }
+  .topline{ gap:10px; }
 }
 </style>

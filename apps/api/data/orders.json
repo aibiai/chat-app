@@ -1,0 +1,48 @@
+[
+  {
+    "id": "TuEFgBtcRenUOgQ8faHNV",
+    "orderNo": "20251116233045405929",
+    "userId": "jY9HaUUSxfZUt76FP_mPR",
+    "email": "5165151@qq.com",
+    "account": "测试222",
+    "owner": "测试222",
+    "amount": 190,
+    "paidAmount": 190,
+    "type": "upgrade",
+    "method": "balance",
+    "status": "success",
+    "createdAt": 1763307045884,
+    "paidAt": 1763307045884,
+    "metadata": {
+      "tier": "purple",
+      "months": 12,
+      "giftNickname": null,
+      "targetUserId": "jY9HaUUSxfZUt76FP_mPR",
+      "balanceBefore": 1000,
+      "balanceAfter": 810
+    }
+  },
+  {
+    "id": "AZ63pftMKeeDTH4GX3DMV",
+    "orderNo": "20251115220142391489",
+    "userId": "qW2aOCGlSnov4nJ4xxCX_",
+    "email": "4564541165@outlook.com",
+    "account": "测试111",
+    "owner": "测试111",
+    "amount": 102,
+    "paidAmount": 102,
+    "type": "upgrade",
+    "method": "balance",
+    "status": "success",
+    "createdAt": 1763215302994,
+    "paidAt": 1763215302994,
+    "metadata": {
+      "tier": "crown",
+      "months": 1,
+      "giftNickname": null,
+      "targetUserId": "qW2aOCGlSnov4nJ4xxCX_",
+      "balanceBefore": 981,
+      "balanceAfter": 879
+    }
+  }
+]

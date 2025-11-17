@@ -49,3 +49,21 @@ export async function translateBulk(paragraphs: string[], source: string, target
   }
   return out;
 }
+
+// 读取/保存：点卡兑换弹窗说明（存放于 sections.cardRedeem.content[0]，允许 HTML 字符串）
+export async function getCardRedeemMessage(locale: string): Promise<string | null> {
+  const data = await getServerContent(locale);
+  if (!data) return null;
+  const sec = (data.sections as any)?.cardRedeem;
+  const text = Array.isArray(sec?.content) && sec.content.length ? sec.content[0] : '';
+  return typeof text === 'string' ? text : '';
+}
+
+export async function saveCardRedeemMessage(locale: string, html: string): Promise<boolean> {
+  try {
+    const { data } = await api.patch(`/api/content/${locale}`, { sections: { cardRedeem: { title: '', content: [html] } } });
+    return !!data?.ok;
+  } catch {
+    return false;
+  }
+}

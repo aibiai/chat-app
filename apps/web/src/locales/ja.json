@@ -9,7 +9,11 @@
       "crown": "クラウン会員",
       "none": "一般会員"
     },
-    "expires": "有効期限:"
+    "expires": "有効期限:",
+    "alerts": {
+      "activated": "VIPが開通しました",
+      "giftSuccess": "{name} さんのVIPをアップグレードしました"
+    }
   },
   "nav": {
     "home": "ホーム",
@@ -30,7 +34,8 @@
     "profileCenter": "個人センター",
     "avatarSettings": "アバター設定",
     "identityVerify": "本人確認",
-    "systemSettings": "システム設定"
+    "systemSettings": "システム設定",
+    "cardRedeem": "カード引き換え"
   },
   "common": {
     "loading": "読み込み中…",
@@ -45,7 +50,10 @@
     "noData": "表示するデータがありません",
     "unknownUser": "不明なユーザー",
     "reason": "理由: ",
-    "pagination": { "prev": "前へ", "next": "次へ" },
+    "pagination": {
+      "prev": "前へ",
+      "next": "次へ"
+    },
     "edit": "編集",
     "delete": "削除",
     "loadFailed": "読み込みに失敗しました",
@@ -55,7 +63,10 @@
   },
   "home": {
     "discover": "ユーザーを発見",
-    "age": { "yearsCn": "歳", "yearsEn": "y" },
+    "age": {
+      "yearsCn": "歳",
+      "yearsEn": "y"
+    },
     "loadError": "ユーザーの読み込みに失敗しました"
   },
   "chat": {
@@ -99,7 +110,9 @@
       }
     },
     "gift": {
-      "modal": { "title": "ギフトモール" },
+      "modal": {
+        "title": "ギフトモール"
+      },
       "send": "送信",
       "openMall": "ギフトモールを開く"
     },
@@ -113,7 +126,9 @@
       "today": "今日",
       "yesterday": "昨日"
     },
-    "actions": { "message": "メッセージ" }
+    "actions": {
+      "message": "メッセージ"
+    }
   },
   "login": {
     "heroTitle": "もっと相性の良い人と出会う",
@@ -155,7 +170,8 @@
     "sendReset": "再設定リンクを送信",
     "token": "再設定トークン",
     "newPassword": "新しいパスワード",
-    "confirmPassword": "確認用パスワード"
+    "confirmPassword": "確認用パスワード",
+    "nickname": "ニックネーム"
   },
   "form": {
     "placeholder": {
@@ -196,12 +212,17 @@
       "editProfile": "プロフィール編集",
       "settings": "設定"
     },
-    "actions": { "editProfile": "プロフィールを編集" },
-    "balance": { "title": "残高", "unit": "コイン" },
+    "actions": {
+      "editProfile": "プロフィールを編集"
+    },
+    "balance": {
+      "title": "残高",
+      "unit": "コイン"
+    },
     "page": {
       "title": "マイ設定",
       "profileTitle": "プロフィールのプライバシー",
-      "profileDesc": "プライバシーを有効にすると、他のユーザーはあなたのアルバムやプロフィールを閲覧できません"
+  "profileDesc": "プライバシーを有効にすると、他のユーザーはあなたのプロフィールを閲覧できません"
     },
     "password": {
       "title": "パスワード変更",
@@ -254,10 +275,15 @@
       "submitted": "認証データを提出しました。審査結果をお待ちください",
       "need3Photos": "3枚の認証写真をアップロードしてください"
     },
-    "conversations": { "title": "メッセージ" },
+    "conversations": {
+      "title": "メッセージ"
+    },
     "alerts": {
       "vipFailed": "開通に失敗しました。しばらくしてから再試行してください",
       "saveFailed": "保存に失敗しました。しばらくしてから再試行してください"
+    },
+    "upgrade": {
+      "useBalanceConfirm": "アカウント残高は {balance} コイン、本アップグレードには {amount} コインが必要です。残高でアップグレードしますか？"
     }
   },
   "register": {
@@ -276,17 +302,29 @@
     "height": "身長 (cm)",
     "weight": "体重 (kg)",
     "identity": "本人確認",
-    "tabs": { "basic": "基本情報", "verify": "認証" },
+    "tabs": {
+      "basic": "基本情報",
+      "verify": "認証"
+    },
     "zodiac": "星座",
     "education": "学歴",
+    "limit": {
+      "upgradeToUnlock": "アップグレードして無制限メッセージを解放",
+      "cta": "今すぐアップグレード",
+      "hint": "通常会員は相手1人につき3通まで送信可能です"
+    },
     "marital": "婚姻状況",
     "realName": "氏名",
-  "submit": "送信",
-  "skipVerify": "後で行う",
-  "status": { "pending": "審査中", "approved": "認証済み", "rejected": "審査未通過" },
-  "submittedNotice": "情報は審査に提出されました",
-  "rejectedHint": "審査未通過のため、再提出してください",
-  "avatarRejectedHint": "アバターの審査に通りませんでした。再アップロードしてください",
+    "submit": "送信",
+    "skipVerify": "後で行う",
+    "status": {
+      "pending": "審査中",
+      "approved": "認証済み",
+      "rejected": "審査未通過"
+    },
+    "submittedNotice": "情報は審査に提出されました",
+    "rejectedHint": "審査未通過のため、再提出してください",
+    "avatarRejectedHint": "アバターの審査に通りませんでした。再アップロードしてください",
     "zodiacOptions": {
       "aries": "おひつじ座",
       "taurus": "おうし座",
@@ -426,7 +464,7 @@
         ]
       },
       "security": {
-            "title": "交友の安全",
+        "title": "交友の安全",
         "content": [
           "当社は会員のプライバシーを重視しています。サイト上のプロフィールや写真、言語設定を適切に管理し、プライバシーと安全の保護に努めています。ただし、オンライン安全はご自身の責任でもあります。常に慎重に行動し、自分の安全を守りましょう。",
           "パスワードは第三者と共有/漏えいしないでください。紛失・漏えいは個人データの流出につながります。アカウントが侵害された場合は、フィードバック窓口からご連絡ください。見知らぬ相手に対しては、メールアドレス、IM、氏名、URL 等の個人情報や、クレジットカード等の財務情報を開示しないでください。当社や第三者を装った金銭請求や「賞品」案内にはご注意ください。特に、金銭的困難を理由に送金を求めるケースは詐欺であることが多いです。不適切行為を見かけたら「報告」を行ってください。相手とのやり取りに不快感がある場合はブロックも可能です。無礼や嫌がらせは容認せず、必要に応じてサポートへ通報してください。当社はモニタリングと品質管理の仕組みを備え、迅速に対応します。オフラインで会う際のヒント：",
@@ -459,8 +497,7 @@
         ]
       }
     }
-  }
-  ,
+  },
   "admin": {
     "content": {
       "title": "コンテンツ管理",
@@ -521,18 +558,36 @@
     "subtitle": "新しいアバターを選んで審査に提出",
     "hint": "推奨 256x256 以上、JPG/PNG",
     "submit": "審査に送信",
-    "submitted": "アバターを審査に提出しました"
+    "submitted": "アバターを審査に提出しました",
+    "status": {
+      "approved": "承認済み"
+    }
+  },
+  "profile": {
+    "notFilled": "未入力",
+    "popularity": "人気：",
+    "ageUnit": "歳",
+    "basic": { "title": "基本情報" },
+    "fields": { "age": "年齢" },
+    "like": { "liked": "いいね済み", "like": "いいね" },
+    "matching": { "title": "希望条件", "weightRange": "体重範囲：{min}-{max} kg" },
+    "confession": { "title": "告白ウォール", "empty": "投稿はまだありません" },
+    "image": { "viewLarge": "クリックで拡大" }
   },
   "confession": {
     "sweetMoments": "スイートモーメント",
     "themeSwitch": "テーマ切替",
-    "theme": { "sakura": "サクラ", "sunset": "サンセット", "starry": "スターリー" },
+    "theme": {
+      "sakura": "サクラ",
+      "sunset": "サンセット",
+      "starry": "スターリー"
+    },
     "loading": "読み込み中…",
     "captionDefault": "私たちの {index} 回目のときめき",
     "bubbleNote": "右側の「私の告白」で宣言を変更できます",
     "myConfession": "私の告白",
     "maxChars": "最大 {n} 文字",
-  "formDesc": "甘い写真をアップしてください。承認後、左側に表示されます。",
+    "formDesc": "甘い写真をアップしてください。承認後、左側に表示されます。",
     "image": "画像",
     "dropHere": "ここに画像をドラッグ、またはクリックして選択",
     "uploading": "アップロード中…",
@@ -549,6 +604,11 @@
     "errOnlyImage": "画像ファイルのみ",
     "errTooLarge": "画像は 8MB 以下にしてください",
     "submitted": "審査に提出しました。承認後、左側に表示されます。",
+    "status": {
+      "pending": "審査中",
+      "approved": "承認済み（アップロード完了）",
+      "rejected": "審査に失敗しました。再提出してください"
+    },
     "places": {
       "sea": "海辺",
       "cafe": "カフェ",
@@ -560,8 +620,7 @@
       "surprise": "サプライズ",
       "travel": "旅行写真"
     }
-  }
-  ,
+  },
   "giftsMall": {
     "title": "ギフトモール",
     "subtitle": "心のこもったギフトで距離を縮めよう",
@@ -570,11 +629,43 @@
     "tipsDesc": "あなたらしさが伝わるギフトを選んで、誠意を示しましょう。",
     "alertChooseTarget": "まず受取相手を選択してください（URL は ?to=<ユーザーID>）",
     "sentTo": "{id} に「{name}」を送りました",
-    "sendFailed": "送信に失敗しました。しばらくしてから再試行してください"
-  }
-  ,
+    "sendFailed": "送信に失敗しました。しばらくしてから再試行してください",
+    "modal": {
+      "toHim": "彼に贈る",
+      "toHer": "彼女に贈る",
+      "toUser": "贈る相手",
+      "nickname": "相手のニックネーム",
+      "nicknamePlaceholder": "ニックネームを入力してください",
+      "userNotFound": "該当するニックネームが見つかりません",
+      "submit": "ギフトを送る",
+      "sentSuccess": "ギフトを送信しました"
+    }
+  },
   "topup": {
-    "amountLabel": "チャージ金額"
+    "amountLabel": "チャージ金額",
+    "redeemPlaceholder": "カードコードを入力",
+    "redeem": "引き換え",
+    "alerts": {
+      "invalidAmount": "金額が正しくありません",
+      "success": "チャージが完了しました",
+      "failed": "チャージに失敗しました。時間をおいて再試行してください"
+    }
+  },
+  "cardRedeemModal": {
+    "title": "ギフトカード交換申請",
+    "message": "<strong class=\"highlight\">提出方法：</strong> ギフトカードの写真または決済画面のスクリーンショットをアップロードしてください。コードが判読できるようにしてください。JPG/PNG 画像を最大4枚まで送信できます。送信後は順次審査して処理します。",
+    "uploadEmpty": "画像をアップロード",
+    "uploadReplace": "画像を変更",
+    "confirm": "送信",
+    
+    "uploadAria": "{index} 枚目の画像をアップロード",
+    "needImage": "少なくとも1枚の画像をアップロードしてください",
+    "submittedSuccess": "交換申請を送信しました。審査結果をお待ちください",
+    "pending": "審査中",
+    "failed": "交換に失敗しました。再提出してください",
+    "retry": "再提出",
+  "approved": "引き換えは成功しました。送信を続行できます。",
+    "waiting": "審査待ち..."
   },
   "vipModal": {
     "title": "VIP 会員プラン",
@@ -599,6 +690,16 @@
       "likedMe": "私をいいねした人を表示",
       "viewedMe": "私を見た人を表示",
       "advancedSearch": "高度な検索"
+    },
+    "gift": {
+      "upgradeForOthers": "他の人のためにアップグレード",
+      "nicknameLabel": "ニックネーム",
+      "nicknamePlaceholder": "ニックネームを入力",
+      "nicknameRequired": "ニックネームを入力してください"
     }
+  }
+  ,
+  "lucky": {
+    "value": "幸運値"
   }
 }

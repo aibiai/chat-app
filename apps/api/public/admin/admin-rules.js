@@ -12,28 +12,7 @@ const deleteBtn = document.querySelector('#rules-delete');
 const toggleAllBtn = document.querySelector('#rules-toggle-all');
 const exportBtn = document.querySelector('#rules-export');
 
-const rules = [
-  { id: 1, title: '控制台', icon: 'dashboard', rule: 'dashboard', permCount: 143, status: 'active', menu: true },
-  { id: 2, title: '常规管理', icon: 'general', rule: 'general', permCount: 137, status: 'active', menu: true },
-  { id: 3, title: '常规配置', icon: 'general/config', rule: 'general/config', permCount: 60, status: 'active', menu: false },
-  { id: 7, title: '附件管理', icon: 'general/attachment', rule: 'general/attachment', permCount: 53, status: 'active', menu: true },
-  { id: 8, title: '个人资料', icon: 'general/profile', rule: 'general/profile', permCount: 34, status: 'active', menu: true },
-  { id: 9, title: '分类管理', icon: 'category', rule: 'category', permCount: 119, status: 'hidden', menu: true },
-  { id: 5, title: '权限管理', icon: 'auth', rule: 'auth', permCount: 98, status: 'active', menu: true },
-  { id: 6, title: '管理员管理', icon: 'auth/admin', rule: 'auth/admin', permCount: 118, status: 'active', menu: true },
-  { id: 10, title: '管理员日志', icon: 'auth/adminlog', rule: 'auth/adminlog', permCount: 113, status: 'active', menu: true },
-  { id: 11, title: '角色组', icon: 'auth/group', rule: 'auth/group', permCount: 109, status: 'active', menu: true },
-  { id: 12, title: '菜单规则', icon: 'auth/rule', rule: 'auth/rule', permCount: 104, status: 'active', menu: true },
-  { id: 13, title: '插件管理', icon: 'addon', rule: 'addon', permCount: 0, status: 'active', menu: true },
-  { id: 14, title: '会员管理', icon: 'user', rule: 'user', permCount: 0, status: 'active', menu: true },
-  { id: 67, title: '上架管理', icon: 'user/user', rule: 'user/user', permCount: 0, status: 'active', menu: true },
-  { id: 340, title: '头像审核', icon: 'user/avatar', rule: 'user/avatar', permCount: 0, status: 'active', menu: true },
-  { id: 341, title: '客服管理', icon: 'user/user/kefu', rule: 'user/user/kefu', permCount: 0, status: 'hidden', menu: true },
-  { id: 80, title: '微信管理', icon: 'wechat', rule: 'wechat', permCount: 0, status: 'hidden', menu: true },
-  { id: 81, title: '自动回复', icon: 'wechat/autoreply', rule: 'wechat/autoreply', permCount: 0, status: 'hidden', menu: true },
-  { id: 82, title: '公众号配置', icon: 'wechat/config', rule: 'wechat/config', permCount: 0, status: 'hidden', menu: true },
-  { id: 106, title: '客服消息', icon: 'wechat/response', rule: 'wechat/response', permCount: 0, status: 'hidden', menu: true }
-];
+let rules = [];
 
 function readProfile() {
   try {
@@ -59,20 +38,13 @@ function renderProfile() {
   if (avatarEl) avatarEl.textContent = (profile.nickname || profile.username || 'A').slice(0, 1).toUpperCase();
 }
 
-function filterData() {
-  const keyword = (searchInput?.value || '').trim().toLowerCase();
-  if (!keyword) return rules;
-  return rules.filter((item) => {
-    return (
-      item.title.toLowerCase().includes(keyword) ||
-      item.icon.toLowerCase().includes(keyword) ||
-      item.rule.toLowerCase().includes(keyword)
-    );
-  });
-}
-
 function renderTable() {
-  const data = filterData();
+  const keyword = (searchInput?.value || '').trim().toLowerCase();
+  const data = !keyword ? rules : rules.filter(item => (
+    item.title.toLowerCase().includes(keyword) ||
+    item.icon.toLowerCase().includes(keyword) ||
+    item.rule.toLowerCase().includes(keyword)
+  ));
 
   if (checkAllEl) checkAllEl.checked = false;
 
@@ -136,7 +108,7 @@ function bindEvents() {
   });
 
   refreshBtn?.addEventListener('click', () => {
-    alert('已刷新规则数据（演示）。');
+    fetchRulesFromServer();
   });
 
   expandBtn?.addEventListener('click', () => {
@@ -144,34 +116,96 @@ function bindEvents() {
   });
 
   addBtn?.addEventListener('click', () => {
-    alert('演示环境：请在此弹出新增规则表单。');
+    const title = prompt('规则标题：');
+    if(!title) return;
+    const icon = prompt('图标（可选）：') || '';
+    const rule = prompt('规则标识（如 dashboard 或 members/members）：');
+    if(!rule) return alert('必须填写规则标识');
+    (async () => {
+      try {
+        const resp = await fetch('/admin/api/rules', {
+          method: 'POST',
+          headers: { 'Content-Type': 'application/json', Authorization: `Bearer ${localStorage.getItem('admin_token') || ''}` },
+          body: JSON.stringify({ title, icon, rule, permCount: 0, status: 'active', menu: true })
+        });
+        if(!resp.ok){
+          if(resp.status===403) alert('权限不足：需要 auth/rules 权限'); else alert('创建失败');
+          return;
+        }
+        await fetchRulesFromServer();
+        alert('已创建');
+      } catch(e){ console.error(e); alert('网络错误'); }
+    })();
   });
 
   editBtn?.addEventListener('click', () => {
     const ids = getSelectedIds();
-    if (ids.length !== 1) {
-      alert('请选择单条规则进行编辑。');
-      return;
-    }
-    alert(`演示环境：编辑规则 #${ids[0]}`);
+    if (ids.length !== 1) return alert('请选择单条规则进行编辑');
+    const id = ids[0];
+    const target = rules.find(r=>String(r.id)===String(id));
+    if(!target) return alert('记录不存在');
+    const title = prompt('规则标题：', target.title) || target.title;
+    const icon = prompt('图标：', target.icon) || target.icon;
+    const rule = prompt('规则标识：', target.rule) || target.rule;
+    const status = confirm('是否保持为正常状态? 取消则隐藏') ? 'active' : 'hidden';
+    const menu = confirm('是否在菜单中显示?');
+    (async () => {
+      try {
+        const resp = await fetch(`/admin/api/rules/${encodeURIComponent(id)}`, {
+          method: 'PUT',
+          headers: { 'Content-Type': 'application/json', Authorization: `Bearer ${localStorage.getItem('admin_token') || ''}` },
+          body: JSON.stringify({ title, icon, rule, status, menu })
+        });
+        if(!resp.ok){ if(resp.status===403) alert('权限不足：需要 auth/rules 权限'); else alert('更新失败'); return; }
+        await fetchRulesFromServer();
+        alert('已更新');
+      } catch(e){ console.error(e); alert('网络错误'); }
+    })();
   });
 
   deleteBtn?.addEventListener('click', () => {
     const ids = getSelectedIds();
-    if (ids.length === 0) {
-      alert('请先选择要删除的规则。');
-      return;
-    }
-    const confirmed = confirm(`确定删除选中的 ${ids.length} 条规则吗？`);
-    if (confirmed) alert('演示环境：不会真正删除记录。');
+    if (!ids.length) return alert('请选择要删除的规则');
+    if(!confirm(`确定删除选中的 ${ids.length} 条规则吗？`)) return;
+    (async () => {
+      try {
+        const resp = await fetch('/admin/api/rules/delete', {
+          method: 'POST',
+          headers: { 'Content-Type': 'application/json', Authorization: `Bearer ${localStorage.getItem('admin_token') || ''}` },
+          body: JSON.stringify({ ids: ids.map(i=>Number(i)) })
+        });
+        if(!resp.ok){ if(resp.status===403) alert('权限不足：需要 auth/rules 权限'); else alert('删除失败'); return; }
+        await fetchRulesFromServer();
+        alert('已删除');
+      } catch(e){ console.error(e); alert('网络错误'); }
+    })();
   });
 
   toggleAllBtn?.addEventListener('click', () => {
-    alert('演示环境：执行批量显示/隐藏操作。');
+    if(!rules.length) return;
+    const anyHidden = rules.some(r=>r.status==='hidden');
+    const targetStatus = anyHidden ? 'active' : 'hidden';
+    (async () => {
+      for(const r of rules){
+        try {
+          await fetch(`/admin/api/rules/${encodeURIComponent(r.id)}`, {
+            method: 'PUT',
+            headers: { 'Content-Type': 'application/json', Authorization: `Bearer ${localStorage.getItem('admin_token') || ''}` },
+            body: JSON.stringify({ status: targetStatus })
+          });
+        } catch {}
+      }
+      await fetchRulesFromServer();
+      alert(`已批量设为 ${targetStatus==='active'?'正常':'隐藏'}`);
+    })();
   });
 
   exportBtn?.addEventListener('click', () => {
-    alert('演示环境：导出将生成规则报表。');
+    const blob = new Blob([JSON.stringify(rules, null, 2)], { type: 'application/json' });
+    const url = URL.createObjectURL(blob);
+    const a = document.createElement('a');
+    a.href = url; a.download = 'admin_rules_export.json'; a.click();
+    URL.revokeObjectURL(url);
   });
 
   tableBody.addEventListener('click', (event) => {
@@ -186,20 +220,33 @@ function bindEvents() {
     const action = actionBtn.dataset.action;
     const id = actionBtn.dataset.id;
     if (action === 'add-child') {
-      alert(`演示环境：为规则 #${id} 新增子节点。`);
+      alert('当前简易实现：暂未支持层级结构，请直接使用新增添加顶级规则。');
     } else if (action === 'edit') {
-      alert(`演示环境：编辑规则 #${id}。`);
+      editBtn.click();
     } else if (action === 'delete') {
-      const confirmed = confirm(`确定删除规则 #${id} 吗？`);
-      if (confirmed) alert('演示环境：不会真正删除记录。');
+      deleteBtn.click();
     }
   });
 }
 
+async function fetchRulesFromServer(){
+  const token = ensureToken();
+  if(!token) return;
+  try {
+    const resp = await fetch('/admin/api/rules', { headers: { Authorization: `Bearer ${token}` }});
+    if(!resp.ok){ if(resp.status===403) alert('权限不足：需要 auth/rules 权限'); return; }
+    const data = await resp.json();
+    if(data && Array.isArray(data.list)){
+      rules = data.list;
+      renderTable();
+    }
+  } catch(e){ console.error(e); }
+}
+
 ensureToken();
 renderProfile();
-renderTable();
 bindEvents();
+fetchRulesFromServer();
 
 logoutBtn?.addEventListener('click', () => {
   localStorage.removeItem('admin_token');

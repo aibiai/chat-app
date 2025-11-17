@@ -1,0 +1,57 @@
+[
+  {
+    "id": "bHLAqKbP1NWPv9F4FP_3U",
+    "orderNo": "20251116233045479877",
+    "userId": "jY9HaUUSxfZUt76FP_mPR",
+    "account": "测试222",
+    "owner": "测试222",
+    "target": "测试222",
+    "item": "VIP紫晶升级",
+    "amount": 190,
+    "status": "success",
+    "createdAt": 1763307045884,
+    "metadata": {
+      "action": "membership_upgrade",
+      "tier": "purple",
+      "months": 12,
+      "targetUserId": "jY9HaUUSxfZUt76FP_mPR",
+      "orderNo": "20251116233045405929"
+    }
+  },
+  {
+    "id": "brOC4hPZxgJ1BXBHHaFvJ",
+    "orderNo": "20251115220143683036",
+    "userId": "qW2aOCGlSnov4nJ4xxCX_",
+    "account": "测试111",
+    "owner": "测试111",
+    "target": "测试111",
+    "item": "VIP皇冠升级",
+    "amount": 102,
+    "status": "success",
+    "createdAt": 1763215302994,
+    "metadata": {
+      "action": "membership_upgrade",
+      "tier": "crown",
+      "months": 1,
+      "targetUserId": "qW2aOCGlSnov4nJ4xxCX_",
+      "orderNo": "20251115220142391489"
+    }
+  },
+  {
+    "id": "K79WW2rqWg2iwBaSGmXiy",
+    "orderNo": "20251111230916687420",
+    "userId": "qW2aOCGlSnov4nJ4xxCX_",
+    "account": "测试111",
+    "owner": "测试111",
+    "target": "测试112",
+    "item": "巧克力",
+    "amount": 19,
+    "status": "success",
+    "createdAt": 1762873756238,
+    "metadata": {
+      "giftId": "g3",
+      "toUserId": "2lAC7JkqHN18VHF_xONBX",
+      "orderNo": "20251111230916687420"
+    }
+  }
+]

@@ -1,4 +1,4 @@
-const nameEl = document.querySelector('#admin-name');
+﻿const nameEl = document.querySelector('#admin-name');
 const avatarEl = document.querySelector('#sidebar-avatar');
 const logoutBtn = document.querySelector('#logout-btn');
 const tableBody = document.querySelector('#customer-table tbody');
@@ -8,44 +8,17 @@ const pageSizeSelect = document.querySelector('#customer-page-size');
 const searchInput = document.querySelector('#customer-search');
 const checkAllEl = document.querySelector('#customer-check-all');
 
-const customers = [
-  {
-    id: 143,
-    owner: 'Customer Service Manager',
-    username: 'Customer Service Manager',
-    nickname: 'Customer Service Manager',
-    email: '145612@qq.com',
-    avatar: 'https://i.pravatar.cc/64?img=45',
-    level: '\u5e1d\u7687\u4f1a\u5458',
-    gender: '\u5973',
-    balance: '0.00',
-    crystalExpire: '\u65e0',
-    emperorExpire: '\u65e0',
-    lastLogin: '2025-08-25 18:14:05',
-    lastIp: '83.147.15.3',
-    joinedAt: '2022-04-09 15:24:02',
-    joinIp: '83.147.15.3',
-    status: 'active'
-  },
-  {
-    id: 142,
-    owner: 'customer service',
-    username: 'customer service',
-    nickname: 'customer service',
-    email: '458109018@qq.com',
-    avatar: 'https://i.pravatar.cc/64?img=36',
-    level: '\u5e1d\u7687\u4f1a\u5458',
-    gender: '\u5973',
-    balance: '1387.00',
-    crystalExpire: '\u65e0',
-    emperorExpire: '2025-10-28 15:34:18',
-    lastLogin: '2025-10-08 00:41:21',
-    lastIp: '39.163.178.90',
-    joinedAt: '2022-04-09 15:21:41',
-    joinIp: '39.163.178.90',
-    status: 'active'
-  }
-];
+let customers = [];
+async function fetchCustomers(){
+  const token = localStorage.getItem('admin_token') || '';
+  try {
+    const resp = await fetch('/admin/api/customer-service?page=1&pageSize=500', { headers:{ Authorization:`Bearer ${token}` }});
+    if(!resp.ok) throw new Error('network');
+    const data = await resp.json();
+    if(data && data.ok && Array.isArray(data.list)){ customers = data.list; return customers; }
+  } catch(e){ console.warn('[customer-service] 获取客服列表失败', e); }
+  return customers;
+}
 
 const state = {
   page: 1,
@@ -81,15 +54,13 @@ function renderProfile() {
 function filterData() {
   const keyword = state.keyword.trim().toLowerCase();
   if (!keyword) return customers;
-  return customers.filter((item) => {
-    return (
-      item.owner.toLowerCase().includes(keyword) ||
-      item.username.toLowerCase().includes(keyword) ||
-      item.nickname.toLowerCase().includes(keyword) ||
-      item.email.toLowerCase().includes(keyword) ||
-      String(item.id).includes(keyword)
-    );
-  });
+  return customers.filter(item => (
+    item.owner.toLowerCase().includes(keyword) ||
+    item.username.toLowerCase().includes(keyword) ||
+    item.nickname.toLowerCase().includes(keyword) ||
+    item.email.toLowerCase().includes(keyword) ||
+    String(item.id).includes(keyword)
+  ));
 }
 
 function paginate(data) {
@@ -213,16 +184,24 @@ function bindEvents() {
     alert('\u5bfc\u51fa\u5ba2\u670d\u5217\u8868\uff08\u6f14\u793a\uff09\u3002');
   });
 
-  document.querySelector('#customer-delete')?.addEventListener('click', () => {
+  document.querySelector('#customer-delete')?.addEventListener('click', async () => {
     const selected = getSelectedIds();
-    if (selected.length === 0) {
-      alert('\u8bf7\u5148\u9009\u62e9\u9700\u8981\u5220\u9664\u7684\u8bb0\u5f55\u3002');
-      return;
-    }
-    const confirmed = confirm(`\u786e\u5b9a\u5220\u9664 ${selected.length} \u4e2a\u5ba2\u670d\u8bb0\u5f55\u5417\uff1f`);
-    if (confirmed) {
-      alert('\u6f14\u793a\u73af\u5883\uff1a\u4e0d\u4f1a\u771f\u6b63\u5220\u9664\u6570\u636e\u3002');
-    }
+    if (!selected.length) { alert('\u8bf7\u5148\u9009\u62e9\u9700\u8981\u5220\u9664\u7684\u8bb0\u5f55\u3002'); return; }
+    if(!confirm(`\u786e\u5b9a\u5220\u9664 ${selected.length} \u4e2a\u5ba2\u670d\u8bb0\u5f55\u5417\uff1f`)) return;
+    try {
+      const resp = await fetch('/admin/api/customer-service/delete', {
+        method:'POST',
+        headers:{ 'Content-Type':'application/json', Authorization:`Bearer ${localStorage.getItem('admin_token')||''}` },
+        body: JSON.stringify({ ids: selected.map(Number) })
+      });
+      if(!resp.ok){
+        if(resp.status === 404) alert('\u5220\u9664\u5931\u8d25\uff1a\u8bb0\u5f55\u4e0d\u5b58\u5728');
+        else if(resp.status === 400) alert('\u8bf7\u786e\u8ba4ID');
+        else alert('\u5220\u9664\u5931\u8d25');
+      } else {
+        await fetchCustomers(); state.page=1; renderTable(); alert('\u5df2\u5220\u9664\u6240\u9009');
+      }
+    } catch(err){ console.error(err); alert('\u7f51\u7edc\u9519\u8bef\uff0c\u5220\u9664\u5931\u8d25'); }
   });
 
   document.querySelector('#customer-more')?.addEventListener('click', () => {
@@ -235,16 +214,16 @@ function bindEvents() {
     const action = actionBtn.dataset.action;
     const id = Number(actionBtn.dataset.id);
     if (action === 'logs') {
-      alert(`\u67e5\u770b\u5ba2\u670d #${id} \u7684\u804a\u5929\u8bb0\u5f55\uff08\u6f14\u793a\uff09\u3002`);
+      alert(`\u67e5\u770b\u5ba2\u670d #${id} \u7684\u804a\u5929\u8bb0\u5f55\uff08\u6682\u672a\u5b9e\u73b0\uff09\u3002`);
     } else if (action === 'edit') {
-      alert(`\u7f16\u8f91\u5ba2\u670d #${id} \uff08\u6f14\u793a\uff09\u3002`);
+      alert(`\u7f16\u8f91\u5ba2\u670d #${id} \uff08\u6682\u672a\u5b9e\u73b0\uff09\u3002`);
     }
   });
 }
 
 ensureToken();
 renderProfile();
-renderTable();
+fetchCustomers().then(()=>{ renderTable(); });
 bindEvents();
 
 logoutBtn?.addEventListener('click', () => {

@@ -1,15 +1,66 @@
-﻿import axios from "axios";
+import axios from 'axios';
 
 const env = (import.meta as any).env || {};
 const isDev = !!env.DEV;
-const baseURL = isDev
-  ? "/"
-  : env.VITE_API_URL || env.VITE_API_BASE || "https://chat-app-mwu5.onrender.com";
+const explicitBase = (env.VITE_API_URL || env.VITE_API_BASE || '').toString().trim();
+const preferProxy = String(env.VITE_API_PROXY || '').toLowerCase() === 'true';
+const fallbackProd = env.VITE_FALLBACK_API || 'https://chat-app-mwu5.onrender.com';
 
-const api = axios.create({ baseURL, timeout: 8000 });
+function resolveProtocol(): string {
+  if (typeof window !== 'undefined' && window.location?.protocol?.startsWith('https')) {
+    return 'https:';
+  }
+  return 'http:';
+}
 
-api.interceptors.request.use(config => {
-  const token = localStorage.getItem("token");
+function resolveHost(): string {
+  if (typeof window !== 'undefined' && window.location?.hostname) {
+    return window.location.hostname;
+  }
+  return 'localhost';
+}
+
+function normalizeBase(input: string): string {
+  const trimmed = input.trim();
+  if (!trimmed) return '';
+  if (trimmed === '/') return '/';
+  const sanitized = trimmed.replace(/\/+$/, '');
+  if (/^https?:\/\//i.test(sanitized)) return sanitized;
+  if (sanitized.startsWith('//')) return `${resolveProtocol()}${sanitized}`;
+  if (sanitized.startsWith('/')) return sanitized || '/';
+  return `${resolveProtocol()}//${sanitized}`;
+}
+
+const computedBase = (() => {
+  if (explicitBase) return normalizeBase(explicitBase);
+  if (isDev && preferProxy) return '/';
+  if (isDev) {
+    const port = env.VITE_API_PORT || '3004';
+    return `${resolveProtocol()}//${resolveHost()}:${port}`;
+  }
+  return normalizeBase(fallbackProd);
+})();
+
+export const API_BASE_URL = computedBase === '/' ? '/' : normalizeBase(computedBase || fallbackProd);
+
+export const API_ORIGIN = (() => {
+  if (API_BASE_URL === '/') {
+    if (typeof window !== 'undefined' && window.location?.origin) {
+      return window.location.origin;
+    }
+    return `${resolveProtocol()}//${resolveHost()}`;
+  }
+  try {
+    return new URL(API_BASE_URL).origin;
+  } catch {
+    return `${resolveProtocol()}//${resolveHost()}`;
+  }
+})();
+
+const api = axios.create({ baseURL: API_BASE_URL, timeout: 8000 });
+
+api.interceptors.request.use((config) => {
+  const token = localStorage.getItem('token');
   if (token) {
     config.headers = config.headers || {};
     (config.headers as any).Authorization = `Bearer ${token}`;

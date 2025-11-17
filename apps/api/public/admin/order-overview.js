@@ -7,132 +7,34 @@ const pagerContainer = document.querySelector('#order-pager');
 const pageSizeSelect = document.querySelector('#order-page-size');
 const searchInput = document.querySelector('#order-search');
 const checkAllEl = document.querySelector('#order-check-all');
+const startInput = document.querySelector('#start-date');
+const endInput = document.querySelector('#end-date');
 
-const orders = [
-  {
-    id: 15183,
-    orderNo: '202509100385680486',
-    email: 'a8680193alanhappy@gmail.com',
-    account: 'a8680193',
-    owner: 'Alex002',
-    amount: 388,
-    paid: 388,
-    type: '充值',
-    method: '支付宝',
-    createdAt: '2025-10-01 20:35:58',
-    paidAt: '2025-10-01 20:55:20'
-  },
-  {
-    id: 15181,
-    orderNo: '202509030042710313',
-    email: 'a05822515980@gmail.com',
-    account: 'jerry0422',
-    owner: 'Alex002',
-    amount: 120,
-    paid: 120,
-    type: '升级',
-    method: '支付宝',
-    createdAt: '2025-09-30 18:57:42',
-    paidAt: '2025-09-30 20:17:13'
-  },
-  {
-    id: 15179,
-    orderNo: '202509030028570427',
-    email: 'ao858685807@gmail.com',
-    account: 'Aa19780710',
-    owner: 'Alex003',
-    amount: 168,
-    paid: 168,
-    type: '升级',
-    method: '支付宝',
-    createdAt: '2025-09-30 18:03:07',
-    paidAt: '2025-09-30 20:02:54'
-  },
-  {
-    id: 15178,
-    orderNo: '202509020011941053',
-    email: 'sk10981413@yahoo.com.tw',
-    account: 'cv0798413',
-    owner: 'Alex003',
-    amount: 88,
-    paid: 88,
-    type: '充值',
-    method: '支付宝',
-    createdAt: '2025-09-29 23:50:36',
-    paidAt: '2025-09-29 23:52:53'
-  },
-  {
-    id: 15163,
-    orderNo: '20250902011407340128',
-    email: 'love8812052@gmail.com',
-    account: 'Ss0098418591',
-    owner: 'Alex004',
-    amount: 18,
-    paid: 18,
-    type: '升级',
-    method: '支付宝',
-    createdAt: '2025-09-29 22:14:07',
-    paidAt: '2025-09-29 22:17:35'
-  },
-  {
-    id: 15161,
-    orderNo: '20250920095437884306',
-    email: 'kl0769413@gmail.com',
-    account: 'cv0796413',
-    owner: 'Alex005',
-    amount: 500,
-    paid: 500,
-    type: '充值',
-    method: '支付宝',
-    createdAt: '2025-09-29 21:54:37',
-    paidAt: '2025-09-29 21:58:45'
-  },
-  {
-    id: 15132,
-    orderNo: '20250928015081731340',
-    email: 'a05822515980@gmail.com',
-    account: 'jerry0422',
-    owner: 'Alex002',
-    amount: 16,
-    paid: 16,
-    type: '升级',
-    method: '支付宝',
-    createdAt: '2025-09-29 10:15:01',
-    paidAt: '2025-09-29 10:19:00'
-  },
-  {
-    id: 15120,
-    orderNo: '202509281044003845490',
-    email: 'wannmelin026@gmail.com',
-    account: '黎耀辉',
-    owner: 'Alex002',
-    amount: 16,
-    paid: 16,
-    type: '充值',
-    method: '支付宝',
-    createdAt: '2025-09-28 22:42:06',
-    paidAt: '2025-09-28 22:46:33'
-  },
-  {
-    id: 15107,
-    orderNo: '202509280410305348551',
-    email: 'm60717@gmail.com',
-    account: 'Pplu87',
-    owner: 'Alex002',
-    amount: 16,
-    paid: 16,
-    type: '升级',
-    method: '支付宝',
-    createdAt: '2025-09-28 18:13:05',
-    paidAt: '2025-09-28 18:14:21'
-  }
-];
+const API_BASE = '/admin/api/orders';
 
 const state = {
+  items: [],
+  total: 0,
   page: 1,
-  pageSize: 10,
-  keyword: ''
+  pageSize: Number(pageSizeSelect?.value) || 10,
+  keyword: '',
+  start: '',
+  end: '',
+  loading: false
 };
+
+function getToken() {
+  const token = localStorage.getItem('admin_token');
+  if (!token) {
+    window.location.replace('/admin/login');
+    return null;
+  }
+  return token;
+}
+
+function ensureToken() {
+  return getToken();
+}
 
 function readProfile() {
   try {
@@ -143,117 +45,247 @@ function readProfile() {
   }
 }
 
-function ensureToken() {
-  const token = localStorage.getItem('admin_token');
-  if (!token) {
-    window.location.replace('/admin/login');
-    return null;
-  }
-  return token;
-}
-
 function renderProfile() {
   const profile = readProfile() || {};
-  const displayName = profile.nickname || profile.username || '\u7ba1\u7406\u5458';
+  const displayName = profile.nickname || profile.username || '管理员';
   if (nameEl) nameEl.textContent = displayName;
   if (avatarEl) avatarEl.textContent = displayName.slice(0, 1).toUpperCase();
 }
 
+function formatDate(value) {
+  if (!value) return '-';
+  const num = Number(value);
+  const date = Number.isFinite(num) ? new Date(num) : new Date(value);
+  if (Number.isNaN(date.getTime())) return value.toString();
+  const y = date.getFullYear();
+  const m = String(date.getMonth() + 1).padStart(2, '0');
+  const d = String(date.getDate()).padStart(2, '0');
+  const hh = String(date.getHours()).padStart(2, '0');
+  const mm = String(date.getMinutes()).padStart(2, '0');
+  return `${y}-${m}-${d} ${hh}:${mm}`;
+}
+
+function formatAmount(value) {
+  const num = Number(value);
+  return Number.isFinite(num) ? num.toFixed(2) : '0.00';
+}
+
+function typeLabel(type) {
+  if (type === 'recharge') return '充值';
+  if (type === 'upgrade') return '升级';
+  return String(type || '-');
+}
+
 function typeTag(type) {
-  return type === '充值' ? 'accent-rose' : 'accent-amber';
-}
-
-function filterData() {
-  const keyword = state.keyword.trim().toLowerCase();
-  if (!keyword) return orders;
-  return orders.filter((order) => {
-    return (
-      order.orderNo.includes(keyword) ||
-      order.email.toLowerCase().includes(keyword) ||
-      order.account.toLowerCase().includes(keyword)
-    );
-  });
-}
-
-function paginate(data) {
-  const start = (state.page - 1) * state.pageSize;
-  return data.slice(start, start + state.pageSize);
+  return type === 'recharge' ? 'accent-rose' : 'accent-amber';
 }
 
 function renderTable() {
-  const filtered = filterData();
-  const pageData = paginate(filtered);
-
   if (checkAllEl) checkAllEl.checked = false;
 
-  if (pageData.length === 0) {
-    tableBody.innerHTML = '<tr><td colspan="12" class="empty">\u6682\u65e0\u6570\u636e</td></tr>';
-  } else {
-    tableBody.innerHTML = pageData
-      .map(
-        (item) => `
+  if (!state.items.length) {
+    tableBody.innerHTML = '<tr><td colspan="12" class="empty">暂无数据</td></tr>';
+    return;
+  }
+
+  tableBody.innerHTML = state.items
+    .map((item) => {
+      const amount = formatAmount(item.amount ?? item.paidAmount);
+      const paid = formatAmount(item.paidAmount ?? item.amount);
+      const createdAt = formatDate(item.createdAt);
+      const paidAt = formatDate(item.paidAt);
+      const owner = item.owner || '-';
+      const method = item.method || '-';
+      const type = item.type || 'recharge';
+      return `
         <tr>
           <td><input type="checkbox" data-id="${item.id}" /></td>
           <td>${item.id}</td>
-          <td>${item.orderNo}</td>
-          <td>${item.email}</td>
-          <td>${item.account}</td>
-          <td><span class="tag-badge owner">${item.owner}</span></td>
-          <td>${item.amount.toFixed(2)}</td>
-          <td>${item.paid.toFixed(2)}</td>
-          <td><span class="tag ${typeTag(item.type)}">${item.type}</span></td>
-          <td><a class="link" href="#">${item.method}</a></td>
-          <td>${item.createdAt}</td>
-          <td>${item.paidAt}</td>
-        </tr>`
-      )
-      .join('');
-  }
+          <td>${item.orderNo || '-'}</td>
+          <td>${item.email || '-'}</td>
+          <td>${item.account || '-'}</td>
+          <td><span class="tag-badge owner">${owner}</span></td>
+          <td>${amount}</td>
+          <td>${paid}</td>
+          <td><span class="tag ${typeTag(type)}">${typeLabel(type)}</span></td>
+          <td><span class="link">${method}</span></td>
+          <td>${createdAt}</td>
+          <td>${paidAt}</td>
+        </tr>`;
+    })
+    .join('');
+}
 
-  const totalPages = Math.max(1, Math.ceil(filtered.length / state.pageSize));
-  state.page = Math.min(state.page, totalPages);
-  infoEl.innerHTML = `\u663e\u793a\u7b2c&nbsp;${state.page}&nbsp;\u9875&nbsp;/&nbsp;\u5171&nbsp;${totalPages}&nbsp;\u9875\uff0c\u603b\u8ba1&nbsp;${filtered.length}&nbsp;\u6761\u8bb0\u5f55`;
+function renderInfo() {
+  const totalPages = Math.max(1, Math.ceil(state.total / state.pageSize));
+  if (state.page > totalPages) state.page = totalPages;
+  infoEl.innerHTML = `显示第&nbsp;${state.page}&nbsp;页&nbsp;/&nbsp;共&nbsp;${totalPages}&nbsp;页，总计&nbsp;${state.total}&nbsp;条记录`;
 
   const buttons = [];
   const startPage = Math.max(1, state.page - 2);
   const endPage = Math.min(totalPages, startPage + 4);
-  for (let i = startPage; i <= endPage; i++) {
+  for (let i = startPage; i <= endPage; i += 1) {
     buttons.push(`<button data-page="${i}" class="${i === state.page ? 'active' : ''}">${i}</button>`);
   }
   pagerContainer.innerHTML = buttons.join('');
 }
 
+function renderAll() {
+  renderTable();
+  renderInfo();
+  if (pageSizeSelect) pageSizeSelect.value = String(state.pageSize);
+}
+
+async function fetchOrders() {
+  if (state.loading) return;
+  const token = ensureToken();
+  if (!token) return;
+  state.loading = true;
+  try {
+    const params = new URLSearchParams({
+      page: String(state.page),
+      pageSize: String(state.pageSize)
+    });
+    if (state.keyword.trim()) params.set('keyword', state.keyword.trim());
+    if (state.start) params.set('start', state.start);
+    if (state.end) params.set('end', state.end);
+
+    const response = await fetch(`${API_BASE}?${params.toString()}`, {
+      headers: { Authorization: `Bearer ${token}` }
+    });
+    if (!response.ok) throw new Error(`Failed with ${response.status}`);
+    const data = await response.json();
+    state.items = Array.isArray(data.items) ? data.items : [];
+    state.total = Number(data.total) || state.items.length;
+    state.page = Number(data.page) || state.page;
+    state.pageSize = Number(data.pageSize) || state.pageSize;
+    renderAll();
+  } catch (error) {
+    console.error(error);
+    alert('加载订单数据失败，请稍后重试。');
+    state.items = [];
+    state.total = 0;
+    renderAll();
+  } finally {
+    state.loading = false;
+  }
+}
+
+async function fetchSummary() {
+  const token = ensureToken();
+  if (!token) return;
+  try {
+  const params = new URLSearchParams();
+  if (state.start) params.set('start', state.start);
+  if (state.end) params.set('end', state.end);
+  const url = params.toString() ? `${API_BASE}/summary?${params.toString()}` : `${API_BASE}/summary`;
+  const res = await fetch(url, { headers: { Authorization: `Bearer ${token}` } });
+    if (!res.ok) return;
+    const data = await res.json();
+    const root = document.querySelector('#order-summary');
+    if (!root || !data) return;
+    const set = (k, v) => { const el = root.querySelector(`[data-field="${k}"]`); if (el) el.textContent = v; };
+    const money = (n) => {
+      const num = Number(n); return Number.isFinite(num) ? num.toFixed(2) : '0.00';
+    };
+    set('totalPaid', money(data.totalPaid));
+    set('rechargePaid', money(data.rechargePaid));
+    set('upgradePaid', money(data.upgradePaid));
+    set('rechargeCount', String(data.rechargeCount ?? 0));
+    set('upgradeCount', String(data.upgradeCount ?? 0));
+    set('successRate', String(data.successRate ?? 0));
+    set('orderCount', String(data.orderCount ?? 0));
+  } catch {}
+}
+
 function getSelectedIds() {
-  return Array.from(tableBody.querySelectorAll('input[type="checkbox"]:checked')).map((item) => Number(item.dataset.id));
+  return Array.from(tableBody.querySelectorAll('input[type="checkbox"]:checked')).map((item) =>
+    String(item.dataset.id || '').trim()
+  );
+}
+
+async function handleDelete(ids) {
+  if (!ids.length) return;
+  if (!confirm(`确认删除选中的 ${ids.length} 条记录吗？`)) return;
+  const token = ensureToken();
+  if (!token) return;
+  try {
+    const response = await fetch(`${API_BASE}/delete`, {
+      method: 'POST',
+      headers: {
+        Authorization: `Bearer ${token}`,
+        'Content-Type': 'application/json'
+      },
+      body: JSON.stringify({ ids })
+    });
+    if (!response.ok) {
+      if (response.status === 404) throw new Error('选中的记录不存在，可能已被删除。');
+      throw new Error('删除失败，请稍后重试。');
+    }
+    const result = await response.json();
+    const deleted = Array.isArray(result.deleted) ? result.deleted.length : ids.length;
+    const notFound = Array.isArray(result.notFound) ? result.notFound.length : 0;
+    if (notFound && !deleted) {
+      alert('未找到需要删除的订单，可能已被其他管理员处理。');
+    } else if (notFound) {
+      alert(`已删除 ${deleted} 条订单，另有 ${notFound} 条未找到。`);
+    } else {
+      alert(`已删除 ${deleted} 条订单。`);
+    }
+    await fetchOrders();
+  } catch (error) {
+    console.error(error);
+    alert(error instanceof Error ? error.message : '删除失败，请稍后重试。');
+  }
 }
 
 function bindEvents() {
+  let searchTimer = null;
   searchInput?.addEventListener('input', (event) => {
-    state.keyword = event.target.value.toLowerCase();
+    state.keyword = event.target.value || '';
     state.page = 1;
-    renderTable();
+    if (searchTimer) clearTimeout(searchTimer);
+    searchTimer = setTimeout(() => fetchOrders(), 300);
   });
 
   pageSizeSelect?.addEventListener('change', (event) => {
-    state.pageSize = Number(event.target.value);
+    const nextSize = Number(event.target.value) || 10;
+    state.pageSize = nextSize;
     state.page = 1;
-    renderTable();
+    fetchOrders();
+  });
+
+  startInput?.addEventListener('change', (e) => {
+    state.start = e.target.value || '';
+    state.page = 1;
+    fetchOrders();
+    fetchSummary();
+  });
+
+  endInput?.addEventListener('change', (e) => {
+    state.end = e.target.value || '';
+    state.page = 1;
+    fetchOrders();
+    fetchSummary();
   });
 
   pagerContainer?.addEventListener('click', (event) => {
     const button = event.target.closest('button');
     if (!button) return;
-    state.page = Number(button.dataset.page);
-    renderTable();
+    const nextPage = Number(button.dataset.page);
+    if (Number.isFinite(nextPage) && nextPage !== state.page) {
+      state.page = nextPage;
+      fetchOrders();
+    }
   });
 
   document.querySelectorAll('.table-pager .pager-btn').forEach((btn) =>
     btn.addEventListener('click', (event) => {
       const type = event.currentTarget.dataset.page;
-      const totalPages = Math.max(1, Math.ceil(filterData().length / state.pageSize));
+      const totalPages = Math.max(1, Math.ceil(state.total / state.pageSize));
       if (type === 'prev') state.page = Math.max(1, state.page - 1);
       if (type === 'next') state.page = Math.min(totalPages, state.page + 1);
-      renderTable();
+      fetchOrders();
     })
   );
 
@@ -264,34 +296,67 @@ function bindEvents() {
     });
   });
 
-  document.querySelector('#order-refresh')?.addEventListener('click', () => {
-    renderTable();
-    alert('\u5df2\u5237\u65b0\u8ba2\u5355\u8bb0\u5f55\uff08\u6f14\u793a\uff09\u3002');
-  });
+  document.querySelector('#order-refresh')?.addEventListener('click', () => fetchOrders());
 
-  document.querySelector('#order-export')?.addEventListener('click', () => {
-    alert('\u5bfc\u51fa\u8ba2\u5355\u660e\u7ec6\uff08\u6f14\u793a\uff09\u3002');
+  document.querySelector('#order-export')?.addEventListener('click', async () => {
+    const token = ensureToken();
+    if (!token) return;
+    try {
+      const params = new URLSearchParams();
+      if (state.keyword.trim()) params.set('keyword', state.keyword.trim());
+      if (state.start) params.set('start', state.start);
+      if (state.end) params.set('end', state.end);
+      const url = `${API_BASE}/export?${params.toString()}`;
+      const res = await fetch(url, { headers: { Authorization: `Bearer ${token}` } });
+      if (!res.ok) {
+        try {
+          const data = await res.json();
+          alert(data?.error || `导出失败（${res.status}）`);
+        } catch {
+          alert(`导出失败（${res.status}）`);
+        }
+        return;
+      }
+      const blob = await res.blob();
+      const cd = res.headers.get('Content-Disposition') || res.headers.get('content-disposition') || '';
+      let filename = 'orders_export.csv';
+      const m = /filename\*=UTF-8''([^;]+)|filename="?([^";]+)"?/i.exec(cd);
+      if (m) {
+        filename = decodeURIComponent(m[1] || m[2] || filename);
+      }
+      const href = URL.createObjectURL(blob);
+      const a = document.createElement('a');
+      a.href = href;
+      a.download = filename;
+      document.body.appendChild(a);
+      a.click();
+      a.remove();
+      URL.revokeObjectURL(href);
+    } catch (err) {
+      console.error(err);
+      alert('导出失败，请稍后重试。');
+    }
   });
 
   document.querySelector('#order-delete')?.addEventListener('click', () => {
     const ids = getSelectedIds();
-    if (ids.length === 0) {
-      alert('\u8bf7\u9009\u62e9\u9700\u8981\u64cd\u4f5c\u7684\u8ba2\u5355\u3002');
+    if (!ids.length) {
+      alert('请选择需要操作的订单。');
       return;
     }
-    const confirmed = confirm(`\u786e\u5b9a\u5220\u9664 ${ids.length} \u6761\u8ba2\u5355\u8bb0\u5f55\u5417\uff1f`);
-    if (confirmed) alert('\u6f14\u793a\u73af\u5883\uff1a\u4e0d\u4f1a\u6267\u884c\u5b9e\u9645\u64cd\u4f5c\u3002');
+    handleDelete(ids);
   });
 
   document.querySelector('#order-more')?.addEventListener('click', () => {
-    alert('\u66f4\u591a\u529f\u80fd\u5982\u8ba2\u5355\u91cd\u53d1\u548c\u652f\u4ed8\u65b9\u5f0f\u5206\u7c7b\u6b63\u5728\u8bbe\u8ba1\uff08\u6f14\u793a\uff09\u3002');
+    alert('演示环境：更多操作暂未实现。');
   });
 }
 
 ensureToken();
 renderProfile();
-renderTable();
 bindEvents();
+fetchOrders();
+fetchSummary();
 
 logoutBtn?.addEventListener('click', () => {
   localStorage.removeItem('admin_token');

@@ -8,18 +8,17 @@ export default defineConfig({
     host: true,
     open: true,
     proxy: {
-      // 本地开发将 /api 与 /static 代理到后端（API 默认 3003 端口），避免 CORS
+      // Proxy API requests and static assets to the backend (default port 3004) to avoid CORS during local development
       '/api': {
-        target: 'http://localhost:3003',
+        target: 'http://localhost:3004',
         changeOrigin: true
       },
       '/static': {
-        target: 'http://localhost:3003',
+        target: 'http://localhost:3004',
         changeOrigin: true
-      }
-      ,
+      },
       '/socket.io': {
-        target: 'http://localhost:3003',
+        target: 'http://localhost:3004',
         ws: true,
         changeOrigin: true
       }

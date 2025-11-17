@@ -1,0 +1,74 @@
+/* Static mirror of /admin/styles.css to avoid 404/MIME issues when server only serves assets under /admin/static */
+:root {
+	color-scheme: light;
+	font-family: 'Segoe UI', 'PingFang SC', 'Microsoft Yahei', sans-serif;
+	--bg-gradient: linear-gradient(145deg, #eef2ff 0%, #dbeafe 40%, #e0f2fe 70%, #fef9c3 100%);
+	--card-bg: rgba(255, 255, 255, 0.92);
+	--card-shadow: 0 24px 60px rgba(15, 23, 42, 0.16);
+	--accent: #2563eb;
+	--accent-soft: rgba(37, 99, 235, 0.12);
+	--text-main: #0f172a;
+	--text-muted: #475569;
+	--border: rgba(148, 163, 184, 0.35);
+	--success: #16a34a;
+	--error: #dc2626;
+}
+
+* {
+	box-sizing: border-box;
+}
+
+body,
+html {
+	margin: 0;
+	min-height: 100%;
+	background: var(--bg-gradient);
+}
+
+/* --- BELOW: full content copied from /admin/styles.css --- */
+
+/* =============================
+   审核操作按钮统一配色
+   通过=绿色  驳回=红色  信息=蓝色
+   覆盖所有使用 .action-btn / .link-btn 的审核页面
+   ============================= */
+
+.table-actions { display:inline-flex; gap:8px; }
+
+.action-btn {
+	width:28px; height:28px; border-radius:8px;
+	display:inline-flex; align-items:center; justify-content:center;
+	border:none; cursor:pointer; color:#fff;
+	background:rgba(148,163,184,.3);
+	transition:transform .18s ease, box-shadow .18s ease;
+}
+.action-btn:hover { transform:translateY(-1px); box-shadow:0 10px 20px rgba(15,23,42,.12); }
+
+button.action-btn.approve { background:linear-gradient(135deg,#22c55e,#16a34a); }
+button.action-btn.reject  { background:linear-gradient(135deg,#ef4444,#dc2626); }
+button.action-btn.info    { background:linear-gradient(135deg,#3b82f6,#2563eb); }
+
+/* 点卡等使用文字按钮形式 */
+.link-btn {
+	background:var(--accent-soft); color:var(--accent);
+	border:1px solid rgba(37,99,235,.35);
+	border-radius:999px; padding:4px 12px;
+	font-size:12px; font-weight:600; cursor:pointer;
+	transition:background .18s ease, transform .18s ease;
+}
+.link-btn:hover { background:rgba(37,99,235,.2); transform:translateY(-1px); }
+
+.link-btn[data-action="approve"], .link-btn.approve {
+	background:rgba(22,163,74,.15); color:#15803d; border-color:rgba(22,163,74,.45);
+}
+.link-btn[data-action="approve"]:hover, .link-btn.approve:hover { background:rgba(22,163,74,.25); }
+
+.link-btn[data-action="reject"], .link-btn.reject, .link-btn.danger[data-action="reject"] {
+	background:rgba(220,38,38,.15); color:#b91c1c; border-color:rgba(220,38,38,.45);
+}
+.link-btn[data-action="reject"]:hover, .link-btn.reject:hover, .link-btn.danger[data-action="reject"]:hover { background:rgba(220,38,38,.25); }
+
+button[disabled][data-action="approve"], button[disabled][data-action="reject"], .action-btn[disabled] {
+	opacity:.55; cursor:not-allowed; filter:grayscale(8%);
+}
+

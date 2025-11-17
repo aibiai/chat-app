@@ -7,6 +7,8 @@
           <div class="hero-orb" aria-hidden="true">
             <span class="hero-orb__value">{{ luckPercentLabel }}</span>
           </div>
+          <!-- 幸运值标签（位于星盘上方的标题区域） -->
+          <div class="hero-luck-label">{{ t('lucky.value') }}</div>
           <div class="hero-star-field" aria-hidden="true">
             <span
               v-for="star in starLayout"
@@ -115,6 +117,28 @@ import { useRoute, useRouter } from 'vue-router'
 import api from '../api'
 import AvatarImg from '../components/AvatarImg.vue'
 
+const LUCKY_BG = '/images/home-lucky-bg.jpg';
+
+function applyAppBackground(url: string | null) {
+  const el = document.getElementById('app-bg');
+  if (!el) return;
+  if (url) {
+    el.style.backgroundImage = `url('${url}')`;
+    el.style.backgroundSize = 'cover';
+    el.style.backgroundPosition = 'center';
+    el.style.backgroundRepeat = 'no-repeat';
+    el.style.filter = 'brightness(1.05)';
+    el.style.zIndex = '-1';
+  } else {
+    el.style.backgroundImage = '';
+    el.style.backgroundSize = '';
+    el.style.backgroundPosition = '';
+    el.style.backgroundRepeat = '';
+    el.style.filter = '';
+    el.style.removeProperty('z-index');
+  }
+}
+
 type Gender = 'male' | 'female' | 'other'
 type ProfileDraft = Partial<{
   nickname: string
@@ -159,21 +183,23 @@ const user = ref<Me | null>(null)
 const { t } = useI18n()
 const placeholder = '--'
 const defaultHero = '/avatars/lucky-hero.gif'
+const femaleDefaultHero = '/avatars/lucky-women.png'
 // �Ҳ�װ��ͼ�������� public/decorations �£�Vite ���Ը�·���ṩ��
 const defaultRightDecor = '/decorations/lucky-right-board.jpg'
 const DEFAULT_LUCK_SCORE = 100
 const MAX_STARS = 10
-const starPositions = [
-  { id: 'row1-col1', size: 'lg', top: '24%', left: '67%' },
-  { id: 'row2-col1', size: 'md', top: '40%', left: '57%' },
-  { id: 'row2-col2', size: 'md', top: '40%', left: '67%' },
-  { id: 'row2-col3', size: 'md', top: '40%', left: '77%' },
-  { id: 'row3-col1', size: 'md', top: '56%', left: '57%' },
-  { id: 'row3-col2', size: 'md', top: '56%', left: '67%' },
-  { id: 'row3-col3', size: 'md', top: '56%', left: '77%' },
-  { id: 'row4-col1', size: 'md', top: '72%', left: '57%' },
-  { id: 'row4-col2', size: 'md', top: '72%', left: '67%' },
-  { id: 'row4-col3', size: 'md', top: '72%', left: '77%' },
+type StarPos = { id: string; size: 'lg'|'md'; top: string; left: string; rotate?: number }
+const starPositions: Readonly<StarPos[]> = [
+  { id: 'row1-col1', size: 'lg', top: '24%', left: '67%', rotate: 12 },
+  { id: 'row2-col1', size: 'md', top: '40%', left: '57%', rotate: -8 },
+  { id: 'row2-col2', size: 'md', top: '40%', left: '67%', rotate: 5 },
+  { id: 'row2-col3', size: 'md', top: '40%', left: '77%', rotate: -3 },
+  { id: 'row3-col1', size: 'md', top: '56%', left: '57%', rotate: 18 },
+  { id: 'row3-col2', size: 'md', top: '56%', left: '67%', rotate: -15 },
+  { id: 'row3-col3', size: 'md', top: '56%', left: '77%', rotate: 9 },
+  { id: 'row4-col1', size: 'md', top: '72%', left: '57%', rotate: 2 },
+  { id: 'row4-col2', size: 'md', top: '72%', left: '67%', rotate: -6 },
+  { id: 'row4-col3', size: 'md', top: '72%', left: '77%', rotate: 14 },
 ] as const
 
 const luckScore = ref<number>(DEFAULT_LUCK_SCORE)
@@ -194,9 +220,9 @@ const displayName = computed(() => user.value?.nickname || t('common.unnamed'))
 
 const genderLabel = computed(() => {
   const g = user.value?.gender
-  if (g === 'male') return String.fromCharCode(0x7537)
-  if (g === 'female') return String.fromCharCode(0x5973)
-  if (g === 'other') return String.fromCharCode(0x4FDD, 0x5BC6)
+  if (g === 'male') return t('auth.gender.male')
+  if (g === 'female') return t('auth.gender.female')
+  if (g === 'other') return t('auth.gender.other')
   return ''
 })
 
@@ -210,7 +236,7 @@ const ageLabel = computed(() => {
     const m = now.getMonth() - dob.getMonth();
     if (m < 0 || (m === 0 && now.getDate() < dob.getDate())) age--;
     if (Number.isNaN(age) || age < 0) return '';
-    return String(age) + '��';
+    return String(age) + ' ' + t('profile.ageUnit');
   } catch {
     return '';
   }
@@ -246,38 +272,30 @@ const educationText = computed(() => {
   return e ? t('onboarding.educationOptions.' + e) : placeholder;
 });
 
-const heroTags = computed(() => {
-  const tags = [
-    zodiacText.value,
-    educationText.value,
-    heightText.value,
-    weightText.value,
-    maritalText.value,
-  ].filter((tag) => tag && tag !== placeholder)
-  return tags.slice(0, 4)
-})
+const heroTags = computed(() => [])
 
+// 会员等级文本：兼容历史字段（vipLevel / membershipTier），优先使用新版 membershipLevel
 const membershipLabel = computed(() => {
   const u = user.value as any
-  return (
-    u?.membershipLabel ||
-    u?.membershipTier ||
-    u?.vipLevel ||
-    u?.profileDraft?.membershipLabel ||
-    u?.profileDraft?.membershipTier ||
-    String.fromCharCode(0x666E, 0x901A, 0x4F1A, 0x5458)
-  )
+  // 新版：membershipLevel；旧版兼容：membershipTier / vipLevel；草稿字段用于尚未保存的预览
+  const tier: string | undefined =
+    u?.membershipLevel || u?.membershipTier || u?.vipLevel || u?.profileDraft?.membershipTier
+  if (tier === 'purple') return t('vip.tier.purple')
+  if (tier === 'crown') return t('vip.tier.crown')
+  // 优先后端自定义的已本地化标签；否则回退到标准“无会员/普通会员”
+  return u?.membershipLabel || u?.profileDraft?.membershipLabel || t('vip.tier.none')
 })
 
 const characterUrl = computed(() => {
   const u = user.value as any
-  return (
+  const preset =
     u?.luckyCharacterUrl ||
     u?.heroImageUrl ||
     u?.profileDraft?.luckyCharacterUrl ||
-    u?.profileDraft?.heroImageUrl ||
-    defaultHero
-  )
+    u?.profileDraft?.heroImageUrl
+  if (preset) return preset
+  if (u?.gender === 'female') return femaleDefaultHero
+  return defaultHero
 })
 
 // ͷ�����Ҳ�װ��
@@ -297,7 +315,8 @@ async function loadMe() {
   try {
     const { data } = await api.get('/api/users/me')
     user.value = data || null
-    applyLuckScore((data as any)?.luckScore ?? data?.profileDraft?.luckScore)
+    // 优先使用后端 luckyStars 作为水球数值；其次兼容历史 luckScore / profileDraft.luckScore
+    applyLuckScore((data as any)?.luckyStars ?? (data as any)?.luckScore ?? data?.profileDraft?.luckScore)
   } catch {
     user.value = null
     luckScore.value = DEFAULT_LUCK_SCORE
@@ -316,7 +335,15 @@ function goGifts() {
   else router.push('/gifts')
 }
 
-onMounted(loadMe)
+onMounted(() => {
+  applyAppBackground(LUCKY_BG)
+  loadMe()
+  // 监听全局会员变更事件（来自 NavBar / Settings 升级后触发）
+  const handler = () => loadMe()
+  window.addEventListener('vip-updated', handler)
+  // 在卸载时移除监听
+  onUnmounted(() => window.removeEventListener('vip-updated', handler))
+})
 
 // �����и߶Ⱦ�ȷ���룺���������̨�߶ȣ�ʵʱ�����Ҳ������ min-height
 const stageRef = ref<HTMLElement | null>(null)
@@ -362,6 +389,7 @@ onMounted(() => {
 onUnmounted(() => {
   if (stageRO) stageRO.disconnect()
   window.removeEventListener('resize', syncSideHeight)
+  applyAppBackground(null)
 })
 </script>
 
@@ -377,9 +405,10 @@ onUnmounted(() => {
   position: relative;
   overflow: hidden;
   border-radius: 26px;
-  background:
-    linear-gradient(180deg, rgba(255, 255, 255, 0.25), rgba(255, 230, 240, 0.31)),
-    url('/backgrounds/lucky-stage.jpg') center/cover no-repeat;
+  /* 背景调整：铺满容器（cover），去掉半透明叠加层 */
+  background: url('/backgrounds/lucky-stage.jpg') center/cover no-repeat;
+  /* 为空白区域提供柔和底色，避免 contain 留白时出现突兀的透明 */
+  background-color: #ffe9f1;
   padding: 28px 30px 34px;
   box-shadow: 0 18px 46px rgba(245, 120, 140, 0.2);
   /* 提高最小高度，使舞台区域下沿尽量贴近页面底部（考虑移动端地址栏，采用 100dvh�?*/
@@ -387,13 +416,14 @@ onUnmounted(() => {
   display: flex;
   flex-direction: column;
   /* 舞台中心位置（相对于 hero-stage 的宽度百分比）；再右�?2% �?44% */
-  --figure-center: 46%;
+  --figure-center: 43%;
   /* 人物整体纵向位移：正值向下。再下移 2% �?31% */
   --figure-shift-y: 31%;
   /* 人物整体缩放（含台面），1 �?100%�?.3 表示放大 30% */
   --figure-scale: 1.3;
   /* �Ҳ�װ��λ����ߴ磨����Ĭ��ֵ���ɱ���Ӧʽ���ǣ� */
-  --decor-shift-x: 34%;
+  /* 再右移 5%（44% -> 49%） */
+  --decor-shift-x: 49%;
   --decor-top: 12%;
   --decor-width: clamp(220px, 26vw, 340px);
   /* λ�������ţ��ɰ���΢���� */
@@ -455,6 +485,23 @@ onUnmounted(() => {
   font-size: clamp(13.5375px, 1.8862vw, 20.577px);
   color: #3b0764;
   text-shadow: 0 2px 6px rgba(255,255,255,0.8);
+  pointer-events: none;
+}
+
+/* 顶部文字标签：「幸运值」 */
+.hero-luck-label{
+  position:absolute;
+  /* 与星盘对齐：略高于水球 */
+  top: 24%;
+  left: 72%;
+  transform: translate(-50%, -50%);
+  font-weight: 900;
+  letter-spacing: .06em;
+  color: #a10f4e;
+  text-shadow: 0 2px 6px rgba(255, 255, 255, 0.9);
+  /* 放大 10% */
+  font-size: clamp(14.3px, 1.76vw, 19.8px);
+  z-index: 4;
   pointer-events: none;
 }
 
@@ -529,6 +576,12 @@ onUnmounted(() => {
   }
   .hero-orb__value {
     font-size: clamp(12.00325px, 3.6009vw, 15.4328px);
+  }
+  .hero-luck-label{
+    top: 28%;
+    left: 80%;
+  /* 放大 10% */
+  font-size: clamp(13.2px, 3.52vw, 17.6px);
   }
 }
 
@@ -726,21 +779,7 @@ onUnmounted(() => {
   isolation: isolate;
 }
 
-.figure-decoration::after {
-  content: '';
-  position: absolute;
-  inset: 0;
-  border-radius: inherit;
-  background: linear-gradient(
-    180deg,
-    rgba(255, 255, 255, 0.3) 10%,
-    rgba(255, 210, 230, 0.22) 45%,
-    rgba(255, 140, 180, 0.12) 100%
-  );
-  mix-blend-mode: screen;
-  pointer-events: none;
-  z-index: 1;
-}
+.figure-decoration::after { display: none !important; }
 
 .figure-decoration img {
   display: block;
@@ -748,7 +787,10 @@ onUnmounted(() => {
   height: auto;
   position: relative;
   z-index: 0;
-  filter: brightness(0.968) drop-shadow(0 10px 24px rgba(226, 137, 161, 0.25));
+  /* 尽量去除不透明色块的压迫感：降低不透明度并使用混合模式与背景融合 */
+  opacity: 0.85;
+  mix-blend-mode: screen;
+  filter: brightness(1.02) drop-shadow(0 10px 24px rgba(226, 137, 161, 0.25));
 }
 
 .hero-copy {
@@ -931,7 +973,7 @@ onUnmounted(() => {
     /* 移动端适配：进一步贴近底�?*/
     min-height: calc(100dvh - 104px);
   /* 移动端再右移 2% �?60%，再下移 2% �?31% */
-  --figure-center: 62%;
+    --figure-center: 59%;
   --figure-shift-y: 31%;
     --figure-scale: 1.3;
   }
@@ -980,26 +1022,14 @@ onUnmounted(() => {
 
   /* 移动端：装饰图缩小并稍微靠近人物，避免压住右�?*/
   .figure-decoration {
-    left: calc(var(--figure-center) + 7%);
+  /* 移动端同步再右移 5%（+17% -> +22%） */
+  left: calc(var(--figure-center) + 22%);
     top: 10%;
     width: clamp(120px, 34vw, 200px);
     opacity: 0.98;
   isolation: isolate;
-}.figure-decoration::after {
-  content: '';
-  position: absolute;
-  inset: 0;
-  border-radius: inherit;
-  background: linear-gradient(
-    180deg,
-    rgba(255, 255, 255, 0.3) 10%,
-    rgba(255, 210, 230, 0.22) 45%,
-    rgba(255, 140, 180, 0.12) 100%
-  );
-  mix-blend-mode: screen;
-  pointer-events: none;
-  z-index: 1;
 }
+  .figure-decoration::after { display: none !important; }
 }
 </style>
 

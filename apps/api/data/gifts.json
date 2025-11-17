@@ -1,1 +1,62 @@
-[]
+[
+  {
+    "id": "lCNb1hySI_zuHkHaUDDEs",
+    "fromUserId": "5NoHsrMJBh-oSoZwM4R8H",
+    "toUserId": "SCrZ8T7Jsl_EmxmCgqM0B",
+    "giftId": "_skdduujMs",
+    "giftName": "钻石",
+    "giftImg": "/static/gifts/gIbgY-So.png",
+    "price": 520,
+    "createdAt": 1762091757067
+  },
+  {
+    "id": "eSH8qY0hF5OR3Hm3wJ4V_",
+    "fromUserId": "dj2qW9W3pIvhvMYO8a7e0",
+    "toUserId": "5NoHsrMJBh-oSoZwM4R8H",
+    "giftId": "_skdduujMs",
+    "giftName": "钻石",
+    "giftImg": "/static/gifts/gIbgY-So.png",
+    "price": 520,
+    "createdAt": 1762091858630
+  },
+  {
+    "id": "V7qrttAKQ0R_6TgYoQccf",
+    "fromUserId": "2lAC7JkqHN18VHF_xONBX",
+    "toUserId": "qW2aOCGlSnov4nJ4xxCX_",
+    "giftId": "_skdduujMs",
+    "giftName": "钻石",
+    "giftImg": "/static/gifts/gIbgY-So.png",
+    "price": 520,
+    "createdAt": 1762094570054
+  },
+  {
+    "id": "AFjB7G9AhSI5Vb5nkIGtl",
+    "fromUserId": "qW2aOCGlSnov4nJ4xxCX_",
+    "toUserId": "dj2qW9W3pIvhvMYO8a7e0",
+    "giftId": "_skdduujMs",
+    "giftName": "钻石",
+    "giftImg": "/static/gifts/gIbgY-So.png",
+    "price": 520,
+    "createdAt": 1762095830823
+  },
+  {
+    "id": "dQ9VujdQaLxo5dRFkYoRN",
+    "fromUserId": "qW2aOCGlSnov4nJ4xxCX_",
+    "toUserId": "qW2aOCGlSnov4nJ4xxCX_",
+    "giftId": "_skdduujMs",
+    "giftName": "钻石",
+    "giftImg": "/static/gifts/gIbgY-So.png",
+    "price": 520,
+    "createdAt": 1762095856547
+  },
+  {
+    "id": "LxAZ40h5v6TlEjQcu7w7S",
+    "fromUserId": "qW2aOCGlSnov4nJ4xxCX_",
+    "toUserId": "2lAC7JkqHN18VHF_xONBX",
+    "giftId": "g3",
+    "giftName": "巧克力",
+    "giftImg": "/static/gifts/chocolate.png",
+    "price": 19,
+    "createdAt": 1762873756238
+  }
+]

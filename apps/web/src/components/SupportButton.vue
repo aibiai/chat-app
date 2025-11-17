@@ -33,6 +33,12 @@ import { useRouter } from 'vue-router'
 const { t } = useI18n()
 const router = useRouter()
 function goSupport(){
+  // 未登录直接跳转登录页，而不是进入客服
+  const token = localStorage.getItem('token')
+  if (!token){
+    router.push('/login')
+    return
+  }
   // 若当前已在 /chat/support，则强制刷新一次以确保用户感知到反馈
   const cur = router.currentRoute.value
   if (cur.name === 'chat' && cur.params?.id === 'support'){

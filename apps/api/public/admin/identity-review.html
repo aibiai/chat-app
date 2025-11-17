@@ -1,0 +1,482 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>身份审核 - 信息审核</title>
+    <link rel="stylesheet" href="/admin/static/styles.css" />
+  </head>
+  <body class="admin-layout">
+    <style>
+      /* 身份审核缩略图：64×64，行内展示 */
+      .thumb-64 {
+        width: 64px;
+        height: 64px;
+        object-fit: cover;
+        border-radius: 8px;
+        border: 1px solid #e5e7eb;
+        background: #fff;
+        box-shadow: 0 2px 6px rgba(0,0,0,.06);
+        cursor: zoom-in;
+      }
+      /* 兜底：即使缺少类名也强制图片在单元格内以 64×64 显示 */
+      .thumb-cell img { width: 64px; height: 64px; object-fit: cover; border-radius: 8px; border: 1px solid #e5e7eb; background: #fff; box-shadow: 0 2px 6px rgba(0,0,0,.06); cursor: zoom-in; }
+      .thumb-64.placeholder {
+        display: inline-grid;
+        place-items: center;
+        font-size: 12px;
+        color: #9aa3af;
+        background: linear-gradient(135deg,#f8fafc,#f1f5f9);
+      }
+  /* 注意：不要改变 td 的 display，否则会破坏表格布局导致三列垂直堆叠 */
+  .thumb-cell { text-align: center; }
+  .thumb-cell img { display: inline-block; }
+     /* 使用固定布局避免列宽被内容挤压导致错位 */
+  #identity-table { table-layout: fixed; min-width: 1500px; }
+   /* 表格外层允许横向滚动，保证内容能向右扩展显示完整 */
+   .table-wrapper { overflow-x: auto; }
+   /* 表头保持单行；数据单元格允许换行，显示完整内容 */
+   #identity-table th { white-space: nowrap; vertical-align: middle; }
+   #identity-table td { white-space: normal; overflow: visible; text-overflow: initial; vertical-align: middle; }
+  
+  /* 图片预览（灯箱） */
+  .img-viewer{ position:fixed; inset:0; z-index:10050; display:none; align-items:center; justify-content:center; }
+  .img-viewer.open{ display:flex; }
+  .img-viewer .backdrop{ position:absolute; inset:0; background:rgba(0,0,0,.6); }
+  .img-viewer .viewer-body{ position:relative; max-width:92vw; max-height:90vh; display:flex; align-items:center; justify-content:center; }
+  .img-viewer img{ max-width:92vw; max-height:90vh; object-fit:contain; border-radius:10px; box-shadow:0 12px 36px rgba(0,0,0,.35); background:#fff; }
+  .thumb-64:hover{ box-shadow:0 4px 14px rgba(0,0,0,.25); transform:translateY(-2px); transition:all .18s ease; }
+  .img-viewer .close{ position:absolute; top:-12px; right:-12px; width:34px; height:34px; border-radius:50%; border:1px solid rgba(255,255,255,.65); background:rgba(255,255,255,.9); color:#111; font-weight:800; cursor:pointer; box-shadow:0 6px 18px rgba(0,0,0,.25); }
+      /* 固定三列宽度并居中，确保缩略图各自处于对应列下方 */
+  /* ID 与 用户信息列放宽，避免互相挤压 */
+  #identity-table thead th:nth-child(2),
+  #identity-table tbody td:nth-child(2) { width: 220px; min-width: 220px; }
+  #identity-table thead th:nth-child(3),
+  #identity-table tbody td:nth-child(3) { width: 220px; min-width: 220px; }
+      .data-table thead th:nth-child(6),
+      .data-table thead th:nth-child(7),
+      .data-table thead th:nth-child(8),
+      .data-table tbody td:nth-child(6),
+      .data-table tbody td:nth-child(7),
+      .data-table tbody td:nth-child(8) {
+        width: 96px;
+        min-width: 96px;
+        text-align: center;
+        vertical-align: middle;
+      }
+    </style>
+    <aside class="admin-sidebar">
+      <div class="sidebar-top">
+        <div class="sidebar-logo">
+          <span class="logo-dot"></span>
+          <strong>控制台</strong>
+        </div>
+        <div class="sidebar-profile">
+          <div class="sidebar-avatar" id="sidebar-avatar">A</div>
+          <div>
+            <p id="admin-name" class="sidebar-name">管理员</p>
+            <span class="sidebar-status">在线</span>
+          </div>
+        </div>
+      </div>
+      <nav class="admin-nav">
+        <a class="nav-item" href="/admin/dashboard">
+          <span>控制台</span>
+          <small class="nav-tag hot">HOT</small>
+        </a>
+        <details class="nav-group">
+          <summary class="nav-item">
+            <span>常规管理</span>
+          </summary>
+          <div class="nav-sub">
+            <a class="nav-sub-item" href="/admin/profile">个人资料</a>
+            <a class="nav-sub-item" href="#">栏目配置</a>
+            <a class="nav-sub-item" href="#">缓存清理</a>
+          </div>
+        </details>
+        <details class="nav-group open">
+          <summary class="nav-item">
+            <span>信息审核</span>
+          </summary>
+          <div class="nav-sub">
+            <a class="nav-sub-item" href="/admin/attachments">附件审核</a>
+            <a class="nav-sub-item" href="/admin/avatar-review">头像审核</a>
+            <a class="nav-sub-item active" href="/admin/identity-review">身份审核</a>
+            <a class="nav-sub-item" href="/admin/confession-review">表白墙审核</a>
+          </div>
+        </details>
+        <details class="nav-group">
+          <summary class="nav-item">
+            <span>权限管理</span>
+          </summary>
+          <div class="nav-sub">
+            <a class="nav-sub-item" href="/admin/admins">管理员管理</a>
+            <a class="nav-sub-item" href="/admin/admin-logs">管理员日志</a>
+            <a class="nav-sub-item" href="/admin/roles">角色组</a>
+            <a class="nav-sub-item" href="/admin/rules">菜单规则</a>
+          </div>
+        </details>
+        <details class="nav-group">
+          <summary class="nav-item">
+            <span>即时通信管理</span>
+          </summary>
+          <div class="nav-sub">
+            <a class="nav-sub-item" href="/admin/push">推送消息</a>
+            <a class="nav-sub-item" href="/admin/service-accounts">服务账号管理</a>
+          </div>
+        </details>
+        <details class="nav-group">
+          <summary class="nav-item">
+            <span>会员管理</span>
+          </summary>
+          <div class="nav-sub">
+            <a class="nav-sub-item" href="/admin/members">会员管理</a>
+            <a class="nav-sub-item" href="/admin/customer-service">客服管理</a>
+          </div>
+        </details>
+        <details class="nav-group">
+          <summary class="nav-item">
+            <span>礼物管理</span>
+          </summary>
+          <div class="nav-sub">
+            <a class="nav-sub-item" href="/admin/gift-categories">礼物分类</a>
+            <a class="nav-sub-item" href="/admin/gifts">礼物管理</a>
+          </div>
+        </details>
+        <a class="nav-item" href="/admin/stickers">
+          <span>表情贴管理</span>
+        </a>
+        <details class="nav-group">
+          <summary class="nav-item">
+            <span>订单管理</span>
+          </summary>
+          <div class="nav-sub">
+            <a class="nav-sub-item" href="/admin/order-overview">总营业额</a>
+            <a class="nav-sub-item" href="/admin/recharge-records">充值记录</a>
+            <a class="nav-sub-item" href="/admin/coin-consumption">金币消费记录</a>
+            <a class="nav-sub-item" href="/admin/card-review">点卡审核</a>
+          </div>
+        </details>
+        <details class="nav-group">
+          <summary class="nav-item">
+            <span>前端管理</span>
+          </summary>
+          <div class="nav-sub">
+            <a class="nav-sub-item" href="/admin/frontend-terms">使用条款修改</a>
+            <a class="nav-sub-item" href="/admin/frontend-privacy">隐私条款修改</a>
+            <a class="nav-sub-item" href="/admin/frontend-security">交友安全修改</a>
+            <a class="nav-sub-item" href="/admin/frontend-help">帮助中心修改</a>
+            <a class="nav-sub-item" href="/admin/frontend-contact">联系我们修改</a>
+            <a class="nav-sub-item" href="/admin/frontend-user-config">用户参数修改</a>
+            <a class="nav-sub-item" href="/admin/frontend-card-redeem">点卡兑换内容修改</a>
+            <a class="nav-sub-item" href="/admin/frontend-confession-images">表白墙图片修改</a>
+          </div>
+        </details>
+
+      </nav>
+      <button type="button" class="logout-btn" id="logout-btn">退出登录</button>
+    </aside>
+
+    <main class="admin-main members-compact">
+      <header class="admin-topbar">
+        <div>
+          <h1>身份审核</h1>
+          <p class="topbar-subtitle">
+            审核用户提交的身份证件照片，保障平台实名信息安全。支持查看正反面及手持照片。
+          </p>
+        </div>
+        <div class="topbar-actions">
+          <label class="search-box">
+            <svg viewBox="0 0 24 24" width="18" height="18" aria-hidden="true">
+              <path
+                fill="currentColor"
+                d="M15.5 14h-.79l-.28-.27A6.5 6.5 0 1 0 9.5 16a6.48 6.48 0 0 0 4.23-1.57l.27.28v.79l5 5L20.5 19l-5-5Zm-6 0A4.5 4.5 0 1 1 14 9.5 4.5 4.5 0 0 1 9.5 14Z"
+              />
+            </svg>
+            <input type="search" id="identity-search" placeholder="搜索用户名 / Email / 真实姓名" />
+          </label>
+          <label class="filter-box" style="margin-left:8px; display:inline-flex; align-items:center; gap:6px;">
+            <span class="text-xs text-slate-500">状态</span>
+            <select id="identity-status" class="filter-select">
+              <option value="all">全部</option>
+              <option value="pending">待审</option>
+              <option value="approved">已通过</option>
+              <option value="rejected">被驳回</option>
+            </select>
+          </label>
+          <div class="view-switch">
+            <button class="topbar-icon" id="identity-refresh" aria-label="刷新">
+              <svg viewBox="0 0 24 24" width="18" height="18" fill="currentColor">
+                <path d="M17.65 6.35A7.95 7.95 0 0 0 12 4V1L7 6l5 5V7a5 5 0 1 1-5 5H5a7 7 0 1 0 12.65-5.65Z" />
+              </svg>
+            </button>
+            <button class="topbar-icon" id="identity-export" aria-label="导出">
+              <svg viewBox="0 0 24 24" width="18" height="18" fill="currentColor">
+                <path d="M5 20h14v-2H5m14-9h-4V3H9v6H5l7 7 7-7Z" />
+              </svg>
+            </button>
+          </div>
+        </div>
+      </header>
+
+      <section class="panel members-compact">
+        <header class="panel-head">
+          <div class="panel-actions">
+            <button class="panel-btn danger" id="identity-delete">删除</button>
+            <button class="panel-btn" id="identity-more">更多</button>
+          </div>
+        </header>
+
+        <div class="table-wrapper">
+          <table class="data-table" id="identity-table">
+            <colgroup>
+              <col style="width:48px" />
+              <col style="width:120px" />
+              <col />
+              <col style="width:200px" />
+              <col style="width:120px" />
+              <col class="image-col" style="width:96px" />
+              <col class="image-col" style="width:96px" />
+              <col class="image-col" style="width:96px" />
+              <col style="width:120px" />
+              <col style="width:120px" />
+            </colgroup>
+            <thead>
+              <tr>
+                <th><input type="checkbox" id="identity-check-all" /></th>
+                <th>ID</th>
+                <th>用户信息</th>
+                <th>Email</th>
+                <th>真实姓名</th>
+                <th>证件正面</th>
+                <th>证件反面</th>
+                <th>手持合照</th>
+                <th>状态</th>
+                <th>操作</th>
+              </tr>
+            </thead>
+            <tbody>
+              <tr><td colspan="10" class="empty">加载中...</td></tr>
+            </tbody>
+          </table>
+        </div>
+        <!-- 图片预览容器 -->
+        <div class="img-viewer" id="img-viewer" aria-hidden="true">
+          <div class="backdrop" data-action="close"></div>
+          <div class="viewer-body">
+            <img id="img-viewer-img" alt="预览" />
+            <button class="close" data-action="close" title="关闭">×</button>
+          </div>
+        </div>
+
+        <footer class="table-foot">
+          <div class="table-info" id="identity-info">
+            显示第&nbsp;1&nbsp;页&nbsp;/&nbsp;共&nbsp;1&nbsp;页，总计&nbsp;0&nbsp;条记录
+          </div>
+          <div class="table-pager">
+            <button class="pager-btn" data-page="prev">上一页</button>
+            <div id="identity-pager"></div>
+            <button class="pager-btn" data-page="next">下一页</button>
+            <label class="pager-size">
+              每页展示
+              <select id="identity-page-size">
+                <option value="10">10 条</option>
+                <option value="20">20 条</option>
+                <option value="50">50 条</option>
+              </select>
+            </label>
+          </div>
+        </footer>
+      </section>
+    </main>
+
+    <script type="module" src="/admin/identity-review.js?v=20251102"></script>
+  <script type="module" src="/admin/static/perm-guard.js"></script>
+    <!-- 兼容修复：无论旧版将三图塞入同一格还是列数缺失，都强制渲染为“证件正面/证件反面/手持合照”三列；并避免观察器自触发导致页面卡死 -->
+    <script>
+      (function () {
+        const table = document.getElementById('identity-table');
+        if (!table) return;
+        // 预览元素
+        const viewer = document.getElementById('img-viewer');
+        const viewerImg = document.getElementById('img-viewer-img');
+
+        // 工具：创建或获取指定索引的单元格（0-based）。若不存在，则在对应位置插入一个新的 td。
+
+        function ensureIndex(tr, index) {
+          const len = tr.children.length;
+          if (index < len) return tr.children[index];
+          // 直接补齐到 index
+          while (tr.children.length <= index) {
+            tr.appendChild(document.createElement('td'));
+          }
+          return tr.children[index];
+        }
+
+        // 行兜底：保证与表头一致至少 10 列
+        function ensureCols(tr) {
+          while (tr.children.length < 10) tr.appendChild(document.createElement('td'));
+        }
+
+        function renderIntoCell(cell, img, field) {
+          if (!cell) return false;
+          cell.className = 'thumb-cell';
+          if (img && img.src) {
+            const id = img.dataset?.id || (cell.closest('tr')?.dataset?.id || '');
+            cell.innerHTML = `<img class="thumb-64" src="${img.src}" alt="${field}" data-action="preview" data-target="${field}" data-id="${id}" />`;
+          } else {
+            cell.innerHTML = '<span class="thumb-64 placeholder" title="无图">-</span>';
+          }
+          return true;
+        }
+
+        function pickImages(tr) {
+          // 极端兜底：优先整行收集前 3 张图片（无论放在何处/何列）
+          const allImgs = Array.from(tr.querySelectorAll('img'));
+          let front = allImgs[0];
+          let back = allImgs[1];
+          let selfie = allImgs[2];
+
+          // 如果行内图片数量不足 3，再尝试通过 data-target 精确匹配补齐
+          const byKey = (key) => tr.querySelector(`img[data-target="${key}"]`);
+          if (!front) front = byKey('idFrontPath');
+          if (!back) back = byKey('idBackPath');
+          if (!selfie) selfie = byKey('selfiePath');
+
+          // 若依然缺少，再看第 6 列是否塞了多图
+          if (!(front && back && selfie)) {
+            const c5 = tr.children[5];
+            if (c5) {
+              const imgs = Array.from(c5.querySelectorAll('img'));
+              if (!front) front = imgs[0];
+              if (!back) back = imgs[1];
+              if (!selfie) selfie = imgs[2];
+            }
+          }
+
+          return { front, back, selfie };
+        }
+
+        function expandColspans(tr) {
+          // 将整行的 colspan 全部展开为单列，避免任何列位移
+          const cells = Array.from(tr.children);
+          cells.forEach((td) => {
+            const cs = parseInt(td.getAttribute('colspan') || '1', 10);
+            if (Number.isFinite(cs) && cs > 1) {
+              td.setAttribute('colspan', '1');
+              for (let k = 1; k < cs; k += 1) {
+                td.insertAdjacentElement('afterend', document.createElement('td'));
+              }
+            }
+          });
+        }
+
+        function normalizeThreeImageCells(tr) {
+          // 先把行内所有 colspan 展开，确保列索引与表头一致
+          expandColspans(tr);
+          ensureCols(tr);
+
+          // 读取图片来源
+          const { front, back, selfie } = pickImages(tr);
+
+          // 直接重建 6/7/8 三个单元格的内容，彻底规避“多图在一格”的遗留结构
+          renderIntoCell(ensureIndex(tr, 5), front, 'idFrontPath');
+          renderIntoCell(ensureIndex(tr, 6), back, 'idBackPath');
+          renderIntoCell(ensureIndex(tr, 7), selfie, 'selfiePath');
+        }
+
+        // 若后端旧结构将三张图片拆成多行（使用 rowspan 或补充行），尝试合并：
+        // 规则：遇到含勾选框的行作为主行；后续紧邻的、不含勾选框但含图片的行视为续行，将图片收集后填入主行第6/7/8列并移除该续行。
+        function mergeMultiRowImages(tbody) {
+          const rows = Array.from(tbody.rows);
+          let mainRow = null;
+          let gathered = [];
+          const isCheckboxRow = (tr) => !!tr.querySelector('td input[type="checkbox"]');
+
+          rows.forEach((tr) => {
+            const imgs = Array.from(tr.querySelectorAll('img'));
+            if (isCheckboxRow(tr)) {
+              // 处理上一个主行（如果其图片在多行中累积）
+              if (mainRow && gathered.length) {
+                ensureCols(mainRow);
+                const [f, b, s] = [gathered[0], gathered[1], gathered[2]];
+                renderIntoCell(ensureIndex(mainRow, 5), f, 'idFrontPath');
+                renderIntoCell(ensureIndex(mainRow, 6), b, 'idBackPath');
+                renderIntoCell(ensureIndex(mainRow, 7), s, 'selfiePath');
+              }
+              // 切换主行
+              mainRow = tr;
+              gathered = imgs.slice();
+            } else if (mainRow) {
+              // 续行：只收集图片并标记待删除
+              if (imgs.length) {
+                gathered.push(...imgs);
+                tr.dataset._toRemove = '1';
+              }
+            }
+          });
+
+          // 最后一组也要处理
+          if (mainRow && gathered.length) {
+            ensureCols(mainRow);
+            const [f, b, s] = [gathered[0], gathered[1], gathered[2]];
+            renderIntoCell(ensureIndex(mainRow, 5), f, 'idFrontPath');
+            renderIntoCell(ensureIndex(mainRow, 6), b, 'idBackPath');
+            renderIntoCell(ensureIndex(mainRow, 7), s, 'selfiePath');
+          }
+
+            // 删除标记的续行
+            rows.filter(r => r.dataset._toRemove === '1').forEach(r => r.remove());
+        }
+
+  const tbody = table.tBodies[0];
+        if (!tbody) return;
+
+        let scheduled = false;
+        let observer;
+
+        function applyFix() {
+          if (scheduled) return;
+          scheduled = true;
+          // 在下一帧统一处理，且处理期间断开观察，避免自触发无限循环
+          requestAnimationFrame(() => {
+            scheduled = false;
+            observer && observer.disconnect();
+            // 先尝试合并多行图片结构，再逐行规范列
+            mergeMultiRowImages(tbody);
+            Array.from(tbody.rows).forEach((tr) => normalizeThreeImageCells(tr));
+            // 重新监听新增的行；只监听 childList，避免属性变化造成噪声
+            observer && observer.observe(tbody, { childList: true, subtree: true });
+          });
+        }
+
+        // 初次与后续变更都尝试修复
+  window.addEventListener('DOMContentLoaded', applyFix);
+  window.addEventListener('load', applyFix);
+  // 再做几次兜底（等待模块脚本与数据渲染完成）
+  [180, 350, 800].forEach((t) => setTimeout(applyFix, t));
+        observer = new MutationObserver(() => applyFix());
+        observer.observe(tbody, { childList: true, subtree: true });
+
+        // 图片点击预览（委托到 tbody）
+        tbody.addEventListener('click', (e) => {
+          const img = e.target.closest('img.thumb-64');
+          if (!img) return;
+          const src = img.getAttribute('data-preview-src') || img.getAttribute('src');
+          if (!src || !viewer || !viewerImg) return;
+          viewerImg.src = src;
+          viewer.classList.add('open');
+          viewer.setAttribute('aria-hidden', 'false');
+        });
+        // 关闭预览
+        viewer?.addEventListener('click', (e) => {
+          const isClose = e.target.matches('[data-action="close"], .backdrop');
+          if (!isClose) return;
+          viewer.classList.remove('open');
+          viewer.setAttribute('aria-hidden', 'true');
+          if (viewerImg) viewerImg.removeAttribute('src');
+        });
+      })();
+    </script>
+  </body>
+</html>

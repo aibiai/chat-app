@@ -1,0 +1,158 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>隐私条款修改 - 前端管理</title>
+    <link rel="stylesheet" href="/admin/static/styles.css" />
+  </head>
+  <body class="admin-layout">
+    <aside class="admin-sidebar">
+  <div class="sidebar-top">
+    <div class="sidebar-logo">
+      <span class="logo-dot"></span>
+      <strong>控制台</strong>
+    </div>
+    <div class="sidebar-profile">
+      <div class="sidebar-avatar" id="sidebar-avatar">A</div>
+      <div>
+        <p id="admin-name" class="sidebar-name">管理员</p>
+        <span class="sidebar-status">在线</span>
+      </div>
+    </div>
+  </div>
+  <nav class="admin-nav">
+    <a class="nav-item" href="/admin/dashboard">
+      <span>控制台</span>
+      <small class="nav-tag hot">HOT</small>
+    </a>
+    <details class="nav-group">
+      <summary class="nav-item">
+        <span>常规管理</span>
+      </summary>
+      <div class="nav-sub">
+        <a class="nav-sub-item" href="/admin/profile">个人资料</a>
+        <a class="nav-sub-item" href="#">栏目配置</a>
+        <a class="nav-sub-item" href="#">缓存清理</a>
+      </div>
+    </details>
+    <details class="nav-group">
+      <summary class="nav-item">
+        <span>信息审核</span>
+      </summary>
+      <div class="nav-sub">
+        <a class="nav-sub-item" href="/admin/attachments">附件审核</a>
+        <a class="nav-sub-item" href="/admin/avatar-review">头像审核</a>
+        <a class="nav-sub-item" href="/admin/identity-review">身份审核</a>
+        <a class="nav-sub-item" href="/admin/confession-review">表白墙审核</a>
+      </div>
+    </details>
+    <details class="nav-group">
+      <summary class="nav-item">
+        <span>权限管理</span>
+      </summary>
+      <div class="nav-sub">
+        <a class="nav-sub-item" href="/admin/admins">管理员管理</a>
+        <a class="nav-sub-item" href="/admin/admin-logs">管理员日志</a>
+        <a class="nav-sub-item" href="/admin/roles">角色组</a>
+        <a class="nav-sub-item" href="/admin/rules">菜单规则</a>
+      </div>
+    </details>
+    <details class="nav-group">
+      <summary class="nav-item">
+        <span>即时通信管理</span>
+      </summary>
+      <div class="nav-sub">
+        <a class="nav-sub-item" href="/admin/push">推送消息</a>
+        <a class="nav-sub-item" href="/admin/service-accounts">服务账号管理</a>
+      </div>
+    </details>
+    <details class="nav-group">
+      <summary class="nav-item">
+        <span>会员管理</span>
+      </summary>
+      <div class="nav-sub">
+        <a class="nav-sub-item" href="/admin/members">会员管理</a>
+        <a class="nav-sub-item" href="/admin/customer-service">客服管理</a>
+      </div>
+    </details>
+    <details class="nav-group">
+      <summary class="nav-item">
+        <span>礼物管理</span>
+      </summary>
+      <div class="nav-sub">
+        <a class="nav-sub-item" href="/admin/gift-categories">礼物分类</a>
+        <a class="nav-sub-item" href="/admin/gifts">礼物管理</a>
+      </div>
+    </details>
+    <a class="nav-item" href="/admin/stickers">
+      <span>表情贴管理</span>
+    </a>
+    <details class="nav-group">
+      <summary class="nav-item">
+        <span>订单管理</span>
+      </summary>
+      <div class="nav-sub">
+        <a class="nav-sub-item" href="/admin/order-overview">总营业额</a>
+        <a class="nav-sub-item" href="/admin/recharge-records">充值记录</a>
+        <a class="nav-sub-item" href="/admin/coin-consumption">金币消费记录</a>
+        <a class="nav-sub-item" href="/admin/card-review">点卡审核</a>
+      </div>
+    </details>
+    <details class="nav-group open">
+      <summary class="nav-item">
+        <span>前端管理</span>
+      </summary>
+      <div class="nav-sub">
+        <a class="nav-sub-item" href="/admin/frontend-terms">使用条款修改</a>
+        <a class="nav-sub-item active" href="/admin/frontend-privacy">隐私条款修改</a>
+        <a class="nav-sub-item" href="/admin/frontend-security">交友安全修改</a>
+        <a class="nav-sub-item" href="/admin/frontend-help">帮助中心修改</a>
+        <a class="nav-sub-item" href="/admin/frontend-contact">联系我们修改</a>
+        <a class="nav-sub-item" href="/admin/frontend-user-config">用户参数修改</a>
+        <a class="nav-sub-item" href="/admin/frontend-card-redeem">点卡兑换内容修改</a>
+        <a class="nav-sub-item" href="/admin/frontend-confession-images">表白墙图片修改</a>
+      </div>
+    </details>
+
+  </nav>
+  <button type="button" class="logout-btn" id="logout-btn">退出登录</button>
+</aside>
+    <main class="admin-main members-compact">
+      <header class="admin-topbar">
+        <div>
+          <h1>隐私条款修改</h1>
+          <p class="topbar-subtitle">前端内容 - 隐私条款文案调整</p>
+        </div>
+      </header>
+      <section class="panel">
+        <header class="panel-head" style="display:flex;align-items:center;gap:12px;flex-wrap:wrap;">
+          <label style="display:flex;flex-direction:column;gap:4px;font-size:12px;">
+            <span>语言 / Locale</span>
+            <select id="privacy-locale" class="select" style="min-width:140px;">
+              <option value="zh-CN">zh-CN</option>
+              <option value="zh-TW">zh-TW</option>
+              <option value="en">en</option>
+              <option value="ja">ja</option>
+              <option value="ko">ko</option>
+            </select>
+          </label>
+          <div style="display:flex;align-items:center;gap:8px;">
+            <button class="panel-btn" id="privacy-reset" type="button">重置</button>
+            <button class="panel-btn primary" id="privacy-save" type="button">确定</button>
+            <span id="privacy-status" style="font-size:12px;color:#64748b;min-width:120px;"></span>
+          </div>
+        </header>
+        <div class="panel-body" style="display:grid;gap:8px;">
+          <label style="display:flex;flex-direction:column;gap:6px;">
+            <span style="font-size:12px;font-weight:600;color:#334155;">隐私条款内容（支持换行分段）</span>
+            <textarea id="privacy-text" placeholder="请输入隐私条款内容..." style="width:100%;min-height:420px;resize:vertical;padding:12px 14px;border:1px solid var(--border);border-radius:12px;background:#fff;font-size:13px;line-height:1.5;white-space:pre-wrap;"></textarea>
+          </label>
+          <small style="color:#64748b;">提示：保存时会按空行拆分为段落存储到 sections.privacy.content；前端 Info 页面自动按段落渲染。</small>
+        </div>
+      </section>
+    </main>
+  <script type="module" src="/admin/static/perm-guard.js"></script>
+  <script type="module" src="/admin/frontend-privacy.js"></script>
+  </body>
+</html>

@@ -5,11 +5,26 @@
   },
   "vip": {
     "tier": {
+  "profile": {
+    "notFilled": "未填寫",
+    "popularity": "人氣：",
+    "ageUnit": "歲",
+    "basic": { "title": "基本資料" },
+    "fields": { "age": "年齡" },
+    "like": { "liked": "已喜歡", "like": "喜歡" },
+    "matching": { "title": "擇偶條件", "weightRange": "體重範圍：{min}-{max} kg" },
+    "confession": { "title": "告白牆", "empty": "暫未發佈" },
+    "image": { "viewLarge": "點擊查看大圖" }
+  },
       "purple": "紫晶會員",
       "crown": "皇冠會員",
       "none": "一般會員"
     },
-    "expires": "到期："
+    "expires": "到期：",
+    "alerts": {
+      "activated": "VIP 開通成功",
+      "giftSuccess": "已成功為 {name} 升級 VIP"
+    }
   },
   "nav": {
     "home": "首頁",
@@ -30,7 +45,8 @@
     "profileCenter": "個人中心",
     "avatarSettings": "頭像設定",
     "identityVerify": "身分認證",
-    "systemSettings": "系統設定"
+    "systemSettings": "系統設定",
+    "cardRedeem": "點卡兌換"
   },
   "common": {
     "loading": "載入中…",
@@ -45,7 +61,10 @@
     "noData": "沒有符合條件的資訊",
     "unknownUser": "未知用戶",
     "reason": "原因：",
-    "pagination": { "prev": "上一頁", "next": "下一頁" },
+    "pagination": {
+      "prev": "上一頁",
+      "next": "下一頁"
+    },
     "edit": "編輯",
     "delete": "刪除",
     "loadFailed": "載入失敗",
@@ -55,7 +74,10 @@
   },
   "home": {
     "discover": "發現用戶",
-    "age": { "yearsCn": "歲", "yearsEn": "y" },
+    "age": {
+      "yearsCn": "歲",
+      "yearsEn": "y"
+    },
     "loadError": "載入用戶失敗"
   },
   "chat": {
@@ -99,7 +121,9 @@
       }
     },
     "gift": {
-      "modal": { "title": "禮物商城" },
+      "modal": {
+        "title": "禮物商城"
+      },
       "send": "送出",
       "openMall": "打開禮物商城"
     },
@@ -109,11 +133,18 @@
       "sendFailed": "發送失敗，請稍後重試",
       "notUnlocked": "未解鎖"
     },
+    "limit": {
+      "upgradeToUnlock": "升級會員，解鎖無限消息",
+      "cta": "立即升級",
+      "hint": "普通會員每位用戶僅可發送 3 條消息"
+    },
     "time": {
       "today": "今天",
       "yesterday": "昨天"
     },
-    "actions": { "message": "發消息" }
+    "actions": {
+      "message": "發消息"
+    }
   },
   "login": {
     "heroTitle": "遇見更合拍的人",
@@ -155,7 +186,8 @@
     "sendReset": "發送重設連結",
     "token": "重設權杖",
     "newPassword": "新密碼",
-    "confirmPassword": "確認密碼"
+    "confirmPassword": "確認密碼",
+    "nickname": "暱稱"
   },
   "form": {
     "placeholder": {
@@ -196,12 +228,17 @@
       "editProfile": "編輯資料",
       "settings": "設定"
     },
-    "actions": { "editProfile": "修改資料" },
-    "balance": { "title": "餘額金幣", "unit": "金幣" },
+    "actions": {
+      "editProfile": "修改資料"
+    },
+    "balance": {
+      "title": "餘額金幣",
+      "unit": "金幣"
+    },
     "page": {
       "title": "我的設定",
       "profileTitle": "個人資料",
-      "profileDesc": "開啟個人隱私後，對方將無法查看你的相簿與個人資料"
+  "profileDesc": "開啟個人隱私後，對方將無法查看你的個人資料"
     },
     "password": {
       "title": "修改密碼",
@@ -254,10 +291,15 @@
       "submitted": "認證資料已提交，請等待審核",
       "need3Photos": "請上傳三張認證照片"
     },
-    "conversations": { "title": "消息中心" },
+    "conversations": {
+      "title": "消息中心"
+    },
     "alerts": {
       "vipFailed": "開通失敗，請稍後重試",
       "saveFailed": "儲存失敗，請稍後重試"
+    },
+    "upgrade": {
+      "useBalanceConfirm": "檢測到您的帳戶餘額為 {balance} 金幣，本次升級需要 {amount} 金幣。是否使用餘額完成升級？"
     }
   },
   "register": {
@@ -276,17 +318,24 @@
     "height": "身高 (cm)",
     "weight": "體重 (kg)",
     "identity": "實名認證",
-    "tabs": { "basic": "基本資料", "verify": "認證" },
+    "tabs": {
+      "basic": "基本資料",
+      "verify": "認證"
+    },
     "zodiac": "星座",
     "education": "學歷",
     "marital": "婚姻狀況",
     "realName": "姓名",
-  "submit": "提交",
-  "skipVerify": "暫不認證",
-  "status": { "pending": "審核中", "approved": "已認證", "rejected": "審核未通過" },
-  "submittedNotice": "您的資訊已提交審核",
-  "rejectedHint": "審核未通過，請重新提交",
-  "avatarRejectedHint": "頭像審核不通過，請重新上傳",
+    "submit": "提交",
+    "skipVerify": "暫不認證",
+    "status": {
+      "pending": "審核中",
+      "approved": "已認證",
+      "rejected": "審核未通過"
+    },
+    "submittedNotice": "您的資訊已提交審核",
+    "rejectedHint": "審核未通過，請重新提交",
+    "avatarRejectedHint": "頭像審核不通過，請重新上傳",
     "zodiacOptions": {
       "aries": "牡羊座",
       "taurus": "金牛座",
@@ -462,8 +511,7 @@
         ]
       }
     }
-  }
-  ,
+  },
   "admin": {
     "content": {
       "title": "內容管理",
@@ -524,18 +572,25 @@
     "subtitle": "選擇一張新的頭像並提交審核",
     "hint": "建議尺寸 256x256 以上，JPG/PNG",
     "submit": "提交審核",
-    "submitted": "頭像已提交審核"
+    "submitted": "頭像已提交審核",
+    "status": {
+      "approved": "已審核"
+    }
   },
   "confession": {
     "sweetMoments": "甜蜜時刻",
     "themeSwitch": "主題切換",
-    "theme": { "sakura": "櫻花", "sunset": "落日", "starry": "星空" },
+    "theme": {
+      "sakura": "櫻花",
+      "sunset": "落日",
+      "starry": "星空"
+    },
     "loading": "正在載入甜蜜瞬間…",
     "captionDefault": "我們的第 {index} 次心動",
     "bubbleNote": "可在右側「我的告白」中更換宣言",
     "myConfession": "我的告白",
     "maxChars": "最多 {n} 字",
-  "formDesc": "上傳一張甜蜜照片。審核通過後將展示在左側「甜蜜時刻」。",
+    "formDesc": "上傳一張甜蜜照片。審核通過後將展示在左側「甜蜜時刻」。",
     "image": "圖片",
     "dropHere": "拖曳圖片到此，或點擊選擇",
     "uploading": "上傳中…",
@@ -552,6 +607,11 @@
     "errOnlyImage": "僅支援圖片檔",
     "errTooLarge": "圖片大小不可超過 8MB",
     "submitted": "已提交審核，通過後將展示在左側。",
+    "status": {
+      "pending": "待審核",
+      "approved": "已審核上傳",
+      "rejected": "審核失敗，請重新提交"
+    },
     "places": {
       "sea": "海邊",
       "cafe": "咖啡館",
@@ -563,8 +623,7 @@
       "surprise": "小驚喜",
       "travel": "旅行照"
     }
-  }
-  ,
+  },
   "giftsMall": {
     "title": "禮物商城",
     "subtitle": "用一份心意拉近彼此距離",
@@ -573,11 +632,43 @@
     "tipsDesc": "選擇一份能代表你的禮物，表達誠意，讓關係更進一步。",
     "alertChooseTarget": "請先選擇送禮對象再嘗試（URL 需帶 ?to=<用戶ID>）",
     "sentTo": "已向 {id} 送出「{name}」",
-    "sendFailed": "發送失敗，請稍後重試"
-  }
-  ,
+    "sendFailed": "發送失敗，請稍後重試",
+    "modal": {
+      "toHim": "送給他",
+      "toHer": "送給她",
+      "toUser": "送禮對象",
+      "nickname": "對方暱稱",
+      "nicknamePlaceholder": "請輸入對方暱稱",
+      "userNotFound": "查無該暱稱的用戶",
+      "submit": "送出禮物",
+      "sentSuccess": "送禮成功"
+    }
+  },
   "topup": {
-    "amountLabel": "儲值金額"
+    "amountLabel": "儲值金額",
+    "redeemPlaceholder": "輸入點卡卡密",
+    "redeem": "兌換",
+    "alerts": {
+      "invalidAmount": "金額不正確",
+      "success": "儲值成功",
+      "failed": "儲值失敗，請稍後重試"
+    }
+  },
+  "cardRedeemModal": {
+    "title": "點卡兌換",
+    "message": "<strong class=\"highlight\">提交說明：</strong> 請上傳點卡照片或訂單截圖，確保卡密清晰可見。最多支援 4 張 JPG/PNG 圖片。提交後我們會儘快審核並完成兌換。",
+    "uploadEmpty": "點擊上傳圖片",
+    "uploadReplace": "重新選擇",
+    "confirm": "提交",
+    
+    "uploadAria": "上傳第 {index} 張圖片",
+    "needImage": "請至少上傳一張圖片",
+    "submittedSuccess": "已提交兌換申請，請等待審核",
+    "pending": "審核中",
+    "failed": "兌換失敗，請重新提交",
+    "retry": "兌換失敗，重新提交",
+    "approved": "兌換成功，可重新提交",
+    "waiting": "等待審核..."
   },
   "vipModal": {
     "title": "VIP 會員方案",
@@ -602,6 +693,16 @@
       "likedMe": "查看喜愛我的",
       "viewedMe": "查看誰看我",
       "advancedSearch": "高級搜尋"
+    },
+    "gift": {
+      "upgradeForOthers": "為他人升級",
+      "nicknameLabel": "暱稱",
+      "nicknamePlaceholder": "請輸入暱稱",
+      "nicknameRequired": "請輸入暱稱"
     }
+  }
+  ,
+  "lucky": {
+    "value": "幸運值"
   }
 }

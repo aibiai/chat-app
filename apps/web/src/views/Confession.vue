@@ -1,5 +1,5 @@
 <template>
-  <div ref="pageEl" :class="['confession-page container mx-auto px-3 py-2', themeClass]">
+  <div ref="pageEl" class="confession-page container mx-auto px-3 py-2">
     <!-- 氛围背景（轻柔渐变 + 飘动爱心） -->
     <div class="romance-bg" aria-hidden="true"></div>
 
@@ -28,14 +28,7 @@
               <h2>{{ t('confession.sweetMoments') }}</h2>
               <span class="badge">{{ posts.length }}</span>
             </div>
-            <div class="actions">
-              <!-- 主题切换：樱花 / 落日 / 星空 -->
-              <div class="theme-pills" role="tablist" :aria-label="t('confession.themeSwitch')">
-                <button :aria-selected="theme==='sakura'" role="tab" class="pill" :class="{ active: theme==='sakura' }" @click="theme='sakura'">{{ t('confession.theme.sakura') }}</button>
-                <button :aria-selected="theme==='sunset'" role="tab" class="pill" :class="{ active: theme==='sunset' }" @click="theme='sunset'">{{ t('confession.theme.sunset') }}</button>
-                <button :aria-selected="theme==='starry'" role="tab" class="pill" :class="{ active: theme==='starry' }" @click="theme='starry'">{{ t('confession.theme.starry') }}</button>
-              </div>
-            </div>
+            <div class="actions"></div>
           </div>
 
           <div v-if="loading" class="loading">
@@ -85,22 +78,7 @@
                 <path d="M95 116 L85 140 L112 122" fill="#fda4af" opacity="0.7" />
               </svg>
             </div>
-            <!-- 主题装饰层：仅在对应主题下渲染（置于最底层） -->
-            <div v-if="hasContent && theme==='sakura'" class="petals" aria-hidden="true">
-              <span v-for="n in 16" :key="'p-'+n" class="petal" :style="{ '--d': (n*0.6)+'s', '--x': (n*6%100)+'%', '--r': ((n%2)*1?1:-1) }"></span>
-            </div>
-            <template v-else-if="hasContent && theme==='starry'">
-              <div class="stars" aria-hidden="true">
-                <span v-for="n in 30" :key="'s-'+n" class="star" :style="{ '--x': (n*3%100)+'%', '--y': (n*7%100)+'%', '--d': (n*0.3)+'s' }"></span>
-                <span class="shooting" aria-hidden style="--d: 3s"></span>
-              </div>
-            </template>
-            <template v-else-if="hasContent && theme==='sunset'">
-              <div class="bokeh" aria-hidden="true">
-                <span v-for="n in 12" :key="'b-'+n" class="bk" :style="{ '--x': (n*8%100)+'%', '--d': (n*0.5)+'s', '--s': (8 + (n%5)*4) + 'px' }"></span>
-                <div class="rays" aria-hidden></div>
-              </div>
-            </template>
+            <!-- 主题装饰层已移除：不再渲染樱花/星空/落日装饰 -->
             <!-- 心形网格（心形遮空位布局，无额外容器） -->
             <template v-if="tileMode && hasContent">
               <div class="heart-grid-plain" role="grid" aria-label="sweet-moments-grid">
@@ -108,7 +86,7 @@
                   v-for="(cell, i) in heartCells"
                   :key="'hg-'+i"
                   class="hcell"
-                  :class="{ hidden: !cell.show || cell.isPh }"
+                  :class="[ !cell.show ? 'hidden' : '', cell.isPh ? 'placeholder' : '' ]"
                   :style="{ animationDelay: (i*0.03)+'s' }"
                 >
                   <template v-if="cell.show">
@@ -180,7 +158,7 @@
               </template>
             </div>
             <div class="row gap">
-              <button class="btn" type="button" :disabled="!file || uploading" @click="upload">
+              <button class="btn" type="button" :disabled="formDisabled || !file || uploading" @click="upload">
                 {{ uploading ? t('confession.uploading') : (form.img ? t('confession.reupload') : t('confession.upload')) }}
               </button>
               <span v-if="uploadErr" class="err">{{ uploadErr }}</span>
@@ -189,8 +167,8 @@
             </div>
           </div>
 
-          <button class="btn-primary w-full" :disabled="!canSubmit || submitting" @click="submit">
-            {{ submitting ? t('common.submitting') : t('confession.submit') }}
+          <button class="btn-primary w-full" :disabled="formDisabled || !canSubmit || submitting" @click="submit">
+            {{ submitLabel }}
           </button>
           <div class="hint">{{ t('confession.reviewHint') }}</div>
           <div v-if="submitMsg" class="toast" :class="{ error: submitErr }" role="status" aria-live="polite">{{ submitMsg }}</div>
@@ -212,7 +190,8 @@ import api from '../api'
 import { fetchHeartImages } from '../heartApi'
 import { useAuth } from '../stores'
 import { useI18n } from 'vue-i18n'
-const { t } = useI18n()
+// 解构 locale 以确保依赖跟踪，语言切换时相关 computed 会自动更新
+const { t, locale } = useI18n()
 
 interface Post { id:string; img:string; text:string }
 const posts = ref<Post[]>([])
@@ -325,6 +304,8 @@ const heartImages = computed(() => {
   if (!imgs.length){ return DEMO_IMAGES.slice() }
   return imgs
 })
+// 后端心形墙精确布局 cells（layout 接口返回）
+const heartLayoutCells = ref<Array<{id:string; x:number; y:number; type?:string; img:string|null}>>([])
 
 // 是否存在真实图片，用于决定是否渲染心形网格
 const hasReal = computed(() => posts.value.some(p=>!!p?.img) || sweet.value.some(s=>!!s?.img))
@@ -365,23 +346,39 @@ function onFloatEnd(id:number){
   if (i>=0) floatHearts.value.splice(i,1)
 }
 
-// 将图案展开为网格单元数组
+// 心形网格单元：优先使用 heartLayoutCells 保持与后台一一对应；否则回退顺序填充（不重复，缺失隐藏）
 const heartCells = computed(() => {
+  if (heartLayoutCells.value.length){
+    const out: Array<{ show:boolean; img:string; isPh:boolean; idx:number; id?:string }> = []
+    let idx=0
+    for (let r=0; r<HEART_PATTERN.length; r++){
+      for (let c=0; c<HEART_PATTERN[r].length; c++){
+        const show = HEART_PATTERN[r][c] === 1
+        if (show){
+          const cell = heartLayoutCells.value[idx]
+          const img = cell?.img || ''
+          out.push({ show:true, img, isPh: !img, idx: idx+1, id: cell?.id })
+          idx++
+        } else {
+          out.push({ show:false, img:'', isPh:false, idx:0 })
+        }
+      }
+    }
+    return out
+  }
   const imgs = heartImages.value
-  const realCount = imgs.length
   const out: Array<{ show:boolean; img:string; isPh:boolean; idx:number }> = []
-  let index = 0
+  let index=0
   for (let r=0; r<HEART_PATTERN.length; r++){
     for (let c=0; c<HEART_PATTERN[r].length; c++){
       const show = HEART_PATTERN[r][c] === 1
       if (show){
-        if (realCount > 0){
-          const img = imgs[index % realCount]
-          out.push({ show, img, isPh:false, idx:index+1 })
-          index++
+        if (index < imgs.length){
+          out.push({ show:true, img: imgs[index], isPh:false, idx:index+1 })
         } else {
-          out.push({ show:false, img:'', isPh:true, idx:0 })
+          out.push({ show:true, img:'', isPh:true, idx:index+1 })
         }
+        index++
       } else {
         out.push({ show:false, img:'', isPh:false, idx:0 })
       }
@@ -727,22 +724,12 @@ function tileClass(i:number){
 const loading = ref(false)
 const router = useRouter()
 const auth = useAuth()
-// 主题：sakura / sunset / starry
-const theme = ref<'sakura'|'sunset'|'starry'>('sakura')
-const themeClass = computed(() => `theme-${theme.value}`)
+// 已移除主题切换，页面使用默认配色
 // 仅使用心形 tile 展示
 const mosaic = ref(false)
-// 主题配色直接映射，确保点击切换立即生效；同时仍保留 CSS 变量供其他样式使用
 const pageEl = ref<HTMLElement | null>(null)
-const THEME_COLORS: Record<'sakura'|'sunset'|'starry', [string,string]> = {
-  sakura: ['#fecdd3', '#fbcfe8'],
-  sunset: ['#fda4af', '#fb7185'],
-  starry: ['#93c5fd', '#c4b5fd']
-}
-const cssVars = computed(() => {
-  const [h1, h2] = THEME_COLORS[theme.value]
-  return { heart1: h1, heart2: h2 }
-})
+// 提供固定配色占位，避免模板中引用报错（即使相关片段已关闭）
+const cssVars = { heart1: '#fecdd3', heart2: '#fbcfe8' }
 const celebrate = ref(false)
 
 function rand(n:number){ return Math.floor(Math.random()*n) }
@@ -765,6 +752,13 @@ async function load(){
     posts.value = data?.list || []
     // 拉取 Heart 统一图片池
     heartPool.value = await fetchHeartImages(90)
+    // 获取心形墙精确布局
+    try {
+      const lr = await api.get('/api/confession/heart/layout')
+      if (lr?.data?.ok && Array.isArray(lr.data.cells)) {
+        heartLayoutCells.value = lr.data.cells.map((c:any) => ({ id:String(c.id), x:Number(c.x), y:Number(c.y), type:String(c.type||'square'), img: c.img ? String(c.img) : null }))
+      }
+    } catch {}
   }catch{ posts.value = [] } finally { loading.value = false }
 }
 
@@ -1050,7 +1044,8 @@ function makeLayout(count:number, dense=false, mode: 'heart'|'cloud'='heart'){
   }))
   return items
 }
-const placeholders = [
+// 让占位标签随语言切换而更新
+const placeholders = computed(() => [
   { id:1, label:t('confession.places.sea'), bg:'linear-gradient(135deg,#fecdd3,#fde1e8)' },
   { id:2, label:t('confession.places.cafe'), bg:'linear-gradient(135deg,#ffd1dc,#ffe4ec)' },
   { id:3, label:t('confession.places.park'), bg:'linear-gradient(135deg,#f5d0fe,#fee2ff)' },
@@ -1060,11 +1055,11 @@ const placeholders = [
   { id:7, label:t('confession.places.anniversary'), bg:'linear-gradient(135deg,#fecaca,#ffd1dc)' },
   { id:8, label:t('confession.places.surprise'), bg:'linear-gradient(135deg,#ffd1dc,#ffe4e6)' },
   { id:9, label:t('confession.places.travel'), bg:'linear-gradient(135deg,#fecdd3,#ffe4e6)' },
-]
+])
 // 默认使用心形布局；如需自然云状可将 LAYOUT_MODE 改为 'cloud'
 const LAYOUT_MODE: 'heart'|'cloud' = 'heart'
 const layout = computed(() => {
-  const n = tileMode ? galleryItems.value.length : (mosaic.value ? mosaicItems.value.length : (displayPosts.value.length || (sweet.value.length || placeholders.length)))
+  const n = tileMode ? galleryItems.value.length : (mosaic.value ? mosaicItems.value.length : (displayPosts.value.length || (sweet.value.length || placeholders.value.length)))
   // tile 模式下强制使用 outline-only（dense=false）来避免中心区域出现图片
   const dense = tileMode ? false : mosaic.value
   return makeLayout(n, dense, LAYOUT_MODE)
@@ -1094,22 +1089,31 @@ const formCard = ref<HTMLElement | null>(null)
 const dragging = ref(false)
 const uploading = ref(false)
 const submitting = ref(false)
+// 审核状态：与身份/头像一致，支持 none/pending/approved/rejected
+const cStatus = ref<'none'|'pending'|'approved'|'rejected'>('none')
+let cPollTimer: number | null = null
 const uploadErr = ref('')
 const submitMsg = ref('')
 const submitErr = ref(false)
 
 function focusForm(){ formCard.value?.scrollIntoView({ behavior:'smooth', block:'start' }) }
-function triggerPick(){ fileEl.value?.click() }
+function triggerPick(){ if (formDisabled.value) return; fileEl.value?.click() }
 
 function onPick(e: Event){
+  if (formDisabled.value) return
   const t=e.target as HTMLInputElement; file.value = t.files?.[0] || null
   if (file.value) {
     try { form.value.img = URL.createObjectURL(file.value) } catch {}
+    // 选择新图片后，若先前为“已通过/已驳回”，重置为可提交
+    if (cStatus.value === 'approved' || cStatus.value === 'rejected') cStatus.value = 'none'
+    submitMsg.value = ''
+    submitErr.value = false
   }
 }
 async function upload(){
   uploadErr.value = ''
   if (!file.value) return
+  if (formDisabled.value) return
   // 登录校验
   if (!auth.token) { router.push('/login'); return }
   // 基本校验
@@ -1122,6 +1126,8 @@ async function upload(){
     const fd = new FormData(); fd.append('file', f)
     const { data } = await api.post('/api/confession/upload', fd, { headers: { 'Content-Type': 'multipart/form-data' } })
     form.value.img = data?.url || form.value.img
+    // 上传成功后允许重新提交
+    if (cStatus.value === 'approved' || cStatus.value === 'rejected') cStatus.value = 'none'
   }catch(e:any){
     uploadErr.value = t('common.uploadFailedRetry')
   }finally{
@@ -1134,13 +1140,63 @@ const uploadedOk = computed(() => {
   // 兼容相对路径 /static/...、协议化 http(s)://host/static/...、以及协议相对 //host/static/...
   return /^(?:\/static\/|https?:\/\/[^\s]+\/static\/|\/\/[^\s]+\/static\/)/i.test(u)
 })
-// 放宽按钮可点条件：
-// 1) 已拿到服务器地址(/static/..) 或 2) 已选择本地文件（提交时会自动上传）
-const canSubmit = computed(() => uploadedOk.value || !!file.value)
+// 按钮可点条件：
+// - 若已有通过/驳回的历史图片，则需要重新选择图片后才可提交
+// - 若无历史状态（none），已选择文件或已上传至 /static/ 均可提交
+const canSubmit = computed(() => {
+  if (cStatus.value === 'pending') return false
+  if (cStatus.value === 'approved' || cStatus.value === 'rejected') {
+    return !!file.value // 仅当重新选择了图片时可提交
+  }
+  // none 状态
+  return !!file.value || uploadedOk.value
+})
+// 审核中禁用所有表单交互；通过后允许重新选择并再次提交
+const formDisabled = computed(() => cStatus.value === 'pending')
+const submitLabel = computed(() => {
+  // 读取 locale 以建立依赖，确保语言切换时文案更新
+  void locale.value
+  if (submitting.value) return t('common.submitting')
+  if (cStatus.value === 'pending') return t('confession.status.pending')
+  if (cStatus.value === 'approved') return t('confession.status.approved')
+  if (cStatus.value === 'rejected') return t('confession.status.rejected')
+  return t('confession.submit')
+})
+
+async function loadConfessionStatus(){
+  try{
+    const { data } = await api.get('/api/review/status', { params: { type: 'confession' } })
+    const prev = cStatus.value
+    const s = String(data?.status || 'none') as any
+    if (s === 'rejected' && cStatus.value !== 'rejected'){
+      // 被驳回后清空上次上传的预览
+      file.value = null
+      form.value.img = ''
+    }
+    if (s === 'pending' || s === 'approved' || s === 'rejected') cStatus.value = s
+    else cStatus.value = 'none'
+    // 审核通过后，主动刷新左侧“甜蜜时刻”和心形墙布局
+    if (s === 'approved' && prev !== 'approved') {
+      await load()
+      if (cPollTimer) { window.clearInterval(cPollTimer as any); cPollTimer = null }
+    }
+    // 审核结束（通过/驳回）后停止轮询
+    if ((s === 'approved' || s === 'rejected') && cPollTimer) {
+      window.clearInterval(cPollTimer as any); cPollTimer = null
+    }
+  }catch{}
+}
+function startPoll(){
+  if (cPollTimer) { window.clearInterval(cPollTimer as any); cPollTimer = null }
+  if (cStatus.value === 'pending'){
+    cPollTimer = window.setInterval(loadConfessionStatus, 15000) as unknown as number
+  }
+}
 async function submit(){
   submitMsg.value = ''
   submitErr.value = false
   if (!canSubmit.value) return
+  if (formDisabled.value) return
   // 需要登录
   if (!auth.token) { router.push('/login'); return }
   submitting.value = true
@@ -1156,7 +1212,9 @@ async function submit(){
       return
     }
     // 文本不再必填，兼容传空字符串
-    await api.post('/api/confession/submit', { img: form.value.img, text: '' })
+    const { data } = await api.post('/api/confession/submit', { img: form.value.img, text: '' })
+    const s = String(data?.status || '')
+    if (s === 'approved' || s === 'pending') cStatus.value = s as any
     submitMsg.value = t('confession.submitted')
     // 轻量刷新一次左侧统计与展示（即使未通过审核，也能保持计数与占位稳定）
     load()
@@ -1167,23 +1225,31 @@ async function submit(){
     submitMsg.value = t('common.submitFailed')
   }finally{
     submitting.value = false
+    startPoll()
   }
 }
 
 // Drag & Drop support for the dropzone
-function onDragOver(){ dragging.value = true }
+function onDragOver(){ if (formDisabled.value) return; dragging.value = true }
 function onDragLeave(){ dragging.value = false }
 function onDrop(e: DragEvent){
   dragging.value = false
+  if (formDisabled.value) return
   const f = e.dataTransfer?.files?.[0]
   if (f) {
     file.value = f
     try { form.value.img = URL.createObjectURL(f) } catch {}
+    // 拖拽选择后重置状态到可提交
+    if (cStatus.value === 'approved' || cStatus.value === 'rejected') cStatus.value = 'none'
+    submitMsg.value = ''
+    submitErr.value = false
   }
 }
 
 onMounted(() => {
   load(); loadSweet();
+  // 初始加载当前审核状态
+  loadConfessionStatus().then(startPoll)
   // 初始生成几张
   const boot = () => { for (let i=0;i<4;i++) setTimeout(spawnFloat, i*700) }
   // 周期生成
@@ -1191,7 +1257,7 @@ onMounted(() => {
   // 仅有真实图片时再启动
   const stop = () => { if (floatTimer){ window.clearInterval(floatTimer); floatTimer=null } }
   const unwatchContent = watch(hasContent, (v: boolean) => { if (v){ boot(); start() } else { stop() } }, { immediate:true })
-  onUnmounted(() => { stop(); unwatchContent() })
+  onUnmounted(() => { stop(); unwatchContent(); if (cPollTimer){ window.clearInterval(cPollTimer as any); cPollTimer = null } })
 })
 // 灯箱预览
 const lightbox = ref<string>('')
@@ -1211,23 +1277,7 @@ function closeLightbox(){ lightbox.value = '' }
   filter:saturate(1.05);
 }
 /* 主题化背景：切换时带来可感知的整体色调变化 */
-.theme-sakura .romance-bg{ background:
-  radial-gradient(1200px 600px at -10% -10%, rgba(255,192,203,.22), transparent 60%),
-  radial-gradient(900px 500px at 110% 0%, rgba(255,182,193,.18), transparent 60%),
-  linear-gradient(180deg, rgba(255,240,245,.45), transparent 35%);
-}
-.theme-sunset .romance-bg{ background:
-  radial-gradient(1100px 540px at -10% -10%, rgba(255,173,173,.22), transparent 60%),
-  radial-gradient(880px 480px at 110% 0%, rgba(255,139,148,.18), transparent 60%),
-  linear-gradient(180deg, rgba(255,224,224,.45), transparent 35%);
-  filter: saturate(1.08);
-}
-.theme-starry .romance-bg{ background:
-  radial-gradient(1100px 540px at -10% -10%, rgba(173,205,255,.20), transparent 60%),
-  radial-gradient(880px 480px at 110% 0%, rgba(168,156,255,.18), transparent 60%),
-  linear-gradient(180deg, rgba(236,245,255,.42), transparent 35%);
-  filter: saturate(1.04);
-}
+/* 主题差异背景已移除，统一使用默认 .romance-bg 设置 */
 /* 背景心形纹理 */
 .hearts-bg{ position:absolute; inset:0; pointer-events:none; opacity:.18; z-index:0; }
 
@@ -1356,16 +1406,9 @@ textarea:focus{ outline:none; border-color:#e67a88; box-shadow:0 0 0 3px rgba(23
 
 /* 主题色变量：用于心形气泡渐变与轻背景点缀 */
 :host, .confession-page{ --rom-heart-1:#fecdd3; --rom-heart-2:#fbcfe8; }
-.theme-sakura{ --rom-heart-1:#fecdd3; --rom-heart-2:#fbcfe8; }
-.theme-sunset{ --rom-heart-1:#fda4af; --rom-heart-2:#fb7185; }
-.theme-starry{ --rom-heart-1:#93c5fd; --rom-heart-2:#c4b5fd; }
 
 /* 主题切换胶囊按钮 */
-.theme-pills{ display:flex; gap:6px; align-items:center; }
-.theme-pills .pill{ padding:6px 10px; border-radius:999px; border:1px solid #e5e7eb; background:#fff; font-weight:800; color:#374151; box-shadow:0 4px 10px rgba(0,0,0,.04); }
-.theme-pills .pill.active{ border-color:#fecaca; color:#9f1239; background:linear-gradient(180deg,#fff,#fff5f7); }
-.theme-sunset .theme-pills .pill.active{ border-color:#fbc0c5; color:#a1122f; background:linear-gradient(180deg,#fff,#ffeef1); }
-.theme-starry .theme-pills .pill.active{ border-color:#c7d2fe; color:#1d4ed8; background:linear-gradient(180deg,#fff,#eef2ff); }
+/* 主题切换按钮样式已移除 */
 
 /* 飘动爱心背景层 */
 .float-hearts{ position:absolute; inset:0; overflow:hidden; pointer-events:none; z-index:0; }
@@ -1375,23 +1418,7 @@ textarea:focus{ outline:none; border-color:#e67a88; box-shadow:0 0 0 3px rgba(23
 .float-hearts .h::after{ top:0; left:-5px; }
 @keyframes rise{ from{ transform: translateY(10px) rotate(45deg); opacity:.1 } to{ transform: translateY(-110%) rotate(45deg); opacity:.28 } }
 
-/* 樱花主题：落樱飘落 */
-.petals{ position:absolute; inset:0; pointer-events:none; z-index:0; }
-.petal{ position:absolute; top:-20px; left:var(--x, 0%); width:12px; height:8px; background: radial-gradient(circle at 50% 50%, #ffd1dc, #f9a8d4); border-radius: 60% 40% 60% 40% / 60% 40% 60% 40%; opacity:.28; transform: rotate(15deg); animation: fall 9s linear infinite; animation-delay: var(--d, 0s); }
-@keyframes fall{ from{ transform: translateY(-5%) rotate(0deg) } to{ transform: translateY(110%) rotate(calc(360deg * var(--r, 1))) } }
-
-/* 星空主题：微光与流星 */
-.stars{ position:absolute; inset:0; pointer-events:none; z-index:0; }
-.star{ position:absolute; left:var(--x, 0%); top:var(--y, 0%); width:2px; height:2px; background: radial-gradient(circle, rgba(255,255,255,.9), rgba(255,255,255,0)); border-radius:50%; animation: twinkle 3s ease-in-out infinite; animation-delay: var(--d, 0s); }
-@keyframes twinkle{ 0%,100%{ opacity:.2 } 50%{ opacity:.8 } }
-.shooting{ position:absolute; left:-10%; top:18%; width:140px; height:2px; background: linear-gradient(90deg, rgba(255,255,255,.0), rgba(255,255,255,.9), rgba(255,255,255,.0)); transform: rotate(12deg); filter: blur(0.5px); opacity:.0; animation: shoot 6s ease-in-out infinite; animation-delay: var(--d, 0s); }
-@keyframes shoot{ 0%,80%{ opacity:0; transform: translateX(0) rotate(12deg) } 85%{ opacity:1 } 100%{ opacity:0; transform: translateX(120%) rotate(12deg) } }
-
-/* 落日主题：散景与光芒 */
-.bokeh{ position:absolute; inset:0; pointer-events:none; z-index:0; }
-.bokeh .bk{ position:absolute; left:var(--x, 0%); bottom:8%; width:var(--s, 10px); height:var(--s, 10px); border-radius:50%; background: radial-gradient(circle, rgba(255,255,255,.45), rgba(255,192,203,.18)); filter: blur(2px); animation: floaty 7s ease-in-out infinite; animation-delay: var(--d, 0s); }
-@keyframes floaty{ 0%,100%{ transform: translateY(0) } 50%{ transform: translateY(-10px) } }
-.rays{ position:absolute; right:6%; bottom:0; width:160px; height:160px; background: conic-gradient(from 180deg, rgba(255,184,184,.22), rgba(255,239,239,0)); filter: blur(8px); opacity:.6; border-radius:50%; }
+/* 主题装饰（樱花/星空/落日）相关样式已移除 */
 
 /* 提交成功：心形礼花粒子 */
 .hearts-burst{ position:absolute; right:8px; bottom:58px; pointer-events:none; }
@@ -1495,7 +1522,10 @@ textarea:focus{ outline:none; border-color:#e67a88; box-shadow:0 0 0 3px rgba(23
   cursor: zoom-in;
 }
 .hcell.placeholder{
-  background:linear-gradient(135deg,#ffe4ec,#fecdd3);
+  background:linear-gradient(135deg,rgba(255,228,236,.65),rgba(254,205,211,.55));
+  opacity:.65;
+  backdrop-filter: blur(2px);
+  border-color:rgba(255,255,255,.55);
 }
 .hcell.hidden{ visibility:hidden; }
 

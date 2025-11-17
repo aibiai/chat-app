@@ -8,19 +8,37 @@
         <div class="vip-head">
           <h2 class="title">{{ t('vipModal.title') }}</h2>
           <p class="subtitle">{{ t('vipModal.currentIs') }}<strong>{{ currentLevel }}</strong></p>
+          <!-- 可选：后端动态文案示例（存在则显示） -->
+          <p v-if="te('vipExtra.promo')" class="subtitle extra">{{ t('vipExtra.promo') }}</p>
         </div>
         <!-- 可滚动内容区域 -->
         <div class="vip-body">
         <!-- 水晶会员 -->
         <section class="tier">
           <div class="tier-head">
-            <CleanIcon :src="diamondIcon" :alt="t('vip.tier.purple')" :size="44" class="tier-icon" />
-            <div class="tier-meta">
-              <div class="tier-name">{{ t('vip.tier.purple') }}</div>
-              <ul class="tier-feats">
-                <li>{{ t('vipModal.feat.unlimitedChats') }}</li>
-                <li>{{ t('vipModal.feat.vipBadge') }}</li>
-              </ul>
+            <div class="tier-info">
+              <CleanIcon :src="diamondIcon" :alt="t('vip.tier.purple')" :size="44" class="tier-icon" />
+              <div class="tier-meta">
+                <div class="tier-name">{{ t('vip.tier.purple') }}</div>
+                <ul class="tier-feats">
+                  <li>{{ t('vipModal.feat.unlimitedChats') }}</li>
+                  <li>{{ t('vipModal.feat.vipBadge') }}</li>
+                </ul>
+              </div>
+            </div>
+            <div class="upgrade-gift">
+              <span class="upgrade-gift-title">{{ t('vipModal.gift.upgradeForOthers') }}</span>
+              <label class="upgrade-gift-field" for="vip-gift-nickname">
+                <span class="field-label">{{ t('vipModal.gift.nicknameLabel') }}</span>
+                <input
+                  id="vip-gift-nickname"
+                  type="text"
+                  v-model="giftNickname"
+                  :placeholder="t('vipModal.gift.nicknamePlaceholder')"
+                  autocomplete="off"
+                />
+              </label>
+              <span v-if="giftError" class="upgrade-gift-error">{{ giftError }}</span>
             </div>
           </div>
           <div class="plans">
@@ -34,13 +52,15 @@
         <!-- 帝景会员 -->
         <section class="tier">
           <div class="tier-head">
-            <img :src="crownIcon" :alt="t('vip.tier.crown')" class="tier-icon" />
-            <div class="tier-meta">
-              <div class="tier-name">{{ t('vip.tier.crown') }}</div>
-              <ul class="tier-feats">
-                <li>{{ t('vipModal.feat.unlimitedChats') }}</li>
-                <li>{{ t('vipModal.feat.sendImages') }}</li>
-              </ul>
+            <div class="tier-info">
+              <img :src="crownIcon" :alt="t('vip.tier.crown')" class="tier-icon" />
+              <div class="tier-meta">
+                <div class="tier-name">{{ t('vip.tier.crown') }}</div>
+                <ul class="tier-feats">
+                  <li>{{ t('vipModal.feat.unlimitedChats') }}</li>
+                  <li>{{ t('vipModal.feat.sendImages') }}</li>
+                </ul>
+              </div>
             </div>
           </div>
           <div class="plans">
@@ -155,13 +175,14 @@
 </template>
 
 <script setup lang="ts">
-import { computed } from 'vue'
+import { computed, ref, watch } from 'vue'
 import { useI18n } from 'vue-i18n'
 import CleanIcon from './CleanIcon.vue'
-const props = defineProps<{ modelValue: boolean; currentLevel?: string; diamondIcon?: string; crownIcon?: string }>()
-const emit = defineEmits<{ (e: 'update:modelValue', v: boolean): void; (e: 'confirm', payload: { tier: 'purple'|'crown'; months: number; usd: number }): void }>()
+import { registerDynamicTranslations, type DynamicTranslationsPayload } from '../dynamicI18n'
+const props = defineProps<{ modelValue: boolean; currentLevel?: string; diamondIcon?: string; crownIcon?: string; dynamicTexts?: DynamicTranslationsPayload }>()
+const emit = defineEmits<{ (e: 'update:modelValue', v: boolean): void; (e: 'confirm', payload: { tier: 'purple'|'crown'; months: number; usd: number; giftNickname?: string }): void }>()
 
-const { t } = useI18n()
+const { t, te } = useI18n()
 const currentLevel = computed(() => props.currentLevel || t('vip.tier.none'))
 const diamondIcon = computed(() => props.diamondIcon || '/vip/diamond.png')
 const crownIcon = computed(() => props.crownIcon || '/vip/crown.png')
@@ -179,10 +200,37 @@ const crownPlans = [
   { months: 12, usd: 786 },
 ]
 
+const giftNickname = ref('')
+const giftError = ref('')
+
 function close(){ emit('update:modelValue', false) }
 function confirm(tier: 'purple'|'crown', months: number, usd: number){
-  emit('confirm', { tier, months, usd })
+  const nickname = giftNickname.value.trim()
+  if (giftNickname.value && !nickname) {
+    giftError.value = t('vipModal.gift.nicknameRequired')
+    return
+  }
+  giftError.value = ''
+  emit('confirm', { tier, months, usd, giftNickname: nickname || undefined })
 }
+
+watch(giftNickname, (val) => {
+  if (!val || val.trim()) giftError.value = ''
+})
+
+watch(() => props.modelValue, (visible) => {
+  if (!visible) {
+    giftNickname.value = ''
+    giftError.value = ''
+  }
+})
+
+// 如果父组件/接口传入动态翻译，注入为命名空间 vipExtra 下的键
+watch(() => props.dynamicTexts, (val) => {
+  if (val && typeof val === 'object') {
+    registerDynamicTranslations(val, { namespace: 'vipExtra', overwrite: false })
+  }
+}, { immediate: true })
 
 // 会员交友特权对比（来源：需求截图第二张）
 type BenefitRow = { label: string; crystal: boolean | string; emperor: boolean | string }
@@ -210,16 +258,27 @@ const benefits: BenefitRow[] = [
 .close:hover, .close:focus-visible{ color:#666; background:rgba(0,0,0,.05); outline:none; }
 .title{ font-size:18px; font-weight:800; letter-spacing:.2px; color:#333; margin:0 2px 4px; text-align:center; }
 .subtitle{ margin:0 0 8px; color:#666; font-weight:700; font-size:12px; text-align:center; }
+.subtitle.extra{ color:#9c4660; }
+.upgrade-gift{ display:flex; align-items:center; gap:8px; margin-left:auto; flex:0 1 auto; }
+.upgrade-gift-title{ font-weight:900; color:#d14a61; font-size:13px; white-space:nowrap; }
+.upgrade-gift-field{ display:flex; align-items:center; gap:6px; font-weight:700; color:#555; }
+.upgrade-gift-field .field-label{ font-size:12.5px; color:#777; white-space:nowrap; }
+.upgrade-gift-field input{ width:170px; padding:6px 12px; border:1px solid #f3b6c3; border-radius:999px; background:#fff; font-weight:700; color:#333; outline:none; transition:border-color .2s ease, box-shadow .2s ease; }
+.upgrade-gift-field input::placeholder{ color:#c7c7c7; font-weight:600; }
+.upgrade-gift-field input:focus{ border-color:#f17384; box-shadow:0 0 0 2px rgba(241,115,132,0.18); }
+.upgrade-gift-error{ color:#ef4444; font-size:12px; font-weight:700; white-space:nowrap; }
 
 .tier{ border:1px dashed #f5c4cb; border-radius:10px; padding:8px 10px; margin-bottom:10px; }
-.tier-head{ display:flex; align-items:center; gap:10px; margin-bottom:10px; }
+.tier-head{ display:flex; align-items:center; justify-content:space-between; gap:16px; flex-wrap:wrap; margin-bottom:10px; }
+.tier-info{ display:flex; align-items:center; gap:10px; flex:1 1 auto; min-width:220px; }
 .tier-icon{ width:44px; height:44px; object-fit:contain; }
-.tier-meta{ display:flex; flex-direction:column; }
+.tier-meta{ display:flex; flex-direction:column; justify-content:center; gap:4px; min-height:44px; }
 .tier-name{ font-size:15px; font-weight:900; color:#333; }
-.tier-feats{ margin:2px 0 0; padding:0 0 0 16px; color:#666; font-weight:700; font-size:12px; }
+.tier-feats{ margin:0; padding:0 0 0 16px; color:#666; font-weight:700; font-size:12px; list-style:none; line-height:1.2; }
+.tier-feats li{ line-height:1.2; }
 
 .plans{ display:grid; grid-template-columns: repeat(2, minmax(0,1fr)); gap:8px; }
-.plan{ display:flex; align-items:center; justify-content:space-between; border:1px solid #f2f2f3; border-radius:10px; padding:7px 9px; background:#fff; }
+.plan{ display:flex; align-items:center; justify-content:space-between; border:none; border-radius:10px; padding:7px 9px; background:#fff; }
 .plan-left{ font-weight:700; color:#444; font-size:12.5px; }
 .cta{ background: var(--brand-pink, #f17384); color:#fff; border:0; height:28px; border-radius:8px; padding:0 10px; font-weight:800; font-size:12px; cursor:pointer; }
 .cta:hover{ filter:brightness(.95); }
@@ -257,6 +316,11 @@ const benefits: BenefitRow[] = [
 @media (max-width: 520px){
   .vip-modal{ width:min(96vw, 440px); padding:12px; }
   .plans{ grid-template-columns: 1fr; }
+  .tier-head{ flex-direction:column; align-items:flex-start; }
+  .upgrade-gift{ width:100%; margin-left:0; justify-content:flex-start; flex-wrap:wrap; gap:6px; }
+  .upgrade-gift-field{ width:100%; justify-content:flex-start; }
+  .upgrade-gift-field input{ flex:1 1 auto; min-width:0; }
+  .upgrade-gift-error{ width:100%; white-space:normal; }
   /* 小屏改为分组列表：隐藏表格，显示列表 */
   .b-table{ display:none; }
   .b-list{ display:block; }

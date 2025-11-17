@@ -6,10 +6,21 @@
       "nickname": "admin",
       "passwordHash": "$2a$10$UmIRPQ4BBMiVtIGWC1Aj2.URXUHSxBuzKwzTEf9Bc0E4hqaGVJ0ze",
       "roles": [
-        "root"
+        "1"
       ],
       "createdAt": "2025-10-24T14:34:18.501Z",
-      "updatedAt": "2025-10-24T14:34:18.501Z"
+      "updatedAt": "2025-11-15T15:39:04.356Z"
+    },
+    {
+      "username": "测试admin",
+      "email": "admin@outlook.com",
+      "nickname": "测试",
+      "passwordHash": "$2a$10$JThF6xuoEA/VQf5CNnI2hu2cZcKVFdaJ..icW2EwO3rPE3K6DaKG2",
+      "roles": [
+        "2"
+      ],
+      "createdAt": "2025-11-11T15:32:43.479Z",
+      "updatedAt": "2025-11-11T17:01:08.894Z"
     }
   ]
 }

@@ -9,7 +9,11 @@
       "crown": "Crown VIP",
       "none": "Standard"
     },
-    "expires": "Expires:"
+    "expires": "Expires:",
+    "alerts": {
+      "activated": "VIP activated successfully",
+      "giftSuccess": "Gift upgrade succeeded for {name}"
+    }
   },
   "nav": {
     "home": "Home",
@@ -30,7 +34,8 @@
     "profileCenter": "Profile Center",
     "avatarSettings": "Avatar Settings",
     "identityVerify": "Identity Verification",
-    "systemSettings": "System Settings"
+    "systemSettings": "System Settings",
+    "cardRedeem": "Card Redeem"
   },
   "common": {
     "loading": "Loading…",
@@ -45,7 +50,10 @@
     "noData": "No data to display",
     "unknownUser": "Unknown user",
     "reason": "Reason: ",
-    "pagination": { "prev": "Previous", "next": "Next" },
+    "pagination": {
+      "prev": "Previous",
+      "next": "Next"
+    },
     "edit": "Edit",
     "delete": "Delete",
     "loadFailed": "Load failed",
@@ -55,7 +63,10 @@
   },
   "home": {
     "discover": "Discover Users",
-    "age": { "yearsCn": "岁", "yearsEn": "y" },
+    "age": {
+      "yearsCn": "岁",
+      "yearsEn": "y"
+    },
     "loadError": "Failed to load users"
   },
   "chat": {
@@ -99,7 +110,9 @@
       }
     },
     "gift": {
-      "modal": { "title": "Gifts Mall" },
+      "modal": {
+        "title": "Gifts Mall"
+      },
       "send": "Send",
       "openMall": "Open Gifts Mall"
     },
@@ -109,11 +122,18 @@
       "sendFailed": "Send failed, please try again later",
       "notUnlocked": "Not unlocked"
     },
+    "limit": {
+      "upgradeToUnlock": "Upgrade to unlock unlimited messages",
+      "cta": "Upgrade now",
+      "hint": "Standard members can send up to 3 messages per user"
+    },
     "time": {
       "today": "Today",
       "yesterday": "Yesterday"
     },
-    "actions": { "message": "Message" }
+    "actions": {
+      "message": "Message"
+    }
   },
   "login": {
     "heroTitle": "Meet someone who truly clicks",
@@ -155,7 +175,8 @@
     "sendReset": "Send reset link",
     "token": "Reset Token",
     "newPassword": "New Password",
-    "confirmPassword": "Confirm Password"
+    "confirmPassword": "Confirm Password",
+    "nickname": "Nickname"
   },
   "form": {
     "placeholder": {
@@ -196,12 +217,17 @@
       "editProfile": "Edit profile",
       "settings": "Settings"
     },
-    "actions": { "editProfile": "Edit profile" },
-    "balance": { "title": "Balance", "unit": "coins" },
+    "actions": {
+      "editProfile": "Edit profile"
+    },
+    "balance": {
+      "title": "Balance",
+      "unit": "coins"
+    },
     "page": {
       "title": "My Settings",
       "profileTitle": "Profile Privacy",
-      "profileDesc": "When privacy is on, others cannot view your album and profile"
+  "profileDesc": "Once privacy is enabled, others cannot view your profile"
     },
     "password": {
       "title": "Change Password",
@@ -254,10 +280,15 @@
       "submitted": "Verification data submitted. Please wait for review",
       "need3Photos": "Please upload three verification photos"
     },
-    "conversations": { "title": "Messages" },
+    "conversations": {
+      "title": "Messages"
+    },
     "alerts": {
       "vipFailed": "VIP activation failed, please try again later",
       "saveFailed": "Save failed, please try again later"
+    },
+    "upgrade": {
+      "useBalanceConfirm": "We detected your balance is {balance} coins, and this upgrade costs {amount} coins. Use your balance to complete the upgrade?"
     }
   },
   "register": {
@@ -276,17 +307,24 @@
     "height": "Height (cm)",
     "weight": "Weight (kg)",
     "identity": "Identity Verification",
-    "tabs": { "basic": "Basic Info", "verify": "Verification" },
+    "tabs": {
+      "basic": "Basic Info",
+      "verify": "Verification"
+    },
     "zodiac": "Zodiac",
     "education": "Education",
     "marital": "Marital Status",
     "realName": "Full Name",
-  "submit": "Submit",
-  "skipVerify": "Skip for now",
-  "status": { "pending": "Under Review", "approved": "Verified", "rejected": "Rejected" },
-  "submittedNotice": "Your information has been submitted for review",
-  "rejectedHint": "Review failed, please resubmit",
-  "avatarRejectedHint": "Avatar review failed, please re-upload",
+    "submit": "Submit",
+    "skipVerify": "Skip for now",
+    "status": {
+      "pending": "Under Review",
+      "approved": "Verified",
+      "rejected": "Rejected"
+    },
+    "submittedNotice": "Your information has been submitted for review",
+    "rejectedHint": "Review failed, please resubmit",
+    "avatarRejectedHint": "Avatar review failed, please re-upload",
     "zodiacOptions": {
       "aries": "Aries",
       "taurus": "Taurus",
@@ -325,7 +363,7 @@
       "tooLarge": "File too large, max {max} MB",
       "invalidType": "Unsupported file type"
     },
-  "weightRangeLabel": "{min}-{max}kg",
+    "weightRangeLabel": "{min}-{max}kg",
     "region": "Region",
     "bio": "Bio",
     "interests": "Interests",
@@ -429,7 +467,7 @@
         ]
       },
       "security": {
-            "title": "Dating Safety",
+        "title": "Dating Safety",
         "content": [
           "We take member privacy seriously. We manage your profile, photos, and language settings on the site and work hard to keep your privacy and security protected. That said, online safety is also your responsibility. Please stay cautious and think twice — protect yourself!",
           "Never share your password with anyone, even friends. If your password is lost or leaked, your private data may be exposed. If your profile is compromised, report it to our team via the feedback page. Don’t share personal details with someone you just met — this includes email, IM handles, full name, and URLs. Avoid providing financial information such as credit card details. Beware of scammers impersonating our company or others to ask for money or claim “prizes.” Be extra vigilant when someone says they are in financial trouble — that’s often a scam. If you encounter inappropriate behavior, click the “Report” link and our team will investigate promptly. If you feel uncomfortable during a conversation, you can block the member. Don’t tolerate rudeness or harassment — contact support to report it. We operate comprehensive monitoring and quality control systems and will act quickly. Offline meeting tips:",
@@ -463,8 +501,7 @@
         ]
       }
     }
-  }
-  ,
+  },
   "admin": {
     "content": {
       "title": "Content Management",
@@ -520,23 +557,47 @@
     "goMall": "Browse the mall",
     "goFirstGift": "Send your first gift"
   },
+  "profile": {
+    "notFilled": "Not provided",
+    "popularity": "Popularity: ",
+    "ageUnit": "y",
+    "basic": { "title": "Basic Info" },
+    "fields": { "age": "Age" },
+    "like": { "liked": "Liked", "like": "Like" },
+    "matching": {
+      "title": "Preferences",
+      "weightRange": "Weight range: {min}-{max} kg"
+    },
+    "confession": {
+      "title": "Confession Wall",
+      "empty": "No posts yet"
+    },
+    "image": { "viewLarge": "View larger" }
+  },
   "avatar": {
     "title": "Change Avatar",
     "subtitle": "Choose a new avatar and submit for review",
     "hint": "Recommended 256x256+ JPG/PNG",
     "submit": "Submit for review",
-    "submitted": "Avatar submitted for review"
+    "submitted": "Avatar submitted for review",
+    "status": {
+      "approved": "Approved"
+    }
   },
   "confession": {
     "sweetMoments": "Sweet Moments",
     "themeSwitch": "Theme switch",
-    "theme": { "sakura": "Sakura", "sunset": "Sunset", "starry": "Starry" },
+    "theme": {
+      "sakura": "Sakura",
+      "sunset": "Sunset",
+      "starry": "Starry"
+    },
     "loading": "Loading sweet moments…",
     "captionDefault": "Our {index}th heartbeat",
     "bubbleNote": "You can change the declaration in 'My Confession' on the right",
     "myConfession": "My Confession",
     "maxChars": "Up to {n} characters",
-  "formDesc": "Upload a sweet photo. After approval it appears on the left.",
+    "formDesc": "Upload a sweet photo. After approval it appears on the left.",
     "image": "Image",
     "dropHere": "Drag image here, or click to choose",
     "uploading": "Uploading…",
@@ -545,7 +606,7 @@
     "uploaded": "Uploaded",
     "chosenNotUploaded": "Chosen, waiting to upload",
     "declaration": "Declaration",
-  "placeholder": "Write a sweet line that's just for you two",
+    "placeholder": "Write a sweet line that's just for you two",
     "remaining": "{n} left",
     "submit": "Submit for review",
     "reviewHint": "Only visible to yourself before approval; not publicly displayed.",
@@ -553,6 +614,11 @@
     "errOnlyImage": "Images only",
     "errTooLarge": "Image must be under 8MB",
     "submitted": "Submitted for review. It will appear on the left after approval.",
+    "status": {
+      "pending": "Pending review",
+      "approved": "Uploaded (Approved)",
+      "rejected": "Review failed, please resubmit"
+    },
     "places": {
       "sea": "Seaside",
       "cafe": "Cafe",
@@ -564,8 +630,7 @@
       "surprise": "Surprise",
       "travel": "Travel Photo"
     }
-  }
-  ,
+  },
   "giftsMall": {
     "title": "Gifts Mall",
     "subtitle": "Send a thoughtful gift to bring hearts closer",
@@ -574,11 +639,43 @@
     "tipsDesc": "Pick a gift that represents you to show sincerity and move things forward.",
     "alertChooseTarget": "Please select a recipient first (URL needs ?to=<userId>)",
     "sentTo": "Sent \"{name}\" to {id}",
-    "sendFailed": "Failed to send, please try again later"
-  }
-  ,
+    "sendFailed": "Failed to send, please try again later",
+    "modal": {
+      "toHim": "Send to him",
+      "toHer": "Send to her",
+      "toUser": "Send a gift",
+      "nickname": "Recipient nickname",
+      "nicknamePlaceholder": "Enter recipient nickname",
+      "userNotFound": "Recipient not found",
+      "submit": "Send gift",
+      "sentSuccess": "Gift sent!"
+    }
+  },
   "topup": {
-    "amountLabel": "Top-up amount"
+    "amountLabel": "Top-up amount",
+    "redeemPlaceholder": "Enter card code",
+    "redeem": "Redeem",
+    "alerts": {
+      "invalidAmount": "Invalid amount",
+      "success": "Top up succeeded",
+      "failed": "Top up failed, please try again later"
+    }
+  },
+  "cardRedeemModal": {
+    "title": "Gift Card Redemption",
+    "message": "<strong class=\"highlight\">How it works:</strong> Upload photos of the gift card or payment receipt. Make sure the code is readable. You can upload up to 4 JPG/PNG images. We will review and process your request shortly.",
+    "uploadEmpty": "Upload image",
+    "uploadReplace": "Replace",
+    "confirm": "Submit",
+    
+    "uploadAria": "Upload image {index}",
+    "needImage": "Please upload at least one image",
+    "submittedSuccess": "Submitted, please wait for review",
+    "pending": "Under review",
+    "failed": "Redemption failed, please resubmit",
+    "retry": "Redemption failed, resubmit",
+    "approved": "Redeemed, submit again",
+    "waiting": "Waiting for review..."
   },
   "vipModal": {
     "title": "VIP Membership Plans",
@@ -604,5 +701,15 @@
       "viewedMe": "See who viewed me",
       "advancedSearch": "Advanced search"
     }
+    ,"gift": {
+      "upgradeForOthers": "Gift upgrade for others",
+      "nicknameLabel": "Nickname",
+      "nicknamePlaceholder": "Enter nickname",
+      "nicknameRequired": "Please enter a nickname"
+    }
+  }
+  ,
+  "lucky": {
+    "value": "Luck"
   }
 }
