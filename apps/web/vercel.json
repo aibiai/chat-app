@@ -1,5 +1,5 @@
 {
-  "installCommand": "pnpm -r --filter chat-app-web... install --frozen-lockfile",
-  "buildCommand": "pnpm --filter chat-app-web... run build",
+  "installCommand": "npm ci || npm i",
+  "buildCommand": "npm run build",
   "outputDirectory": "dist"
 }
