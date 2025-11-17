@@ -2,21 +2,25 @@
   "name": "chat-app-monorepo",
   "private": true,
   "type": "commonjs",
+  "packageManager": "pnpm@9.12.0",
   "workspaces": [
     "apps/*",
     "packages/*"
   ],
   "scripts": {
-    "build": "npm --workspaces run build",
-    "dev": "npm run dev -w apps/api & npm run dev -w apps/web",
-    "dev:win": "powershell -Command \"Start-Process cmd -ArgumentList '/c','npm run dev -w apps/api' ; Start-Process cmd -ArgumentList '/c','npm run dev -w apps/web'\"",
-    "lint": "npm --workspaces run lint",
-    "format": "npm --workspaces run format",
+    "build": "pnpm -w run build",
+    "dev": "pnpm run dev -w apps/api ; pnpm run dev -w apps/web",
+    "dev:win": "powershell -Command \"Start-Process cmd -ArgumentList '/c','pnpm run dev -w apps/api' ; Start-Process cmd -ArgumentList '/c','pnpm run dev -w apps/web'\"",
+    "lint": "pnpm -w run lint",
+    "format": "pnpm -w run format",
     "fix:levels": "node -r esbuild-register scripts/fix-membership-levels.ts",
     "fix:levels:dry": "node -r esbuild-register scripts/fix-membership-levels.ts --dry-run"
   },
   "dependencies": {
     "emoji-button": "^2.2.2"
+  },
+  "engines": {
+    "node": ">=18"
   },
   "devDependencies": {
     "esbuild": "^0.21.0",
